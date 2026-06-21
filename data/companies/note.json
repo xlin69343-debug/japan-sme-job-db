@@ -35,7 +35,7 @@
   "visaSupport": true,
   "acceptsForeigners": true,
   "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
-  "hiringType": "新卒和中途均有",
+  "hiringType": "岗位型中途採用为主",
   "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
   "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
   "shiftWork": false,
@@ -60,7 +60,7 @@
     "远程办公补贴"
   ],
   "transportAllowance": "原则实费或上限支付",
-  "housingAllowance": "有住宅补贴或搬家支援",
+  "housingAllowance": "公开信息有限，需确认",
   "sideJob": "申报制可副业的可能性较高",
   "dressCode": "自由或商务休闲",
   "openworkScore": 3.64,
@@ -100,12 +100,14 @@
     }
   },
   "interviewInfo": {
-    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
+    "rounds": "书类筛选 → 一次面试 → 最终面试",
     "questions": [
-      "为什么选择日本就业？",
-      "为什么选择本行业和本公司？",
-      "过去项目或打工中最困难的事是什么？",
-      "日语沟通中如何处理误解？"
+      "遇到意见不合时，你通常如何沟通？",
+      "你为什么对note的品牌活动业务感兴趣？",
+      "你最近关注的日本媒体、品牌或营销案例是什么？",
+      "请介绍一次你做过的内容、广告或 SNS 运营经验。",
+      "如果入职后负责客户经理，你会如何运用文案经验？",
+      "你希望公司在哪些方面提供外国人入职支持？"
     ],
     "writtenTest": "SPI、适性检查或企业自编基础题",
     "codingTest": "通常无编码测试",

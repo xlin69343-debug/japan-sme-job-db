@@ -35,7 +35,7 @@
   "visaSupport": true,
   "acceptsForeigners": true,
   "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
-  "hiringType": "岗位型中途採用为主",
+  "hiringType": "中途为主，新卒少量",
   "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
   "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
   "shiftWork": false,
@@ -50,7 +50,7 @@
   "salaryBand": "400万-600万日元",
   "newGradSalary": "月给约21万-27万日元",
   "midCareerSalary": "年收约450万-750万日元，按经验浮动",
-  "bonus": "年2次奖金或业绩连动奖金",
+  "bonus": "按公司业绩和个人评价支付",
   "raiseSystem": "年度评价调薪，部分公司采用等级制或目标管理制度",
   "benefits": [
     "社会保险",
@@ -60,7 +60,7 @@
     "资格取得支援"
   ],
   "transportAllowance": "原则实费或上限支付",
-  "housingAllowance": "有住宅补贴或搬家支援",
+  "housingAllowance": "公开信息有限，需确认",
   "sideJob": "多数需公司许可",
   "dressCode": "自由或商务休闲",
   "openworkScore": 3.29,
@@ -100,12 +100,14 @@
     }
   },
   "interviewInfo": {
-    "rounds": "书类筛选 → 一次面试 → 最终面试",
+    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
     "questions": [
-      "为什么选择日本就业？",
-      "为什么选择本行业和本公司？",
-      "过去项目或打工中最困难的事是什么？",
-      "日语沟通中如何处理误解？"
+      "你还有什么想向公司确认的问题？",
+      "你为什么对東映アニメーション的手游开发业务感兴趣？",
+      "你如何接受制作人、导演或用户反馈并修改成果？",
+      "请介绍你的作品集、参与项目或最熟悉的内容类型。",
+      "如果入职后负责制作进行，你会如何运用Unreal经验？",
+      "你希望公司在哪些方面提供外国人入职支持？"
     ],
     "writtenTest": "SPI、适性检查或企业自编基础题",
     "codingTest": "可能有编码测试、GitHub/作品集审查或技术问答",

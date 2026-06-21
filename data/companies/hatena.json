@@ -36,7 +36,7 @@
   "visaSupport": true,
   "acceptsForeigners": true,
   "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
-  "hiringType": "中途为主，新卒少量",
+  "hiringType": "新卒和中途均有",
   "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
   "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
   "shiftWork": false,
@@ -51,7 +51,7 @@
   "salaryBand": "400万-600万日元",
   "newGradSalary": "月给约21万-27万日元",
   "midCareerSalary": "年收约320万-600万日元，按经验浮动",
-  "bonus": "按公司业绩和个人评价支付",
+  "bonus": "年2次奖金或业绩连动奖金",
   "raiseSystem": "年度评价调薪，部分公司采用等级制或目标管理制度",
   "benefits": [
     "社会保险",
@@ -61,7 +61,7 @@
     "远程办公补贴"
   ],
   "transportAllowance": "原则实费或上限支付",
-  "housingAllowance": "有住宅补贴或搬家支援",
+  "housingAllowance": "公开信息有限，需确认",
   "sideJob": "申报制可副业的可能性较高",
   "dressCode": "商务休闲",
   "openworkScore": 3.42,
@@ -101,12 +101,14 @@
     }
   },
   "interviewInfo": {
-    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
+    "rounds": "书类筛选 → 一次面试 → 最终面试",
     "questions": [
-      "为什么选择日本就业？",
-      "为什么选择本行业和本公司？",
-      "过去项目或打工中最困难的事是什么？",
-      "日语沟通中如何处理误解？"
+      "遇到意见不合时，你通常如何沟通？",
+      "你为什么对はてな的SaaS业务感兴趣？",
+      "如果产品经理的需求不清楚，你会怎样推进确认？",
+      "请说明一个你实际参与过的系统设计或开发项目。",
+      "如果入职后负责数据分析师，你会如何运用云服务经验？",
+      "你希望公司在哪些方面提供外国人入职支持？"
     ],
     "writtenTest": "SPI或简单适性检查；部分公司无笔试",
     "codingTest": "可能有编码测试、GitHub/作品集审查或技术问答",

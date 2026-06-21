@@ -36,7 +36,7 @@
   "visaSupport": true,
   "acceptsForeigners": true,
   "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
-  "hiringType": "岗位型中途採用为主",
+  "hiringType": "中途为主，新卒少量",
   "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
   "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
   "shiftWork": false,
@@ -61,7 +61,7 @@
     "远程办公补贴"
   ],
   "transportAllowance": "原则实费或上限支付",
-  "housingAllowance": "公开信息有限，需确认",
+  "housingAllowance": "有住宅补贴或搬家支援",
   "sideJob": "申报制可副业的可能性较高",
   "dressCode": "商务休闲",
   "openworkScore": 3.4,
@@ -101,12 +101,14 @@
     }
   },
   "interviewInfo": {
-    "rounds": "书类筛选 → 一次面试 → 最终面试",
+    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
     "questions": [
-      "为什么选择日本就业？",
-      "为什么选择本行业和本公司？",
-      "过去项目或打工中最困难的事是什么？",
-      "日语沟通中如何处理误解？"
+      "你希望三年后在日本职场达到什么状态？",
+      "你为什么对エムスリーキャリア的AI解决方案业务感兴趣？",
+      "你如何理解医疗或人材业务中的个人信息保护？",
+      "如果候选人和企业双方期待不一致，你会如何协调？",
+      "如果入职后负责软件工程师，你会如何运用SQL经验？",
+      "你的在留资格、签证期限和更新计划是什么？"
     ],
     "writtenTest": "SPI、适性检查或企业自编基础题",
     "codingTest": "通常无编码测试",
