@@ -1,0 +1,138 @@
+{
+  "slug": "chori",
+  "name": "蝶理",
+  "industry": "贸易 / 商社",
+  "location": "大阪都道府县中心区域",
+  "region": "关西",
+  "employees": "约400人",
+  "employeeBand": "300-1000人",
+  "website": "https://www.chori.co.jp/",
+  "founded": "1861年",
+  "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
+  "mainBusiness": "工业材料贸易、食品进出口、机械设备代理、跨境采购",
+  "mainProducts": [
+    "工业材料贸易",
+    "食品进出口",
+    "机械设备代理",
+    "跨境采购"
+  ],
+  "hiringPositions": [
+    "法人营业",
+    "贸易事务",
+    "采购",
+    "海外业务",
+    "物流协调"
+  ],
+  "requiredSkills": [
+    "商务日语",
+    "英语/中文",
+    "Excel",
+    "交涉力",
+    "贸易实务"
+  ],
+  "japaneseLevel": "N2-N1",
+  "educationRequirement": "多数岗位本科或同等经验可，实务经验和作品集可弥补学历",
+  "visaSupport": true,
+  "acceptsForeigners": true,
+  "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
+  "hiringType": "新卒和中途均有",
+  "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
+  "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
+  "shiftWork": false,
+  "nightShift": false,
+  "remoteWork": "到岗为主，部分事务岗位可混合办公",
+  "remoteAvailable": false,
+  "flexibleWork": false,
+  "hybridWork": false,
+  "overtime": "月均约22小时；项目、店铺、现场和繁忙期会波动",
+  "overtimeHours": 22,
+  "salaryRange": "600万-800万日元",
+  "salaryBand": "600万-800万日元",
+  "newGradSalary": "月给约25万-32万日元",
+  "midCareerSalary": "年收约600万-1000万日元，按经验浮动",
+  "bonus": "按公司业绩和个人评价支付",
+  "raiseSystem": "年度评价调薪，部分公司采用等级制或目标管理制度",
+  "benefits": [
+    "社会保险",
+    "交通费",
+    "有给休假",
+    "育儿护理制度",
+    "资格取得支援"
+  ],
+  "transportAllowance": "原则实费或上限支付",
+  "housingAllowance": "公开信息有限，需确认",
+  "sideJob": "多数需公司许可",
+  "dressCode": "商务正装或商务休闲",
+  "openworkScore": 3.24,
+  "foreignerFriendlyScore": 8,
+  "recommendationScore": 10,
+  "reviewSummary": {
+    "pros": [
+      "业务范围广",
+      "中小企业中接触业务范围较广",
+      "成长机会取决于项目和上司"
+    ],
+    "cons": [
+      "客户沟通密集",
+      "制度成熟度可能不如大企业",
+      "评价和配属透明度需面试确认"
+    ],
+    "keywords": [
+      "业务范围广",
+      "客户沟通密集",
+      "成长看上司和客户"
+    ],
+    "atmosphere": "现场和团队协作较多，沟通密度较高。",
+    "managementStyle": "经营层距离较近，速度快；同时公司差异大，需要通过OB/OG和面试确认。",
+    "overtimeReview": "公开评价常见说法为月22小时上下，繁忙期上升。",
+    "growthOpportunity": "能较早接触客户、项目或现场问题，适合主动学习者。",
+    "leavingReasons": [
+      "薪资涨幅有限",
+      "业务或现场压力",
+      "制度不够标准化"
+    ],
+    "sources": {
+      "openWork": "公开评价摘要口径，需登录平台确认原文",
+      "tenshokuKaigi": "公开评价摘要口径，需登录平台确认原文",
+      "glassdoor": "外资/英文评价较少，仅作补充",
+      "wantedly": "用于了解文化、成员访谈和招聘叙事",
+      "googleMaps": "用于确认门店/服务业客户评价趋势"
+    }
+  },
+  "interviewInfo": {
+    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
+    "questions": [
+      "为什么选择日本就业？",
+      "为什么选择本行业和本公司？",
+      "过去项目或打工中最困难的事是什么？",
+      "日语沟通中如何处理误解？"
+    ],
+    "writtenTest": "SPI、适性检查或企业自编基础题",
+    "codingTest": "通常无编码测试",
+    "japaneseInterviewDifficulty": "中高",
+    "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
+    "difficulty": "中高"
+  },
+  "riskAnalysis": {
+    "blackCompanyRisk": "低中：仍需确认制度执行情况",
+    "overtimeRisk": "中",
+    "turnoverRisk": "中",
+    "lowSalaryRisk": "中",
+    "foreignerFitRisk": "低中：语言和文化适应仍是关键",
+    "notes": [
+      "MVP数据为公开资料和求职口碑整合，不替代正式尽调",
+      "投递前建议确认固定残业、试用期、转勤、签证支持"
+    ]
+  },
+  "suitedFor": [
+    "想在中小企业快速获得实务经验的人",
+    "能主动确认制度和工作边界的人",
+    "希望积累日本职场沟通经验的外国人"
+  ],
+  "notSuitedFor": [
+    "强依赖完善培训制度的人",
+    "完全不能接受制度不确定性的人",
+    "对加班、轮班或日语沟通压力零容忍的人"
+  ],
+  "updatedAt": "2026-06-22"
+}

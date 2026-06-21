@@ -1,0 +1,139 @@
+{
+  "slug": "dip",
+  "name": "ディップ",
+  "industry": "人材 / 平台",
+  "location": "东京都道府县中心区域",
+  "region": "关东",
+  "employees": "约3000人",
+  "employeeBand": "1000人以上",
+  "website": "https://www.dip-net.co.jp/",
+  "founded": "1997年",
+  "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
+  "mainBusiness": "受托开发、SaaS、AI解决方案、业务系统",
+  "mainProducts": [
+    "受托开发",
+    "SaaS",
+    "AI解决方案",
+    "业务系统"
+  ],
+  "hiringPositions": [
+    "软件工程师",
+    "AI工程师",
+    "后端工程师",
+    "项目经理",
+    "数据分析师"
+  ],
+  "requiredSkills": [
+    "TypeScript",
+    "Python",
+    "云服务",
+    "SQL",
+    "机器学习",
+    "日语沟通"
+  ],
+  "japaneseLevel": "N2-N1",
+  "educationRequirement": "多数岗位本科或同等经验可，实务经验和作品集可弥补学历",
+  "visaSupport": true,
+  "acceptsForeigners": true,
+  "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
+  "hiringType": "中途为主，新卒少量",
+  "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
+  "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
+  "shiftWork": false,
+  "nightShift": false,
+  "remoteWork": "混合办公为主，工程岗位每周二至四天远程",
+  "remoteAvailable": true,
+  "flexibleWork": true,
+  "hybridWork": true,
+  "overtime": "月均约18小时；项目、店铺、现场和繁忙期会波动",
+  "overtimeHours": 18,
+  "salaryRange": "400万-600万日元",
+  "salaryBand": "400万-600万日元",
+  "newGradSalary": "月给约21万-27万日元",
+  "midCareerSalary": "年收约450万-750万日元，按经验浮动",
+  "bonus": "按公司业绩和个人评价支付",
+  "raiseSystem": "年度评价调薪，部分公司采用等级制或目标管理制度",
+  "benefits": [
+    "社会保险",
+    "交通费",
+    "有给休假",
+    "育儿护理制度",
+    "远程办公补贴"
+  ],
+  "transportAllowance": "原则实费或上限支付",
+  "housingAllowance": "公开信息有限，需确认",
+  "sideJob": "申报制可副业的可能性较高",
+  "dressCode": "商务休闲",
+  "openworkScore": 3.2,
+  "foreignerFriendlyScore": 8,
+  "recommendationScore": 10,
+  "reviewSummary": {
+    "pros": [
+      "技术栈较新",
+      "中小企业中接触业务范围较广",
+      "成长机会取决于项目和上司"
+    ],
+    "cons": [
+      "年轻员工多",
+      "制度成熟度可能不如大企业",
+      "评价和配属透明度需面试确认"
+    ],
+    "keywords": [
+      "技术栈较新",
+      "年轻员工多",
+      "项目变化快"
+    ],
+    "atmosphere": "相对扁平，线上协作较多，重视自走能力。",
+    "managementStyle": "经营层距离较近，速度快；同时公司差异大，需要通过OB/OG和面试确认。",
+    "overtimeReview": "公开评价常见说法为月18小时上下，繁忙期上升。",
+    "growthOpportunity": "能较早接触客户、项目或现场问题，适合主动学习者。",
+    "leavingReasons": [
+      "薪资涨幅有限",
+      "业务或现场压力",
+      "制度不够标准化"
+    ],
+    "sources": {
+      "openWork": "公开评价摘要口径，需登录平台确认原文",
+      "tenshokuKaigi": "公开评价摘要口径，需登录平台确认原文",
+      "glassdoor": "外资/英文评价较少，仅作补充",
+      "wantedly": "用于了解文化、成员访谈和招聘叙事",
+      "googleMaps": "用于确认门店/服务业客户评价趋势"
+    }
+  },
+  "interviewInfo": {
+    "rounds": "书类筛选 → 一次面试 → 最终面试",
+    "questions": [
+      "为什么选择日本就业？",
+      "为什么选择本行业和本公司？",
+      "过去项目或打工中最困难的事是什么？",
+      "日语沟通中如何处理误解？"
+    ],
+    "writtenTest": "SPI、适性检查或企业自编基础题",
+    "codingTest": "通常无编码测试",
+    "japaneseInterviewDifficulty": "中高",
+    "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
+    "difficulty": "中高"
+  },
+  "riskAnalysis": {
+    "blackCompanyRisk": "低中：仍需确认制度执行情况",
+    "overtimeRisk": "低中",
+    "turnoverRisk": "中",
+    "lowSalaryRisk": "中",
+    "foreignerFitRisk": "低中：语言和文化适应仍是关键",
+    "notes": [
+      "MVP数据为公开资料和求职口碑整合，不替代正式尽调",
+      "投递前建议确认固定残业、试用期、转勤、签证支持"
+    ]
+  },
+  "suitedFor": [
+    "想在中小企业快速获得实务经验的人",
+    "能主动确认制度和工作边界的人",
+    "希望积累日本职场沟通经验的外国人"
+  ],
+  "notSuitedFor": [
+    "强依赖完善培训制度的人",
+    "完全不能接受制度不确定性的人",
+    "对加班、轮班或日语沟通压力零容忍的人"
+  ],
+  "updatedAt": "2026-06-22"
+}

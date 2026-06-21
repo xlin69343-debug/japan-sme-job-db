@@ -1,0 +1,138 @@
+{
+  "slug": "khara",
+  "name": "カラー",
+  "industry": "游戏 / 动漫 / 内容产业",
+  "location": "东京都道府县中心区域",
+  "region": "关东",
+  "employees": "约100人",
+  "employeeBand": "100-300人",
+  "website": "https://www.khara.co.jp/",
+  "founded": "2006年",
+  "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
+  "mainBusiness": "手游开发、动漫制作、IP运营、本地化发行",
+  "mainProducts": [
+    "手游开发",
+    "动漫制作",
+    "IP运营",
+    "本地化发行"
+  ],
+  "hiringPositions": [
+    "游戏工程师",
+    "3D设计师",
+    "本地化",
+    "运营策划",
+    "制作进行"
+  ],
+  "requiredSkills": [
+    "Unity",
+    "Unreal",
+    "Figma",
+    "日语文案",
+    "作品集"
+  ],
+  "japaneseLevel": "N2-N1",
+  "educationRequirement": "多数岗位本科或同等经验可，实务经验和作品集可弥补学历",
+  "visaSupport": false,
+  "acceptsForeigners": false,
+  "foreignEmployeeCases": "公开信息中外国籍案例较少，建议投递前询问签证和语言支持。",
+  "hiringType": "新卒和中途均有",
+  "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
+  "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
+  "shiftWork": false,
+  "nightShift": false,
+  "remoteWork": "开发岗位可混合，制作岗位看项目",
+  "remoteAvailable": false,
+  "flexibleWork": true,
+  "hybridWork": false,
+  "overtime": "月均约22小时；项目、店铺、现场和繁忙期会波动",
+  "overtimeHours": 22,
+  "salaryRange": "400万-600万日元",
+  "salaryBand": "400万-600万日元",
+  "newGradSalary": "月给约21万-27万日元",
+  "midCareerSalary": "年收约320万-600万日元，按经验浮动",
+  "bonus": "按公司业绩和个人评价支付",
+  "raiseSystem": "年度评价调薪，部分公司采用等级制或目标管理制度",
+  "benefits": [
+    "社会保险",
+    "交通费",
+    "有给休假",
+    "育儿护理制度",
+    "资格取得支援"
+  ],
+  "transportAllowance": "原则实费或上限支付",
+  "housingAllowance": "公开信息有限，需确认",
+  "sideJob": "多数需公司许可",
+  "dressCode": "自由或商务休闲",
+  "openworkScore": 3.38,
+  "foreignerFriendlyScore": 4,
+  "recommendationScore": 8.7,
+  "reviewSummary": {
+    "pros": [
+      "作品导向",
+      "中小企业中接触业务范围较广",
+      "成长机会取决于项目和上司"
+    ],
+    "cons": [
+      "发布前忙",
+      "制度成熟度可能不如大企业",
+      "评价和配属透明度需面试确认"
+    ],
+    "keywords": [
+      "作品导向",
+      "发布前忙",
+      "作品集比学历更重要"
+    ],
+    "atmosphere": "现场和团队协作较多，沟通密度较高。",
+    "managementStyle": "经营层距离较近，速度快；同时公司差异大，需要通过OB/OG和面试确认。",
+    "overtimeReview": "公开评价常见说法为月22小时上下，繁忙期上升。",
+    "growthOpportunity": "能较早接触客户、项目或现场问题，适合主动学习者。",
+    "leavingReasons": [
+      "薪资涨幅有限",
+      "业务或现场压力",
+      "制度不够标准化"
+    ],
+    "sources": {
+      "openWork": "公开评价摘要口径，需登录平台确认原文",
+      "tenshokuKaigi": "公开评价摘要口径，需登录平台确认原文",
+      "glassdoor": "外资/英文评价较少，仅作补充",
+      "wantedly": "用于了解文化、成员访谈和招聘叙事",
+      "googleMaps": "用于确认门店/服务业客户评价趋势"
+    }
+  },
+  "interviewInfo": {
+    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
+    "questions": [
+      "为什么选择日本就业？",
+      "为什么选择本行业和本公司？",
+      "过去项目或打工中最困难的事是什么？",
+      "日语沟通中如何处理误解？"
+    ],
+    "writtenTest": "SPI、适性检查或企业自编基础题",
+    "codingTest": "可能有编码测试、GitHub/作品集审查或技术问答",
+    "japaneseInterviewDifficulty": "中高",
+    "foreignerInterviewDifficulty": "中高：需主动确认签证支持和外国人录用经验",
+    "difficulty": "中高"
+  },
+  "riskAnalysis": {
+    "blackCompanyRisk": "低中：仍需确认制度执行情况",
+    "overtimeRisk": "中",
+    "turnoverRisk": "中",
+    "lowSalaryRisk": "中",
+    "foreignerFitRisk": "中高：签证支持和受入经验需提前确认",
+    "notes": [
+      "MVP数据为公开资料和求职口碑整合，不替代正式尽调",
+      "投递前建议确认固定残业、试用期、转勤、签证支持"
+    ]
+  },
+  "suitedFor": [
+    "想在中小企业快速获得实务经验的人",
+    "能主动确认制度和工作边界的人",
+    "希望积累日本职场沟通经验的外国人"
+  ],
+  "notSuitedFor": [
+    "强依赖完善培训制度的人",
+    "完全不能接受制度不确定性的人",
+    "对加班、轮班或日语沟通压力零容忍的人"
+  ],
+  "updatedAt": "2026-06-22"
+}
