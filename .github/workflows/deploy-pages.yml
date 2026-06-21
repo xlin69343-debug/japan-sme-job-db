@@ -32,7 +32,7 @@ jobs:
           version: 11.5.3
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Check data
         run: pnpm run check:data
