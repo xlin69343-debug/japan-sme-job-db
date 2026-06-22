@@ -111,6 +111,10 @@ export function CompanyCard({ company, compareSelected = false, compareDisabled 
 }
 
 function oneLineSummary(company: Company) {
+  if (company.slug === "preferred-networks") return "挑战型AI核心技术企业，适合N2以上且算法/机器学习项目经验强的人。";
+  if (company.slug === "abeja") return "AI/DX落地型企业，适合能连接技术和客户课题的N2求职者。";
+  if (company.slug === "pksha") return "AI产品和算法资产型企业，适合有NLP/机器学习项目经验的人。";
+  if (company.slug === "smartnews") return "全球化媒体产品企业，适合推荐系统、广告平台或数据产品方向的人。";
   if (company.industry.includes("IT") || company.industry.includes("AI")) return `${company.name}适合希望在日本积累技术、SaaS 或 AI 经验的求职者。`;
   if (company.industry.includes("制造")) return `${company.name}适合理工背景、想进入日本制造现场或技术岗位的人。`;
   if (company.visaSupport && company.acceptsForeigners) return `${company.name}适合需要签证支持、希望先获得日本实务经验的外国人。`;
@@ -118,6 +122,9 @@ function oneLineSummary(company: Company) {
 }
 
 function buildReasons(company: Company) {
+  if (company.slug === "preferred-networks") return ["AI核心技术含金量高", "适合长期挑战目标", "薪资和成长上限较高"];
+  if (company.slug === "abeja") return ["AI/DX项目落地明确", "客户课题经验可积累", "N2以上更适合"];
+  if (company.slug === "pksha") return ["AI产品化方向明确", "NLP/算法经验可发挥", "成长空间大"];
   return [
     company.acceptsForeigners ? "外国人录用可能性较高" : "可作为挑战候选",
     company.visaSupport ? "工签支持可期待" : "适合先确认签证后投递",
@@ -126,14 +133,20 @@ function buildReasons(company: Company) {
 }
 
 function buildSuitable(company: Company) {
+  if (company.slug === "preferred-networks") return ["N2以上", "算法/机器学习", "高质量项目经验"];
+  if (company.slug === "abeja") return ["N2推荐", "AI/DX项目", "客户沟通可"];
+  if (company.slug === "pksha") return ["N2推荐", "NLP/AI产品", "技术转职"];
   return [
-    company.suitableForLowJapanese ? "N3-N2可尝试" : company.japaneseLevel,
+    company.suitableForLowJapanese ? "N3可挑战" : company.japaneseLevel,
     company.suitableForNewGrad ? "新卒/第二新卒" : "经验者",
     company.suitableForCareerChange ? "转职候选" : company.hiringPositions[0],
   ];
 }
 
 function buildCautions(company: Company) {
+  if (company.slug === "preferred-networks") return ["技术面试难", "竞争激烈", "N3以下不建议"];
+  if (company.slug === "abeja") return ["客户沟通较多", "项目变化快", "N3需确认岗位"];
+  if (company.slug === "pksha") return ["AI产品理解要求高", "技术面试偏难", "业务表达重要"];
   const risks = company.riskTags.length > 0 ? company.riskTags : ["制度需面试确认"];
   return [
     ...risks.slice(0, 2),

@@ -5,7 +5,7 @@
   "location": "爱知都道府县中心区域",
   "region": "中部",
   "employees": "约1000人",
-  "employeeBand": "1000人以上",
+  "employeeBand": "中型 301人以上",
   "website": "https://www.fujimiinc.co.jp/",
   "founded": "1950年",
   "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
@@ -65,7 +65,7 @@
   "dressCode": "办公室商务休闲，工厂制服",
   "openworkScore": 3.28,
   "foreignerFriendlyScore": 4,
-  "recommendationScore": 6.6,
+  "recommendationScore": 5.7,
   "scoreBreakdown": {
     "salary": 6.3,
     "stability": 7.9,
@@ -74,7 +74,7 @@
     "foreignerFriendliness": 4.2,
     "businessValue": 8.4,
     "employeeReviews": 6.6,
-    "total": 6.6
+    "total": 5.7
   },
   "matchTags": [
     "外国人案例少",
@@ -93,10 +93,11 @@
   "suitableForLowJapanese": false,
   "languageProofRisk": "高：日语证明、客户沟通和面试通过率风险较高",
   "dataSourceNote": "MVP估算数据：公开官网、招聘页面、公开评价摘要和企业公开资料整理；员工数、薪资、评价等字段需以投递时官网/募集要项为准。",
+  "dataCredibility": "中：官网链接明确，员工数/薪资/评分含估算口径",
   "sourceUrls": [
     "https://www.fujimiinc.co.jp/"
   ],
-  "decisionSummary": "フジミインコーポレーテッド更适合已有日本职场经验或日语较强的求职者，尤其是能接受到岗、现场协作或排班、日语约N2-N1、能接受月22小时左右加班的人。综合评分 6.6/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "decisionSummary": "フジミインコーポレーテッド更适合已有日本职场经验或日语较强的求职者，尤其是能接受到岗、现场协作或排班、日语约N2-N1、能接受月22小时左右加班的人。综合评分 5.7/10，投递前应重点确认签证支持、评价制度和实际加班。",
   "aiSummary": "フジミインコーポレーテッド不是单纯看公司规模就能判断的企业。它的优势在于技术积累深和精密零部件经验，风险在于外国人适配风险。如果你需要稳定的签证说明、希望在制造业积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
   "recommendationReason": "精密零部件或机械设计相关岗位能积累实务经验；外国人案例较少但可作为挑战候选，现场协作多，适合重视稳定性的人。",
   "reviewSummary": {
@@ -146,7 +147,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中高",
     "foreignerInterviewDifficulty": "中高：需主动确认签证支持和外国人录用经验",
-    "difficulty": "中"
+    "difficulty": "低中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "低中：仍需确认制度执行情况",

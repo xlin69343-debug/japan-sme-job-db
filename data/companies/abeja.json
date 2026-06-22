@@ -5,7 +5,7 @@
   "location": "东京都道府县中心区域",
   "region": "关东",
   "employees": "133名（2025年8月末时点）",
-  "employeeBand": "100-300人",
+  "employeeBand": "成长型 101-300人",
   "website": "https://www.abejainc.com/",
   "founded": "2012年",
   "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
@@ -67,16 +67,16 @@
   "dressCode": "商务休闲",
   "openworkScore": 3.74,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 8.3,
+  "recommendationScore": 8.2,
   "scoreBreakdown": {
-    "salary": 9,
-    "stability": 7.3,
-    "growth": 9.2,
-    "workLifeBalance": 7.8,
-    "foreignerFriendliness": 8.3,
-    "businessValue": 8.5,
+    "salary": 8.5,
+    "stability": 7.1,
+    "growth": 8.7,
+    "workLifeBalance": 7.6,
+    "foreignerFriendliness": 8.1,
+    "businessValue": 8.6,
     "employeeReviews": 7.5,
-    "total": 8.3
+    "total": 8.2
   },
   "matchTags": [
     "小企业",
@@ -97,6 +97,7 @@
   "suitableForLowJapanese": false,
   "languageProofRisk": "中：AI/DX项目通常需要客户课题理解和日语沟通，N2更稳；N3只能作为挑战，需确认岗位语言环境。",
   "dataSourceNote": "员工数133名为ABEJA公司页面2025年8月末时点口径；业务描述参考ABEJA官网公司/业务页面，字段为求职研究用摘要。",
+  "dataCredibility": "高：员工数和业务来自公司公开页面；薪资、评价和求职适配为估算摘要",
   "sourceUrls": [
     "https://www.abejainc.com/company",
     "https://www.abejainc.com/"

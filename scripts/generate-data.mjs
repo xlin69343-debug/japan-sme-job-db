@@ -269,10 +269,10 @@ const salaryValueOf = (score) => {
 
 const employeeBandOf = (text) => {
   const n = Number((text.match(/\d+/)?.[0] ?? "0"));
-  if (n < 100) return "100人以下";
-  if (n < 300) return "100-300人";
-  if (n < 1000) return "300-1000人";
-  return "1000人以上";
+  if (n <= 50) return "超小型 1-50人";
+  if (n <= 100) return "小型 51-100人";
+  if (n <= 300) return "成长型 101-300人";
+  return "中型 301人以上";
 };
 
 const japaneseOf = (industry, foreign) => {
@@ -425,14 +425,14 @@ const scoreBreakdownOf = ({ industry, salaryScore, openworkScore, remote, foreig
   const foreignerFriendliness = clampScore(foreign ? (visa ? 8.3 : 7.2) : 4.2);
   const businessValue = clampScore((industry.includes("IT") || industry.includes("制造") || industry.includes("金融") ? 7.8 : 6.8) + salaryScore / 12);
   const employeeReviews = clampScore(openworkScore * 2);
+  const visaScore = visa ? 8.5 : foreign ? 5.8 : 3.8;
+  const workIntensity = workLifeBalance;
   const total = clampScore(
-    salary * 0.15 +
-      stability * 0.15 +
-      growth * 0.15 +
-      workLifeBalance * 0.15 +
+    salary * 0.2 +
+      growth * 0.25 +
       foreignerFriendliness * 0.2 +
-      businessValue * 0.1 +
-      employeeReviews * 0.1,
+      visaScore * 0.2 +
+      workIntensity * 0.15,
   );
   return { salary, stability, growth, workLifeBalance, foreignerFriendliness, businessValue, employeeReviews, total };
 };
@@ -498,9 +498,12 @@ const specialCompanyOverrides = {
       foreignerFitRisk: "中：团队国际化可能性较高，但岗位语言、签证材料和日本语协作需逐项确认",
       notes: ["官方业务强调AI半导体、计算基盘、生成AI基盤模型、AI产品/解决方案四层垂直整合", "技术面试和研究实现门槛高，建议准备6-12个月"],
     },
+    recommendationScore: 8.4,
+    scoreBreakdown: { salary: 9.2, stability: 7.2, growth: 9.8, workLifeBalance: 6.8, foreignerFriendliness: 7.8, businessValue: 9.8, employeeReviews: 8, total: 8.4 },
     suitedFor: ["机器学习、算法、分布式系统或高性能计算基础较强的人", "能阅读论文并把研究转成工程实现的人", "愿意把PFN作为挑战目标长期准备的人"],
     notSuitedFor: ["只想找普通Web开发入门岗位的人", "没有作品集、研究经历或高质量项目经验的人", "日语/英语技术表达都不稳定的人"],
     dataSourceNote: "员工数约350人为招聘/公开资料口径；业务描述参考PFN官网2026年6月页面，字段为求职研究用摘要。",
+    dataCredibility: "中高：业务方向来自官网，员工数为公开招聘/公司资料近似口径，薪资与评分仍为估算",
     sourceUrls: ["https://www.preferred.jp/ja/", "https://www.preferred.jp/ja/business", "https://www.preferred.jp/ja/company", "https://www.preferred.jp/ja/careers"],
   },
   abeja: {
@@ -515,8 +518,39 @@ const specialCompanyOverrides = {
     decisionSummary: "ABEJA适合想进入AI/DX社会实装方向、具备N2左右日语和数据/云/机器学习基础的人。相比PFN更偏业务落地和客户课题解决，但仍不应按低日语轻松岗位理解。",
     aiSummary: "ABEJA官网强调数字平台、ABEJA Platform、ABEJA LLM Series、AI伦理咨询、DX人材育成和零售洞察等业务。它适合AI/DX落地型求职者，关键风险是客户沟通、项目变化和日语业务理解。",
     recommendationReason: "适合希望进入AI/DX项目、能把技术和客户业务问题连接起来的人。",
+    recommendationScore: 8.2,
+    scoreBreakdown: { salary: 8.5, stability: 7.1, growth: 8.7, workLifeBalance: 7.6, foreignerFriendliness: 8.1, businessValue: 8.6, employeeReviews: 7.5, total: 8.2 },
     dataSourceNote: "员工数133名为ABEJA公司页面2025年8月末时点口径；业务描述参考ABEJA官网公司/业务页面，字段为求职研究用摘要。",
+    dataCredibility: "高：员工数和业务来自公司公开页面；薪资、评价和求职适配为估算摘要",
     sourceUrls: ["https://www.abejainc.com/company", "https://www.abejainc.com/"],
+  },
+  pksha: {
+    mainBusiness: "算法模块、AI SaaS、自然语言处理、对话AI、企业AI转型支援和集团产品开发",
+    mainProducts: ["AI SaaS", "自然语言处理", "对话AI", "算法模块", "企业AI转型支援"],
+    requiredSkills: ["Python", "机器学习", "自然语言处理", "产品开发", "云服务", "客户课题理解"],
+    suitableForLowJapanese: false,
+    matchTags: ["外国人友好", "适合新卒", "适合转职", "N2推荐", "远程/混合", "AI产品", "技术面试偏难"],
+    riskTags: ["AI产品理解要求高", "技术面试偏难"],
+    languageProofRisk: "中：AI产品和客户沟通场景较多，N2更稳；如果以英语为主需确认团队和客户语言。",
+    decisionSummary: "PKSHA更适合有机器学习、NLP或AI产品经验，并能用日语解释业务价值的人。它不是普通Web开发保底企业，更适合作为AI产品/算法方向的挑战候选。",
+    aiSummary: "PKSHA的差异点在算法模块、AI SaaS、自然语言处理和企业AI转型支援。相比PFN更偏AI产品化和业务落地，相比ABEJA更强调算法资产和产品群。投递前要准备AI项目、产品理解和客户场景表达。",
+    recommendationReason: "适合想做AI产品、NLP、对话AI或企业AI落地的人；需要准备技术面试和业务价值说明。",
+    recommendationScore: 8.3,
+    scoreBreakdown: { salary: 8.8, stability: 7.4, growth: 9.1, workLifeBalance: 7.2, foreignerFriendliness: 8, businessValue: 9.1, employeeReviews: 7.7, total: 8.3 },
+    dataCredibility: "中：官网链接明确，业务方向按公开信息摘要；员工数、薪资和评分为估算口径",
+  },
+  smartnews: {
+    mainBusiness: "新闻聚合应用、个性化推荐、广告平台、媒体生态和全球化产品运营",
+    mainProducts: ["新闻聚合应用", "推荐算法", "广告平台", "媒体生态", "全球化产品"],
+    requiredSkills: ["推荐系统", "移动端/后端开发", "数据分析", "广告产品", "英语/日语协作"],
+    matchTags: ["外国人友好", "N2推荐", "全球化产品", "技术/产品门槛高", "远程/混合"],
+    riskTags: ["产品竞争激烈", "英语/日语协作需确认", "业务波动风险"],
+    decisionSummary: "SmartNews适合希望做全球化媒体产品、推荐系统、广告平台或数据产品的人。优势是产品规模和国际化，但不适合只想找稳定低压力岗位的人。",
+    aiSummary: "SmartNews不应被当成普通IT公司模板。它的核心判断点是媒体产品规模、推荐/广告技术、全球化组织和业务波动。适合产品技术型求职者，不适合零项目经验或只追求稳定的人。",
+    recommendationReason: "适合有产品工程、推荐系统、广告平台或数据分析经验，并能适应全球化协作的人。",
+    recommendationScore: 7.8,
+    scoreBreakdown: { salary: 8.5, stability: 6.6, growth: 8.2, workLifeBalance: 7, foreignerFriendliness: 8.2, businessValue: 8.4, employeeReviews: 7, total: 7.8 },
+    dataCredibility: "中：官网链接明确，业务方向按公开信息摘要；员工数、薪资和评分为估算口径",
   },
 };
 
@@ -563,7 +597,7 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
   const rec = scoreBreakdown.total;
   const japaneseLevel = japaneseOf(industry, foreign);
   const suitability = suitabilityOf(industry, foreign, remote, overtime, salaryScore, index, japaneseLevel);
-  const sizeTags = employeeBand === "100人以下" ? ["超小团队"] : employeeBand === "100-300人" ? ["小企业"] : [];
+  const sizeTags = employeeBand.includes("超小型") ? ["超小团队"] : employeeBand.includes("小型") ? ["小企业"] : employeeBand.includes("成长型") ? ["成长型企业"] : [];
   const riskTags = riskTagsOf(industry, foreign, visa, overtime, salaryScore, shift);
   const recommendationReason = `${p.products[0]}或${p.positions[0]}相关岗位能积累实务经验；${foreign ? "外国人录用可能性较高" : "外国人案例较少但可作为挑战候选"}，${remote ? "工作方式较灵活" : "现场协作多"}，适合重视${scoreBreakdown.growth >= scoreBreakdown.stability ? "成长性" : "稳定性"}的人。`;
   const decisionSummary = decisionTextOf({ name, industry, foreign, visa, remote, overtime, japaneseLevel, score: rec });
@@ -621,6 +655,7 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
     suitableForLowJapanese: suitability.suitableForLowJapanese,
     languageProofRisk: suitability.languageProofRisk,
     dataSourceNote: "MVP估算数据：公开官网、招聘页面、公开评价摘要和企业公开资料整理；员工数、薪资、评价等字段需以投递时官网/募集要项为准。",
+    dataCredibility: "中：官网链接明确，员工数/薪资/评分含估算口径",
     sourceUrls: [website],
     decisionSummary,
     aiSummary,

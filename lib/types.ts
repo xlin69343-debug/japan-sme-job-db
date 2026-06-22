@@ -99,6 +99,7 @@ export type Company = {
   suitableForLowJapanese: boolean;
   languageProofRisk: string;
   dataSourceNote: string;
+  dataCredibility: string;
   sourceUrls: string[];
   decisionSummary: string;
   aiSummary: string;

@@ -5,7 +5,7 @@
   "location": "东京都道府县中心区域",
   "region": "关东",
   "employees": "约200人",
-  "employeeBand": "100-300人",
+  "employeeBand": "成长型 101-300人",
   "website": "https://www.cyberbuzz.co.jp/",
   "founded": "2006年",
   "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
@@ -65,7 +65,7 @@
   "dressCode": "自由或商务休闲",
   "openworkScore": 3.09,
   "foreignerFriendlyScore": 4,
-  "recommendationScore": 6.7,
+  "recommendationScore": 6.3,
   "scoreBreakdown": {
     "salary": 6.3,
     "stability": 7,
@@ -74,10 +74,10 @@
     "foreignerFriendliness": 4.2,
     "businessValue": 7.4,
     "employeeReviews": 6.2,
-    "total": 6.7
+    "total": 6.3
   },
   "matchTags": [
-    "小企业",
+    "成长型企业",
     "外国人案例少",
     "适合新卒",
     "适合转职",
@@ -94,10 +94,11 @@
   "suitableForLowJapanese": false,
   "languageProofRisk": "高：日语证明、客户沟通和面试通过率风险较高",
   "dataSourceNote": "MVP估算数据：公开官网、招聘页面、公开评价摘要和企业公开资料整理；员工数、薪资、评价等字段需以投递时官网/募集要项为准。",
+  "dataCredibility": "中：官网链接明确，员工数/薪资/评分含估算口径",
   "sourceUrls": [
     "https://www.cyberbuzz.co.jp/"
   ],
-  "decisionSummary": "サイバー・バズ更适合已有日本职场经验或日语较强的求职者，尤其是希望混合办公和自走空间、日语约N2-N1、能接受月18小时左右加班的人。综合评分 6.7/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "decisionSummary": "サイバー・バズ更适合已有日本职场经验或日语较强的求职者，尤其是希望混合办公和自走空间、日语约N2-N1、能接受月18小时左右加班的人。综合评分 6.3/10，投递前应重点确认签证支持、评价制度和实际加班。",
   "aiSummary": "サイバー・バズ不是单纯看公司规模就能判断的企业。它的优势在于年轻文化和数字广告经验，风险在于外国人适配风险。如果你需要稳定的签证说明、希望在广告 / 媒体积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
   "recommendationReason": "数字广告或广告运营相关岗位能积累实务经验；外国人案例较少但可作为挑战候选，工作方式较灵活，适合重视成长性的人。",
   "reviewSummary": {
@@ -147,7 +148,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中高",
     "foreignerInterviewDifficulty": "中高：需主动确认签证支持和外国人录用经验",
-    "difficulty": "中"
+    "difficulty": "低中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "低中：仍需确认制度执行情况",

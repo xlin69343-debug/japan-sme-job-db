@@ -5,7 +5,7 @@
   "location": "东京都道府县中心区域",
   "region": "关东",
   "employees": "约5000人",
-  "employeeBand": "1000人以上",
+  "employeeBand": "中型 301人以上",
   "website": "https://www.disco.co.jp/",
   "founded": "1937年",
   "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
@@ -91,6 +91,7 @@
   "suitableForLowJapanese": false,
   "languageProofRisk": "高：日语证明、客户沟通和面试通过率风险较高",
   "dataSourceNote": "MVP估算数据：公开官网、招聘页面、公开评价摘要和企业公开资料整理；员工数、薪资、评价等字段需以投递时官网/募集要项为准。",
+  "dataCredibility": "中：官网链接明确，员工数/薪资/评分含估算口径",
   "sourceUrls": [
     "https://www.disco.co.jp/"
   ],

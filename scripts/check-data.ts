@@ -66,7 +66,7 @@ if (invalidTags.length > 0) {
   throw new Error(`Invalid decision data:\n${invalidTags.join("\n")}`);
 }
 
-const smallCompanies = companies.filter((company) => company.employeeBand === "100人以下" || company.employeeBand === "100-300人");
+const smallCompanies = companies.filter((company) => company.employeeBand.includes("超小型") || company.employeeBand.includes("小型") || company.employeeBand.includes("成长型"));
 if (smallCompanies.length < 35) {
   throw new Error(`Expected at least 35 small companies, got ${smallCompanies.length}`);
 }

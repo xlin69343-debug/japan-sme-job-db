@@ -124,7 +124,12 @@ export function PersonalHomePanel({ companies }: { companies: Company[] }) {
               <div className="text-xl font-semibold text-slate-950">{todayCompany.name}</div>
               <p className="mt-2 text-sm leading-6 text-slate-700">{todayCompany.decisionSummary}</p>
             </div>
-            <span className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white">{todayCompany.recommendationScore}/10</span>
+            <span className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white">匹配参考 {Math.round(todayCompany.recommendationScore * 10)}%</span>
+          </div>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {todayReasons(todayCompany).map((reason) => (
+              <div key={reason} className="rounded-md bg-white/70 px-3 py-2 text-xs font-semibold text-blue-800">{reason}</div>
+            ))}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             {todayCompany.matchTags.slice(0, 4).map((tag) => <Tag key={tag} tone="blue">{tag}</Tag>)}
@@ -133,20 +138,29 @@ export function PersonalHomePanel({ companies }: { companies: Company[] }) {
       </div>
 
       <div className="grid gap-5">
-        <PersonalList title="最近浏览" empty="还没有浏览记录。先打开几家公司详情页，这里会自动记录。" companies={recentCompanies} />
+        <PersonalList title="最近浏览" empty="还没有浏览记录。先从一个方向开始研究。" companies={recentCompanies} showStarter />
         <PersonalList title="我的重点关注" empty="把企业状态改成“重点关注”或“准备投递”，这里就会变成你的优先清单。" companies={focusCompanies.slice(0, 5)} />
       </div>
     </section>
   );
 }
 
-function PersonalList({ title, empty, companies }: { title: string; empty: string; companies: Company[] }) {
+function PersonalList({ title, empty, companies, showStarter = false }: { title: string; empty: string; companies: Company[]; showStarter?: boolean }) {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
       <h2 className="text-lg font-semibold text-slate-950">{title}</h2>
       <div className="mt-3 grid gap-2">
         {companies.length === 0 ? (
-          <p className="rounded-md bg-slate-50 p-3 text-sm leading-6 text-slate-500">{empty}</p>
+          <div className="rounded-md bg-slate-50 p-3">
+            <p className="text-sm leading-6 text-slate-500">{empty}</p>
+            {showStarter && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link href="/companies?q=AI" className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-blue-700">AI企业</Link>
+                <Link href="/companies?s=foreigner" className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-blue-700">外国人友好</Link>
+                <Link href="/companies?s=visa" className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-blue-700">支持工签</Link>
+              </div>
+            )}
+          </div>
         ) : companies.map((company) => (
           <Link key={company.slug} href={`/companies/${company.slug}`} className="flex items-center justify-between gap-3 rounded-md bg-slate-50 px-3 py-2 text-sm hover:text-blue-700">
             <span className="truncate font-semibold">{company.name}</span>
@@ -156,6 +170,15 @@ function PersonalList({ title, empty, companies }: { title: string; empty: strin
       </div>
     </div>
   );
+}
+
+function todayReasons(company: Company) {
+  return [
+    company.region === "关东" ? "东京/关东机会较多" : `${company.region}地区候选`,
+    company.industry.includes("AI") || company.industry.includes("IT") ? "技术/AI方向" : company.industry,
+    company.acceptsForeigners ? "有外国人录用可能性" : "需确认外国人案例",
+    company.visaSupport ? "工签支持可期待" : "签证需提前确认",
+  ];
 }
 
 export function CareerReadinessPanel({ company }: { company: Company }) {

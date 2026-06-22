@@ -5,16 +5,17 @@
   "location": "东京都道府县中心区域",
   "region": "关东",
   "employees": "约900人",
-  "employeeBand": "300-1000人",
+  "employeeBand": "中型 301人以上",
   "website": "https://about.smartnews.com/",
   "founded": "2012年",
   "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
-  "mainBusiness": "受托开发、SaaS、AI解决方案、业务系统",
+  "mainBusiness": "新闻聚合应用、个性化推荐、广告平台、媒体生态和全球化产品运营",
   "mainProducts": [
-    "受托开发",
-    "SaaS",
-    "AI解决方案",
-    "业务系统"
+    "新闻聚合应用",
+    "推荐算法",
+    "广告平台",
+    "媒体生态",
+    "全球化产品"
   ],
   "hiringPositions": [
     "软件工程师",
@@ -24,12 +25,11 @@
     "数据分析师"
   ],
   "requiredSkills": [
-    "TypeScript",
-    "Python",
-    "云服务",
-    "SQL",
-    "机器学习",
-    "日语沟通"
+    "推荐系统",
+    "移动端/后端开发",
+    "数据分析",
+    "广告产品",
+    "英语/日语协作"
   ],
   "japaneseLevel": "N2",
   "educationRequirement": "多数岗位本科或同等经验可，实务经验和作品集可弥补学历",
@@ -66,38 +66,41 @@
   "dressCode": "商务休闲",
   "openworkScore": 3.94,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 8.3,
+  "recommendationScore": 7.8,
   "scoreBreakdown": {
-    "salary": 9,
-    "stability": 7.5,
-    "growth": 9.2,
-    "workLifeBalance": 7.8,
-    "foreignerFriendliness": 8.3,
-    "businessValue": 8.5,
-    "employeeReviews": 7.9,
-    "total": 8.3
+    "salary": 8.5,
+    "stability": 6.6,
+    "growth": 8.2,
+    "workLifeBalance": 7,
+    "foreignerFriendliness": 8.2,
+    "businessValue": 8.4,
+    "employeeReviews": 7,
+    "total": 7.8
   },
   "matchTags": [
     "外国人友好",
-    "适合新卒",
-    "适合转职",
     "N2推荐",
-    "远程/混合",
-    "低加班",
-    "薪资较好"
+    "全球化产品",
+    "技术/产品门槛高",
+    "远程/混合"
   ],
-  "riskTags": [],
+  "riskTags": [
+    "产品竞争激烈",
+    "英语/日语协作需确认",
+    "业务波动风险"
+  ],
   "suitableForNewGrad": true,
   "suitableForCareerChange": true,
   "suitableForLowJapanese": false,
   "languageProofRisk": "中：工签和业务沟通不只看N2，需准备日语证明和岗位适配说明",
   "dataSourceNote": "MVP估算数据：公开官网、招聘页面、公开评价摘要和企业公开资料整理；员工数、薪资、评价等字段需以投递时官网/募集要项为准。",
+  "dataCredibility": "中：官网链接明确，业务方向按公开信息摘要；员工数、薪资和评分为估算口径",
   "sourceUrls": [
     "https://about.smartnews.com/"
   ],
-  "decisionSummary": "SmartNews更适合外国人求职者，尤其是希望混合办公和自走空间、日语约N2、能接受月18小时左右加班的人。综合评分 8.3/10，投递前应重点确认签证支持、评价制度和实际加班。",
-  "aiSummary": "SmartNews不是单纯看公司规模就能判断的企业。它的优势在于技术栈较新和受托开发经验，风险在于制度执行仍需面试确认。如果你需要签证支持、希望在IT / 软件 / AI积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
-  "recommendationReason": "受托开发或软件工程师相关岗位能积累实务经验；外国人录用可能性较高，工作方式较灵活，适合重视成长性的人。",
+  "decisionSummary": "SmartNews适合希望做全球化媒体产品、推荐系统、广告平台或数据产品的人。优势是产品规模和国际化，但不适合只想找稳定低压力岗位的人。",
+  "aiSummary": "SmartNews不应被当成普通IT公司模板。它的核心判断点是媒体产品规模、推荐/广告技术、全球化组织和业务波动。适合产品技术型求职者，不适合零项目经验或只追求稳定的人。",
+  "recommendationReason": "适合有产品工程、推荐系统、广告平台或数据分析经验，并能适应全球化协作的人。",
   "reviewSummary": {
     "pros": [
       "技术栈较新",

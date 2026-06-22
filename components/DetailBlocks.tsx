@@ -7,6 +7,7 @@ export function DetailBlocks({ company }: { company: Company }) {
     <div className="grid gap-6">
       <OverviewPanel company={company} />
       <DecisionSummary company={company} />
+      <DecisionConclusion company={company} />
       <CareerReadinessPanel company={company} />
       <PersonalResearchPanel company={company} />
 
@@ -29,6 +30,7 @@ export function DetailBlocks({ company }: { company: Company }) {
 
       <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <Panel title="评分拆解">
+          <ScoringFormula company={company} />
           <div className="grid gap-3">
             <BlockScore label="工作环境" value={company.scoreBreakdown.workLifeBalance} />
             <BlockScore label="成长空间" value={company.scoreBreakdown.growth} />
@@ -68,6 +70,7 @@ export function DetailBlocks({ company }: { company: Company }) {
           ["官网", company.website],
           ["数据更新时间", company.updatedAt],
           ["数据来源口径", company.dataSourceNote],
+          ["可信度等级", company.dataCredibility],
           ["主要业务", company.mainBusiness],
         ]} />
         <InfoPanel title="薪资待遇" items={[
@@ -174,6 +177,88 @@ export function DetailBlocks({ company }: { company: Company }) {
   );
 }
 
+function DecisionConclusion({ company }: { company: Company }) {
+  return (
+    <section className="grid gap-3 md:grid-cols-4">
+      <ConclusionCard title="一句话结论" value={oneLineConclusion(company)} tone="blue" />
+      <ConclusionCard title="最大优势" value={largestAdvantage(company)} tone="green" />
+      <ConclusionCard title="最大风险" value={largestRisk(company)} tone="amber" />
+      <ConclusionCard title="最不适合" value={company.notSuitedFor[0] || "风险承受度低的人"} tone="red" />
+    </section>
+  );
+}
+
+function ConclusionCard({ title, value, tone }: { title: string; value: string; tone: "blue" | "green" | "amber" | "red" }) {
+  const toneClass = tone === "green" ? "bg-emerald-50 text-emerald-800" : tone === "amber" ? "bg-amber-50 text-amber-800" : tone === "red" ? "bg-red-50 text-red-800" : "bg-blue-50 text-blue-800";
+  return (
+    <div className={`rounded-lg p-4 ${toneClass}`}>
+      <div className="text-xs font-semibold opacity-80">{title}</div>
+      <p className="mt-2 text-sm leading-6 font-medium">{value}</p>
+    </div>
+  );
+}
+
+function oneLineConclusion(company: Company) {
+  if (company.slug === "preferred-networks") return "适合N2以上、算法/机器学习基础强、有高质量项目经验的挑战型候选人。";
+  if (company.slug === "abeja") return "适合N2左右、想做AI/DX落地并能理解客户课题的求职者。";
+  if (company.slug === "pksha") return "适合有AI产品、NLP或机器学习项目经验，并能解释业务价值的人。";
+  if (company.industry.includes("IT") || company.industry.includes("AI")) return `适合希望进入${company.industry}、具备${company.japaneseLevel}和项目经验的求职者。`;
+  return `适合想在${company.industry}积累日本实务经验，并能接受${company.overtimeHours}小时/月左右加班的人。`;
+}
+
+function largestAdvantage(company: Company) {
+  if (company.slug === "preferred-networks") return "AI半导体、计算基盘、生成AI基盤模型到AI解决方案的技术含金量高。";
+  if (company.slug === "abeja") return "AI/DX项目落地经验明确，适合把技术和客户课题连接起来。";
+  if (company.slug === "pksha") return "算法资产和AI产品化方向明确，适合AI产品/自然语言处理路线。";
+  if (company.visaSupport && company.acceptsForeigners) return "外国人录用和工签支持可能性较高。";
+  return company.reviewSummary.pros[0] || company.recommendationReason;
+}
+
+function largestRisk(company: Company) {
+  if (company.riskTags.length > 0) return company.riskTags.join("、");
+  if (company.interviewInfo.difficulty === "高") return "面试竞争和技术筛选难度高。";
+  if (!company.suitableForLowJapanese) return "日语业务沟通和日语证明需要提前准备。";
+  return "制度、配属、固定残业和评价方式仍需面试确认。";
+}
+
+function ScoringFormula({ company }: { company: Company }) {
+  const rows = [
+    ["工资水平", "20%", company.scoreBreakdown.salary, "薪资区间、工资分和行业薪资带估算"],
+    ["成长空间", "25%", company.scoreBreakdown.growth, "业务含金量、技术/岗位可迁移性"],
+    ["外国人友好度", "20%", company.scoreBreakdown.foreignerFriendliness, "外国人录用案例、语言环境、适配风险"],
+    ["工签支持", "20%", company.visaSupport ? 8.5 : company.acceptsForeigners ? 5.8 : 3.8, "签证支持公开信息和外国人受入可能性"],
+    ["工作强度", "15%", company.scoreBreakdown.workLifeBalance, "加班、轮班、远程/混合和休假制度"],
+  ] as const;
+  return (
+    <div className="mb-4 rounded-lg border border-slate-100 bg-slate-50 p-4">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="text-sm font-semibold text-slate-950">综合评分公式</div>
+          <p className="mt-1 text-xs leading-5 text-slate-500">综合评分 = 工资20% + 成长25% + 外国人友好20% + 工签20% + 工作强度15%。分数为求职研究用估算，不代表企业官方评价。</p>
+        </div>
+        <div className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white">{company.recommendationScore}/10</div>
+      </div>
+      <div className="mt-4 grid gap-2">
+        {rows.map(([label, weight, value, source]) => (
+          <div key={label} className="grid gap-2 rounded-md bg-white p-3 md:grid-cols-[90px_60px_1fr]">
+            <div className="text-sm font-semibold text-slate-800">{label}</div>
+            <div className="text-xs font-semibold text-blue-700">{weight}</div>
+            <div>
+              <div className="flex items-center gap-3">
+                <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full rounded-full bg-blue-600" style={{ width: `${Math.max(4, Math.min(100, value * 10))}%` }} />
+                </div>
+                <span className="w-12 text-right text-sm font-semibold text-slate-900">{value}/10</span>
+              </div>
+              <div className="mt-1 text-xs text-slate-500">{source}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function OverviewPanel({ company }: { company: Company }) {
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
@@ -257,7 +342,7 @@ function cautionPoints(company: Company) {
   const base = company.riskTags.length > 0 ? company.riskTags : ["制度执行和配属情况需面试确认"];
   return [
     ...base,
-    company.japaneseLevel.includes("N1") ? "面试和入社后沟通可能偏重日语读写。" : "即使低日语可挑战，也要准备日语自我介绍和业务表达。",
+    company.japaneseLevel.includes("N1") ? "面试和入社后沟通可能偏重日语读写。" : "即使标为N3可挑战，也要准备日语自我介绍和业务表达。",
     company.shiftWork ? "存在轮班或排班，需确认休假和夜班频率。" : "实际加班会随项目、客户或繁忙期波动。",
     "投递前建议确认固定残业、试用期、签证更新责任和评价制度。",
   ].slice(0, 5);

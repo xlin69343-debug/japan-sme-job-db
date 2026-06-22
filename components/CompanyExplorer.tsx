@@ -59,7 +59,7 @@ export function CompanyExplorer({ companies, options }: Props) {
     if (region) setFilters((current) => ({ ...current, region }));
     if (preset === "newgrad") setFilters((current) => ({ ...current, suitableForNewGrad: "true", sort: "newGrad" }));
     if (preset === "career") setFilters((current) => ({ ...current, suitableForCareerChange: "true", sort: "career" }));
-    if (preset === "small") setFilters((current) => ({ ...current, employeeBand: "100人以下", tag: "超小团队" }));
+    if (preset === "small") setFilters((current) => ({ ...current, employeeBand: "小型 51-100人", tag: "小企业" }));
     if (preset === "visa") setFilters((current) => ({ ...current, visaSupport: "true", acceptsForeigners: "true", sort: "foreigner" }));
     if (preset === "lowjp") setFilters((current) => ({ ...current, suitableForLowJapanese: "true", visaSupport: "true" }));
     if (preset === "foreigner") setFilters((current) => ({ ...current, acceptsForeigners: "true", sort: "foreigner" }));
@@ -184,7 +184,7 @@ export function CompanyExplorer({ companies, options }: Props) {
             <QuickButton active={filters.overtime === "low"} onClick={() => setPreset({ overtime: filters.overtime === "low" ? "" : "low", sort: "overtime" })}>#加班少</QuickButton>
             <QuickButton active={filters.sort === "growth"} onClick={() => setPreset({ sort: filters.sort === "growth" ? "recommendation" : "growth" })}>#成长快</QuickButton>
             <QuickButton active={filters.suitableForNewGrad === "true"} onClick={() => setPreset({ suitableForNewGrad: filters.suitableForNewGrad === "true" ? "" : "true", sort: "newGrad" })}>#新卒可</QuickButton>
-            <QuickButton active={filters.tag === "小企业" || filters.tag === "超小团队"} onClick={() => setPreset({ employeeBand: "100-300人", tag: filters.tag ? "" : "小企业" })}>#文理不限</QuickButton>
+            <QuickButton active={filters.tag === "小企业" || filters.tag === "超小团队"} onClick={() => setPreset({ employeeBand: "小型 51-100人", tag: filters.tag ? "" : "小企业" })}>#小企业</QuickButton>
           </div>
           {activeFilters.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
@@ -218,7 +218,7 @@ export function CompanyExplorer({ companies, options }: Props) {
         <div className="mt-3 flex flex-wrap gap-2">
           {filters.visaSupport === "true" && <Tag tone="blue">需要签证</Tag>}
           {filters.acceptsForeigners === "true" && <Tag tone="green">外国人友好</Tag>}
-          {filters.suitableForLowJapanese === "true" && <Tag tone="green">低日语</Tag>}
+          {filters.suitableForLowJapanese === "true" && <Tag tone="green">N3可挑战</Tag>}
           {filters.overtime === "low" && <Tag tone="green">低加班</Tag>}
           {filters.tag && <Tag tone="blue">{filters.tag}</Tag>}
           {!filters.visaSupport && !filters.acceptsForeigners && !filters.tag && <span className="text-sm text-slate-500">选择筛选后，这里会显示你的判断条件。</span>}
@@ -294,7 +294,7 @@ function expandQuery(raw: string) {
     外国人: ["外国人", "外国人友好", "签证", "在留", "n3", "n2"],
     工签: ["签证", "visa", "在留资格", "工签"],
     签证: ["签证", "visa", "在留资格", "工签"],
-    低日语: ["n3", "低日语", "低日语可挑战"],
+    低日语: ["n3", "n3可挑战", "低日语"],
     轻松: ["低加班", "工作生活平衡", "远程"],
     远程: ["远程", "混合", "remote"],
     制造: ["制造", "生产技术", "品质", "cad"],
@@ -318,7 +318,7 @@ function getActiveFilters(filters: Filters) {
     overtime: filters.overtime === "low" ? "低加班" : filters.overtime === "mid" ? "中等加班" : filters.overtime === "high" ? "高加班" : "",
     suitableForNewGrad: filters.suitableForNewGrad === "true" ? "适合新卒" : "不适合新卒",
     suitableForCareerChange: filters.suitableForCareerChange === "true" ? "适合转职" : "不适合转职",
-    suitableForLowJapanese: filters.suitableForLowJapanese === "true" ? "低日语可挑战" : "日语压力高",
+    suitableForLowJapanese: filters.suitableForLowJapanese === "true" ? "N3可挑战" : "日语压力高",
     workStyle: filters.workStyle === "remote" ? "远程" : filters.workStyle === "hybrid" ? "混合" : filters.workStyle === "onsite" ? "到岗" : "",
     tag: `标签：${filters.tag}`,
   };
