@@ -17,17 +17,21 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
     <div className="space-y-8">
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-lg border border-slate-200 bg-white p-7 shadow-sm">
-          <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">日本中小企业求职决策工具</div>
+          <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">外国人在日本求职的一站式职业决策平台</div>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-            判断日本企业值不值得去
+            从查企业到决定下一步行动
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-            不只是公司列表。这里会按签证支持、日语要求、加班风险、工资水平、外国人友好度和成长性，帮助你判断这家公司适不适合新卒、转职、低日语水平和想稳定发展的人。
+            不只是公司列表。这里围绕企业研究、职业规划、工签评估、能力差距分析、求职准备和投递管理，帮助你判断这家公司能不能投、距离目标还有多远、下一步该做什么。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/profile-test" className="inline-flex h-11 items-center gap-2 rounded-md bg-blue-600 px-4 text-sm font-semibold text-white">
+            <Link href="/dashboard" className="inline-flex h-11 items-center gap-2 rounded-md bg-blue-600 px-4 text-sm font-semibold text-white">
               <UserRoundCheck size={17} />
-              开始适合度测试
+              打开个人工作台
+            </Link>
+            <Link href="/profile-test" className="inline-flex h-11 items-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-800">
+              <UserRoundCheck size={17} />
+              适合度测试
             </Link>
             <Link href="/companies" className="inline-flex h-11 items-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-800">
               <SearchCheck size={17} />

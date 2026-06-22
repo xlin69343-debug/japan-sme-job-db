@@ -3,8 +3,8 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "日本中小企业求职决策库",
-  description: "面向外国人、新卒和转职者的日本中小企业求职决策工具。",
+  title: "日本求职职业决策平台",
+  description: "面向外国人的日本企业研究、职业规划、工签评估、能力差距分析、求职准备和投递管理工作台。",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -18,6 +18,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </Link>
             <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-600">
               {[
+                ["工作台", "/dashboard"],
                 ["找企业", "/companies"],
                 ["适合度测试", "/profile-test"],
                 ["职业路线", "/career-path"],
