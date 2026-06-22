@@ -1,21 +1,37 @@
 import type { Company } from "@/lib/types";
-import { DecisionSummary, ScoreBar, Tag } from "./DecisionUi";
+import { DecisionSummary, Tag } from "./DecisionUi";
 
 export function DetailBlocks({ company }: { company: Company }) {
   return (
     <div className="grid gap-6">
+      <OverviewPanel company={company} />
       <DecisionSummary company={company} />
+
+      <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">
+        <Panel title="为什么推荐">
+          <ul className="grid gap-3 text-sm leading-6 text-slate-700">
+            {recommendReasons(company).map((item) => (
+              <li key={item} className="rounded-md bg-emerald-50 p-3 text-emerald-800">⭐ {item}</li>
+            ))}
+          </ul>
+        </Panel>
+        <Panel title="需要注意">
+          <ul className="grid gap-3 text-sm leading-6 text-slate-700">
+            {cautionPoints(company).map((item) => (
+              <li key={item} className="rounded-md bg-amber-50 p-3 text-amber-800">⚠ {item}</li>
+            ))}
+          </ul>
+        </Panel>
+      </section>
 
       <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <Panel title="评分拆解">
           <div className="grid gap-3">
-            <ScoreBar label="工资" value={company.scoreBreakdown.salary} />
-            <ScoreBar label="稳定性" value={company.scoreBreakdown.stability} />
-            <ScoreBar label="成长性" value={company.scoreBreakdown.growth} />
-            <ScoreBar label="工作生活平衡" value={company.scoreBreakdown.workLifeBalance} />
-            <ScoreBar label="外国人友好度" value={company.scoreBreakdown.foreignerFriendliness} />
-            <ScoreBar label="技术/业务含金量" value={company.scoreBreakdown.businessValue} />
-            <ScoreBar label="员工评价" value={company.scoreBreakdown.employeeReviews} />
+            <BlockScore label="工作环境" value={company.scoreBreakdown.workLifeBalance} />
+            <BlockScore label="成长空间" value={company.scoreBreakdown.growth} />
+            <BlockScore label="薪资竞争力" value={company.scoreBreakdown.salary} />
+            <BlockScore label="外国人友好度" value={company.scoreBreakdown.foreignerFriendliness} />
+            <BlockScore label="稳定性" value={company.scoreBreakdown.stability} />
           </div>
         </Panel>
         <Panel title="适合与不适合">
@@ -139,6 +155,65 @@ export function DetailBlocks({ company }: { company: Company }) {
       </section>
     </div>
   );
+}
+
+function OverviewPanel({ company }: { company: Company }) {
+  return (
+    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="grid gap-4 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+        <div>
+          <div className="text-xs font-semibold text-blue-700">企业概览</div>
+          <h2 className="mt-1 text-2xl font-semibold text-slate-950">{company.name}</h2>
+          <p className="mt-2 text-sm text-slate-500">{company.industry} · {company.location} · {company.employees}</p>
+        </div>
+        <OverviewMetric label="外国人友好度" value={`${company.foreignerFriendlyScore}/10`} />
+        <OverviewMetric label="工签支持" value={company.visaSupport ? "可期待" : "需确认"} />
+        <OverviewMetric label="日语要求" value={company.japaneseLevel} />
+        <OverviewMetric label="推荐指数" value={`${company.recommendationScore}/10`} strong />
+      </div>
+    </section>
+  );
+}
+
+function OverviewMetric({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
+  return (
+    <div className={`rounded-md p-3 ${strong ? "bg-blue-600 text-white" : "bg-slate-50 text-slate-900"}`}>
+      <div className={`text-xs ${strong ? "text-blue-100" : "text-slate-500"}`}>{label}</div>
+      <div className="mt-2 text-lg font-semibold">{value}</div>
+    </div>
+  );
+}
+
+function BlockScore({ label, value }: { label: string; value: number }) {
+  const count = Math.max(1, Math.min(5, Math.round(value / 2)));
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-md bg-slate-50 p-3">
+      <span className="text-sm font-medium text-slate-700">{label}</span>
+      <span className="font-mono text-sm text-blue-700" aria-label={`${label} ${value}/10`}>
+        {"■".repeat(count)}{"□".repeat(5 - count)}
+      </span>
+    </div>
+  );
+}
+
+function recommendReasons(company: Company) {
+  return [
+    company.acceptsForeigners ? "外国人录用可能性较高，适合作为优先候选。" : "可作为挑战候选，但需要先确认外国人录用经验。",
+    company.visaSupport ? "工签支持可期待，适合需要在留资格支持的人。" : "适合签证问题已经稳定或能提前确认的人。",
+    company.overtimeHours <= 20 ? "加班时间相对可控，工作生活平衡较好。" : "能较早接触业务和现场问题，成长速度可能更快。",
+    company.scoreBreakdown.growth >= 8 ? "成长空间较高，适合想积累可迁移经验的人。" : "业务边界较清楚，适合稳扎稳打积累经验。",
+    company.matchTags.includes("小企业") || company.matchTags.includes("超小团队") ? "团队规模较小，职责范围更宽，能更快看到业务全貌。" : "组织规模较大，制度和岗位分工相对清楚。",
+  ].slice(0, 5);
+}
+
+function cautionPoints(company: Company) {
+  const base = company.riskTags.length > 0 ? company.riskTags : ["制度执行和配属情况需面试确认"];
+  return [
+    ...base,
+    company.japaneseLevel.includes("N1") ? "面试和入社后沟通可能偏重日语读写。" : "即使低日语可挑战，也要准备日语自我介绍和业务表达。",
+    company.shiftWork ? "存在轮班或排班，需确认休假和夜班频率。" : "实际加班会随项目、客户或繁忙期波动。",
+    "投递前建议确认固定残业、试用期、签证更新责任和评价制度。",
+  ].slice(0, 5);
 }
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {

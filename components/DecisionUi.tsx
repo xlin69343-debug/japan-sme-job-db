@@ -24,7 +24,7 @@ export function ScoreBar({ label, value }: { label: string; value: number }) {
         <span className="font-semibold text-slate-900">{value}/10</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-slate-100">
-        <div className="h-full rounded-full bg-blue-600" style={{ width: `${Math.max(4, Math.min(100, value * 10))}%` }} />
+        <div className="h-full rounded-full bg-blue-600 transition-all duration-700" style={{ width: `${Math.max(4, Math.min(100, value * 10))}%` }} />
       </div>
     </div>
   );
