@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, BriefcaseBusiness, CircleAlert, MapPinned, Route, SearchCheck, UserRoundCheck } from "lucide-react";
 import type { Company } from "@/lib/types";
 import { CompanyMiniLink, ScoreBadge, Tag } from "./DecisionUi";
+import { PersonalHomePanel } from "./PersonalCareerTools";
 
 export function HomeDashboard({ companies, industryCount }: { companies: Company[]; industryCount: number }) {
   const foreignerTop = companies.filter((company) => company.acceptsForeigners).sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore).slice(0, 5);
@@ -41,6 +42,38 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
           <ScoreBadge label="小企业样本" value={`${companies.filter((item) => item.employeeBand === "100人以下" || item.employeeBand === "100-300人").length}家`} tone="green" />
         </div>
       </section>
+
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-950">快速开始</h2>
+            <p className="mt-2 text-sm text-slate-500">先不用看完整列表，从一个明确问题进入：我现在要研究哪一类企业。</p>
+          </div>
+          <Link href="/companies" className="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">
+            打开全部企业
+          </Link>
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["AI企业", "看技术含金量和作品集要求", "/companies?q=AI"],
+            ["外国人友好企业", "优先确认录用历史和沟通压力", "/companies?s=foreigner"],
+            ["支持工签企业", "先解决在留资格可持续性", "/companies?s=visa"],
+            ["东京企业", "通勤、面试机会和行业密度更高", "/companies?region=东京"],
+            ["N2推荐企业", "适合日语已有基础、想正式投递的人", "/companies?s=lowjp"],
+            ["成长性企业", "看业务含金量、岗位宽度和转职价值", "/companies?s=growth"],
+          ].map(([title, body, href]) => (
+            <Link key={title} href={href} className="group rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-sm">
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="font-semibold text-slate-950">{title}</h3>
+                <ArrowRight size={16} className="text-slate-400 group-hover:text-blue-600" />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-slate-500">{body}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <PersonalHomePanel companies={companies} />
 
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-end justify-between gap-3">

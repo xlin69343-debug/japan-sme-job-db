@@ -1,11 +1,14 @@
 import type { Company } from "@/lib/types";
 import { DecisionSummary, Tag } from "./DecisionUi";
+import { CareerReadinessPanel, PersonalResearchPanel } from "./PersonalCareerTools";
 
 export function DetailBlocks({ company }: { company: Company }) {
   return (
     <div className="grid gap-6">
       <OverviewPanel company={company} />
       <DecisionSummary company={company} />
+      <CareerReadinessPanel company={company} />
+      <PersonalResearchPanel company={company} />
 
       <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">
         <Panel title="为什么推荐">
@@ -135,6 +138,7 @@ export function DetailBlocks({ company }: { company: Company }) {
 
       <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">
         <Panel title="风险分析">
+          <RiskMatrix company={company} />
           <div className="grid gap-3">
             <Item label="黑企业风险" value={company.riskAnalysis.blackCompanyRisk} />
             <Item label="加班风险" value={company.riskAnalysis.overtimeRisk} />
@@ -160,16 +164,18 @@ export function DetailBlocks({ company }: { company: Company }) {
 function OverviewPanel({ company }: { company: Company }) {
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="grid gap-4 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(6,1fr)]">
         <div>
           <div className="text-xs font-semibold text-blue-700">企业概览</div>
           <h2 className="mt-1 text-2xl font-semibold text-slate-950">{company.name}</h2>
           <p className="mt-2 text-sm text-slate-500">{company.industry} · {company.location} · {company.employees}</p>
         </div>
-        <OverviewMetric label="外国人友好度" value={`${company.foreignerFriendlyScore}/10`} />
-        <OverviewMetric label="工签支持" value={company.visaSupport ? "可期待" : "需确认"} />
-        <OverviewMetric label="日语要求" value={company.japaneseLevel} />
         <OverviewMetric label="推荐指数" value={`${company.recommendationScore}/10`} strong />
+        <OverviewMetric label="外国人友好度" value={`${company.foreignerFriendlyScore}/10`} />
+        <OverviewMetric label="工签友好度" value={company.visaSupport ? "高" : "需确认"} />
+        <OverviewMetric label="成长空间" value={`${company.scoreBreakdown.growth}/10`} />
+        <OverviewMetric label="面试难度" value={company.interviewInfo.difficulty} />
+        <OverviewMetric label="工作强度" value={company.overtimeHours > 30 ? "高" : company.overtimeHours > 18 ? "中" : "低"} />
       </div>
     </section>
   );
@@ -194,6 +200,33 @@ function BlockScore({ label, value }: { label: string; value: number }) {
       </span>
     </div>
   );
+}
+
+function RiskMatrix({ company }: { company: Company }) {
+  const risks = [
+    ["日语风险", company.japaneseLevel.includes("N1") ? "高" : company.suitableForLowJapanese ? "低" : "中"],
+    ["工签风险", company.visaSupport ? "低" : "中"],
+    ["面试风险", company.interviewInfo.difficulty.includes("高") ? "高" : company.interviewInfo.difficulty.includes("中") ? "中" : "低"],
+    ["技术风险", company.industry.includes("IT") || company.industry.includes("AI") || company.requiredSkills.length > 4 ? "中" : "低"],
+    ["工作强度风险", company.overtimeHours > 30 || company.shiftWork ? "高" : company.overtimeHours > 18 ? "中" : "低"],
+  ];
+
+  return (
+    <div className="mb-4 grid gap-2 sm:grid-cols-2">
+      {risks.map(([label, level]) => (
+        <div key={label} className="flex items-center justify-between rounded-md bg-slate-50 p-3 text-sm">
+          <span className="font-medium text-slate-700">{label}</span>
+          <RiskLevel level={level} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function RiskLevel({ level }: { level: string }) {
+  const tone = level === "高" ? "bg-red-50 text-red-700" : level === "中" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700";
+  const mark = level === "高" ? "🔴" : level === "中" ? "🟡" : "🟢";
+  return <span className={`rounded-md px-2 py-1 text-xs font-semibold ${tone}`}>{mark}{level}</span>;
 }
 
 function recommendReasons(company: Company) {

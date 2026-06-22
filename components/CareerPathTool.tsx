@@ -48,6 +48,20 @@ export function CareerPathTool({ companies, industries }: { companies: Company[]
           </div>
         </div>
 
+        <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 className="text-xl font-semibold text-slate-950">职业路线图</h2>
+          <div className="mt-5 grid gap-3 md:grid-cols-6">
+            {buildRoadmap(level, goal, recommended).map((step, index) => (
+              <div key={`${step.title}-${index}`} className="relative rounded-lg border border-slate-200 bg-slate-50 p-4">
+                {index < 5 && <div className="absolute left-[calc(100%+6px)] top-1/2 hidden h-px w-5 bg-slate-200 md:block" />}
+                <div className="text-xs font-semibold text-blue-700">STEP {index + 1}</div>
+                <div className="mt-2 font-semibold text-slate-950">{step.title}</div>
+                <p className="mt-2 text-xs leading-5 text-slate-500">{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="grid gap-4 md:grid-cols-3">
           <PlanCard title="3个月" items={plan.threeMonths} />
           <PlanCard title="6个月" items={plan.sixMonths} />
@@ -113,6 +127,19 @@ function buildPlan(goal: string, level: string, stage: string) {
     sixMonths: ["每周投递 5-8 家", "每次面试后复盘问题", "补充岗位技能或资格", "筛掉高加班和签证不明企业"],
     twelveMonths: ["拿到日本实务经验", "复盘薪资和成长性", "准备转向更高评分企业", "建立长期职业路线"],
   };
+}
+
+function buildRoadmap(level: string, goal: string, companies: Company[]) {
+  const targets = companies.slice(0, 2).map((company) => company.name).join(" / ") || "目标企业";
+  const nextJapanese = level === "N4以下" ? "N3" : level === "N3" ? "N2" : level;
+  return [
+    { title: level, body: "确认当前日语、签证和岗位经验。" },
+    { title: nextJapanese, body: "把面试表达和业务沟通补到可投递水平。" },
+    { title: goal.includes("技术") ? "作品集" : "行业案例", body: "准备能证明能力的项目、案例或资格。" },
+    { title: "候选池", body: "分成保底、适合、挑战三层企业。" },
+    { title: targets, body: "优先研究评分高且风险可控的目标企业。" },
+    { title: "投递完成", body: "复盘面试问题，持续更新个人研究记录。" },
+  ];
 }
 
 function PlanCard({ title, items }: { title: string; items: string[] }) {

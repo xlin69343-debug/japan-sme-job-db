@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DetailBlocks } from "@/components/DetailBlocks";
 import { ScoreBadge, Tag } from "@/components/DecisionUi";
+import { TrackCompanyView } from "@/components/PersonalCareerTools";
 import { getCompanies, getCompany } from "@/lib/companies";
 
 export function generateStaticParams() {
@@ -27,6 +28,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-6 md:px-8">
+      <TrackCompanyView slug={company.slug} />
       <Link href="/companies" className="text-sm font-semibold text-blue-700 hover:underline">
         返回企业列表
       </Link>

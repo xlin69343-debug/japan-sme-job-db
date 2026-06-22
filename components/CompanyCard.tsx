@@ -5,6 +5,7 @@ import { Bookmark, GitCompare, SearchCheck, Sparkles, TriangleAlert, UserCheck }
 import { useEffect, useState } from "react";
 import type { Company } from "@/lib/types";
 import { ScoreBar, Tag } from "./DecisionUi";
+import { CompanyStatusSelect } from "./PersonalCareerTools";
 
 type Props = {
   company: Company;
@@ -70,6 +71,8 @@ export function CompanyCard({ company, compareSelected = false, compareDisabled 
         <ScoreBar label="工作环境" value={company.scoreBreakdown.workLifeBalance} />
         <ScoreBar label="外国人友好度" value={company.scoreBreakdown.foreignerFriendliness} />
       </div>
+
+      <CompanyStatusSelect slug={company.slug} compact />
 
       <div className="flex flex-wrap gap-2">
         {company.matchTags.slice(0, 5).map((tag) => (

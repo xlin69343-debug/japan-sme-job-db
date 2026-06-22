@@ -53,11 +53,17 @@ export function CompanyExplorer({ companies, options }: Props) {
 
     const search = new URLSearchParams(window.location.search);
     const preset = search.get("s");
+    const query = search.get("q");
+    const region = search.get("region");
+    if (query) setFilters((current) => ({ ...current, query }));
+    if (region) setFilters((current) => ({ ...current, region }));
     if (preset === "newgrad") setFilters((current) => ({ ...current, suitableForNewGrad: "true", sort: "newGrad" }));
     if (preset === "career") setFilters((current) => ({ ...current, suitableForCareerChange: "true", sort: "career" }));
     if (preset === "small") setFilters((current) => ({ ...current, employeeBand: "100人以下", tag: "超小团队" }));
     if (preset === "visa") setFilters((current) => ({ ...current, visaSupport: "true", acceptsForeigners: "true", sort: "foreigner" }));
     if (preset === "lowjp") setFilters((current) => ({ ...current, suitableForLowJapanese: "true", visaSupport: "true" }));
+    if (preset === "foreigner") setFilters((current) => ({ ...current, acceptsForeigners: "true", sort: "foreigner" }));
+    if (preset === "growth") setFilters((current) => ({ ...current, sort: "growth" }));
   }, [companies]);
 
   const filtered = useMemo(() => {
