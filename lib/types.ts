@@ -97,6 +97,9 @@ export type Company = {
   suitableForNewGrad: boolean;
   suitableForCareerChange: boolean;
   suitableForLowJapanese: boolean;
+  languageProofRisk: string;
+  dataSourceNote: string;
+  sourceUrls: string[];
   decisionSummary: string;
   aiSummary: string;
   recommendationReason: string;

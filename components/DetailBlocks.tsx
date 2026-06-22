@@ -66,6 +66,8 @@ export function DetailBlocks({ company }: { company: Company }) {
           ["员工人数", company.employees],
           ["成立时间", company.founded],
           ["官网", company.website],
+          ["数据更新时间", company.updatedAt],
+          ["数据来源口径", company.dataSourceNote],
           ["主要业务", company.mainBusiness],
         ]} />
         <InfoPanel title="薪资待遇" items={[
@@ -92,6 +94,7 @@ export function DetailBlocks({ company }: { company: Company }) {
         <Panel title="外国人适配">
           <div className="grid gap-3 text-sm leading-6 text-slate-700">
             <Item label="日语要求" value={company.japaneseLevel} />
+            <Item label="日语证明风险" value={company.languageProofRisk} />
             <Item label="是否接受外国人" value={company.acceptsForeigners ? "接受可能性较高" : "公开案例较少，需提前确认"} />
             <Item label="签证支持" value={company.visaSupport ? "支持或有机会支持" : "公开信息有限，需确认"} />
             <Item label="外国员工案例" value={company.foreignEmployeeCases} />
@@ -155,6 +158,16 @@ export function DetailBlocks({ company }: { company: Company }) {
           <div className="mt-4 rounded-md bg-slate-50 p-4 text-sm leading-6 text-slate-600">
             资料口径：OpenWork、転職会議、Glassdoor、Wantedly、Google Maps 等公开评价摘要仅用于求职判断，不替代正式尽调。
           </div>
+          {company.sourceUrls.length > 0 && (
+            <div className="mt-4">
+              <div className="text-xs font-semibold text-slate-500">参考链接</div>
+              <div className="mt-2 grid gap-2">
+                {company.sourceUrls.map((url) => (
+                  <a key={url} className="break-all rounded-md bg-slate-50 p-3 text-sm text-blue-700 hover:underline" href={url} target="_blank" rel="noreferrer">{url}</a>
+                ))}
+              </div>
+            </div>
+          )}
         </Panel>
       </section>
     </div>
@@ -206,6 +219,7 @@ function RiskMatrix({ company }: { company: Company }) {
   const risks = [
     ["日语风险", company.japaneseLevel.includes("N1") ? "高" : company.suitableForLowJapanese ? "低" : "中"],
     ["工签风险", company.visaSupport ? "低" : "中"],
+    ["日语证明风险", company.languageProofRisk.includes("高") ? "高" : company.languageProofRisk.includes("低") ? "低" : "中"],
     ["面试风险", company.interviewInfo.difficulty.includes("高") ? "高" : company.interviewInfo.difficulty.includes("中") ? "中" : "低"],
     ["技术风险", company.industry.includes("IT") || company.industry.includes("AI") || company.requiredSkills.length > 4 ? "中" : "低"],
     ["工作强度风险", company.overtimeHours > 30 || company.shiftWork ? "高" : company.overtimeHours > 18 ? "中" : "低"],

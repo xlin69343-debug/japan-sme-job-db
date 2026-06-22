@@ -46,17 +46,24 @@ export function ProfileMatcher({ companies, industries, regions }: { companies: 
                 <p className="mt-1 text-sm text-slate-500">{company.industry} · {company.region} · {company.salaryRange}</p>
               </div>
               <div className="rounded-md bg-blue-600 px-3 py-2 text-center text-white">
-                <div className="text-[11px]">匹配度</div>
+                <div className="text-[11px]">{match.verdict}</div>
                 <div className="text-xl font-semibold">{match.score}%</div>
               </div>
             </div>
-            <div className="mt-4 grid gap-4 md:grid-cols-3">
+            <div className="mt-4 grid gap-3 md:grid-cols-4">
+              <div className="rounded-md bg-slate-50 p-3">
+                <div className="text-xs font-semibold text-slate-500">准备期</div>
+                <div className="mt-1 text-sm font-semibold text-slate-900">{match.prepTime}</div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {match.missing.map((item) => <Tag key={item} tone="amber">{item}</Tag>)}
+                </div>
+              </div>
               <ReasonBlock title="推荐原因" items={match.reasons.length ? match.reasons : [company.recommendationReason]} tone="green" />
               <ReasonBlock title="潜在风险" items={match.risks.length ? match.risks : ["暂无明显画像冲突，仍需确认固定残业和配属"]} tone="amber" />
               <ReasonBlock title="面试准备" items={match.advice} tone="blue" />
             </div>
             <div className="mt-4 rounded-md bg-slate-50 p-4 text-sm leading-6 text-slate-600">
-              投递建议：{match.score >= 80 ? "优先投递，并准备岗位相关案例。" : match.score >= 65 ? "可作为候选，先确认风险项。" : "谨慎投递，建议先放宽或调整目标条件。"}
+              投递建议：{match.verdict === "优先" ? "优先投递，并准备岗位相关案例。" : match.verdict === "适合" ? "可作为候选，先确认风险项。" : match.verdict === "挑战" ? "先研究并补齐缺口，准备期通常需要6个月以上。" : "暂缓投递，建议先调整目标或补基础能力。"}
             </div>
           </article>
         ))}

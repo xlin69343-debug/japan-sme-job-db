@@ -159,17 +159,19 @@ function PersonalList({ title, empty, companies }: { title: string; empty: strin
 }
 
 export function CareerReadinessPanel({ company }: { company: Company }) {
-  const readiness = Math.max(35, Math.min(92, Math.round(
-    company.foreignerFriendlyScore * 5 +
-    (company.visaSupport ? 12 : 0) +
-    (company.suitableForLowJapanese ? 10 : 0) +
-    (company.overtimeHours <= 20 ? 8 : 3) +
-    company.scoreBreakdown.growth * 2
+  const gate = readinessGate(company);
+  const readiness = Math.max(35, Math.min(gate.cap, Math.round(
+    company.foreignerFriendlyScore * 4 +
+    (company.visaSupport ? 10 : 0) +
+    (company.suitableForLowJapanese ? 8 : 0) +
+    (company.overtimeHours <= 20 ? 6 : 2) +
+    company.scoreBreakdown.growth * 1.6 -
+    gate.penalty
   )));
   const missing = buildMissingItems(company);
   const current = company.suitableForLowJapanese ? ["基础日语", "简历初稿", "行业兴趣"] : ["N2以上日语", "岗位经验", "职务经历书"];
   const target = buildTargetSkills(company);
-  const gap = [...missing, company.industry.includes("IT") || company.industry.includes("AI") ? "技术面试表达" : "行业案例表达"].slice(0, 4);
+  const gap = [...gate.gaps, ...missing, company.industry.includes("IT") || company.industry.includes("AI") ? "技术面试表达" : "行业案例表达"].slice(0, 4);
 
   return (
     <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
@@ -181,7 +183,7 @@ export function CareerReadinessPanel({ company }: { company: Company }) {
         <div className="mt-5">
           <div className="flex items-end justify-between">
             <span className="text-4xl font-semibold text-slate-950">{readiness}%</span>
-            <span className="text-sm text-slate-500">预计准备时间：{readiness >= 75 ? "1-3个月" : readiness >= 60 ? "3-6个月" : "6个月以上"}</span>
+            <span className="text-sm text-slate-500">预计准备时间：{gate.prepTime || (readiness >= 75 ? "1-3个月" : readiness >= 60 ? "3-6个月" : "6个月以上")}</span>
           </div>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
             <div className="h-full rounded-full bg-blue-600 transition-all duration-700" style={{ width: `${readiness}%` }} />
@@ -210,6 +212,20 @@ export function CareerReadinessPanel({ company }: { company: Company }) {
       </div>
     </section>
   );
+}
+
+function readinessGate(company: Company) {
+  if (company.slug === "preferred-networks") {
+    return { cap: 66, penalty: 18, prepTime: "6-12个月", gaps: ["算法/机器学习深度", "研究实现或高质量项目", "技术面试难"] };
+  }
+  if (company.slug === "pksha") {
+    return { cap: 72, penalty: 13, prepTime: "6-12个月", gaps: ["NLP/AI产品经验", "技术面试准备"] };
+  }
+  if (company.slug === "abeja") {
+    return { cap: 78, penalty: 8, prepTime: "3-6个月", gaps: ["AI/DX项目表达", "客户课题理解"] };
+  }
+  const hard = company.industry.includes("IT") || company.industry.includes("AI") || company.scoreBreakdown.businessValue >= 8.4;
+  return { cap: hard ? 84 : 90, penalty: hard ? 5 : 0, prepTime: "", gaps: hard ? ["作品集质量", "技术问答准备"] : [] };
 }
 
 export function PersonalResearchPanel({ company }: { company: Company }) {
@@ -321,7 +337,7 @@ function Checklist({ title, items, selected, onToggle }: { title: string; items:
 
 function buildMissingItems(company: Company) {
   return [
-    company.suitableForLowJapanese ? "把日语面试回答练到可稳定复述" : "补足N2-N1级业务沟通能力",
+    company.suitableForLowJapanese ? "把日语面试回答练到可稳定复述" : "补足N2级业务沟通和日语证明",
     company.industry.includes("IT") || company.industry.includes("AI") ? "完成可展示作品集或GitHub项目" : "准备该行业的志望动机和现场案例",
     company.visaSupport ? "准备签证状态说明" : "面试前确认签证支持可能性",
     "准备3个追问：加班、配属、外国员工案例",

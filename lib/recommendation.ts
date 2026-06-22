@@ -19,6 +19,7 @@ export function calculateMatch(company: Company, profile: UserProfile) {
   const reasons: string[] = [];
   const risks: string[] = [];
   let score = 0;
+  const missing: string[] = [];
 
   if (!profile.targetIndustry || company.industry === profile.targetIndustry) {
     score += 15;
@@ -56,6 +57,7 @@ export function calculateMatch(company: Company, profile: UserProfile) {
     reasons.push(`日语要求可挑战：${company.japaneseLevel}`);
   } else {
     risks.push(`日语压力较高：公司要求${company.japaneseLevel}`);
+    missing.push(company.japaneseLevel.includes("N2") ? "缺N2级业务日语" : "缺N1级商务日语");
   }
 
   if (salaryFits(profile.desiredSalary, company.salaryBand)) {
@@ -94,11 +96,25 @@ export function calculateMatch(company: Company, profile: UserProfile) {
   if (goal === "拿签证优先") score += company.visaSupport ? 9 : 2;
   if (goal === "工作生活平衡") score += company.scoreBreakdown.workLifeBalance;
 
+  const difficulty = companyDifficulty(company);
+  score -= difficulty.penalty;
+  risks.push(...difficulty.risks);
+  missing.push(...difficulty.missing);
+  if (profile.needsVisa && !company.visaSupport) missing.push("签证支持确认");
+  if (company.industry.includes("IT") || company.industry.includes("AI")) missing.push("技术面试准备");
+
+  const finalScore = Math.min(difficulty.cap, Math.max(38, Math.round(score)));
+  const uniqueRisks = Array.from(new Set(risks)).slice(0, 4);
+  const uniqueMissing = Array.from(new Set(missing)).slice(0, 4);
+
   return {
-    score: Math.min(100, Math.round(score)),
+    score: finalScore,
+    verdict: finalScore >= 85 ? "优先" : finalScore >= 72 ? "适合" : finalScore >= 60 ? "挑战" : "暂缓",
+    prepTime: finalScore >= 85 ? "1-3个月" : finalScore >= 72 ? "3-6个月" : finalScore >= 60 ? "6-12个月" : "12个月以上",
+    missing: uniqueMissing.length ? uniqueMissing : ["补充企业研究", "准备面试案例"],
     reasons: reasons.slice(0, 5),
-    risks: risks.slice(0, 4),
-    advice: buildAdvice(company, profile, risks),
+    risks: uniqueRisks,
+    advice: buildAdvice(company, profile, uniqueRisks),
   };
 }
 
@@ -143,6 +159,40 @@ function workStyleFits(style: string, company: Company) {
   if (style === "混合") return company.hybridWork || company.remoteAvailable;
   if (style === "到岗") return !company.remoteAvailable || company.remoteWork.includes("到岗");
   return true;
+}
+
+function companyDifficulty(company: Company) {
+  if (company.slug === "preferred-networks") {
+    return {
+      penalty: 18,
+      cap: 82,
+      risks: ["技术面试难", "竞争激烈"],
+      missing: ["算法/机器学习深度", "论文或高质量项目经验"],
+    };
+  }
+  if (company.slug === "pksha") {
+    return {
+      penalty: 12,
+      cap: 86,
+      risks: ["AI产品理解要求高", "技术面试偏难"],
+      missing: ["NLP/机器学习项目", "产品化经验"],
+    };
+  }
+  if (company.slug === "abeja") {
+    return {
+      penalty: 9,
+      cap: 88,
+      risks: ["客户课题理解要求高"],
+      missing: ["AI/DX项目表达", "客户沟通案例"],
+    };
+  }
+  const hardTech = company.industry.includes("IT") || company.industry.includes("AI") || company.scoreBreakdown.businessValue >= 8.5;
+  return {
+    penalty: hardTech ? 5 : 0,
+    cap: hardTech ? 91 : 94,
+    risks: hardTech ? ["技术筛选需准备"] : [],
+    missing: hardTech ? ["作品集或项目案例"] : [],
+  };
 }
 
 function buildAdvice(company: Company, profile: UserProfile, risks: string[]) {

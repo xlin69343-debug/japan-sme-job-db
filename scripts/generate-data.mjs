@@ -437,20 +437,27 @@ const scoreBreakdownOf = ({ industry, salaryScore, openworkScore, remote, foreig
   return { salary, stability, growth, workLifeBalance, foreignerFriendliness, businessValue, employeeReviews, total };
 };
 
-const suitabilityOf = (industry, foreign, remote, overtime, salaryScore, index) => {
-  const suitableForLowJapanese = foreign && (industry.includes("介护") || industry.includes("酒店") || industry.includes("餐饮") || industry.includes("IT"));
+const languageFitOf = (japaneseLevel, industry, foreign) => {
+  if (japaneseLevel.includes("N3")) return { tag: "N3可挑战", suitableForLowJapanese: true, proofRisk: "中：建议准备JLPT、BJT、学校证明或同等日语能力说明" };
+  if (japaneseLevel === "N2") return { tag: "N2推荐", suitableForLowJapanese: false, proofRisk: foreign ? "中：工签和业务沟通不只看N2，需准备日语证明和岗位适配说明" : "中高：日语和日本职场经验需重点证明" };
+  if (industry.includes("IT") && foreign) return { tag: "需英语环境确认", suitableForLowJapanese: false, proofRisk: "中：若以英语工作，需要确认团队语言、客户沟通和签证材料说明" };
+  return { tag: "N4不建议", suitableForLowJapanese: false, proofRisk: "高：日语证明、客户沟通和面试通过率风险较高" };
+};
+
+const suitabilityOf = (industry, foreign, remote, overtime, salaryScore, index, japaneseLevel) => {
+  const languageFit = languageFitOf(japaneseLevel, industry, foreign);
   const suitableForNewGrad = index % 3 !== 2 || industry.includes("餐饮") || industry.includes("介护") || industry.includes("物流");
   const suitableForCareerChange = salaryScore >= 6.5 || industry.includes("IT") || industry.includes("商社") || industry.includes("人材");
   const matchTags = [
     foreign ? "外国人友好" : "外国人案例少",
     suitableForNewGrad ? "适合新卒" : "新卒少量",
     suitableForCareerChange ? "适合转职" : "转职需经验",
-    suitableForLowJapanese ? "低日语可挑战" : "日语要求较高",
+    languageFit.tag,
     remote ? "远程/混合" : "到岗为主",
     overtime <= 20 ? "低加班" : overtime <= 25 ? "中等加班" : "加班需确认",
     salaryScore >= 7.4 ? "薪资较好" : "薪资普通",
   ];
-  return { suitableForNewGrad, suitableForCareerChange, suitableForLowJapanese, matchTags };
+  return { suitableForNewGrad, suitableForCareerChange, suitableForLowJapanese: languageFit.suitableForLowJapanese, languageProofRisk: languageFit.proofRisk, matchTags };
 };
 
 const riskTagsOf = (industry, foreign, visa, overtime, salaryScore, shift) => [
@@ -466,6 +473,62 @@ const decisionTextOf = ({ name, industry, foreign, visa, remote, overtime, japan
   const target = foreign ? "外国人求职者" : "已有日本职场经验或日语较强的求职者";
   const style = remote ? "希望混合办公和自走空间" : "能接受到岗、现场协作或排班";
   return `${name}更适合${target}，尤其是${style}、日语约${japaneseLevel}、能接受月${overtime}小时左右加班的人。综合评分 ${score}/10，投递前应重点确认签证支持、评价制度和实际加班。`;
+};
+
+const specialCompanyOverrides = {
+  "preferred-networks": {
+    employees: "约350人",
+    mainBusiness: "AI半导体、计算基盘、生成AI基盤模型、AI产品/解决方案的垂直整合开发与社会实装",
+    mainProducts: ["AI半导体", "计算基盘", "生成AI基盤模型", "AI产品/解决方案"],
+    requiredSkills: ["机器学习", "深度学习", "Python/C++", "分布式计算", "LLM/生成AI", "论文阅读与研究实现"],
+    suitableForLowJapanese: false,
+    matchTags: ["外国人友好", "挑战企业", "N2推荐", "需英语环境确认", "远程/混合", "技术门槛高", "薪资较好"],
+    riskTags: ["技术面试难", "竞争激烈", "研究/算法门槛高"],
+    languageProofRisk: "中：岗位可能有英语环境，但客户/团队协作、签证材料和日本语沟通仍需确认；JLPT N2、BJT或同等证明更稳妥。",
+    decisionSummary: "Preferred Networks属于挑战型AI头部企业。优势是AI半导体、计算基盘、生成AI基盤模型和AI产品/解决方案的垂直整合，技术含金量很高；但对算法、研究实现、工程能力和面试表现要求明显高于一般IT企业，建议按6-12个月准备。",
+    aiSummary: "PFN不是普通受托开发或SaaS公司。官方业务强调AI半导体、计算基盘、生成AI基盤模型、AI产品/解决方案四层技术的自研与垂直整合。外国人可以研究，但不宜被标成低日语轻松可投；更适合作为技术挑战目标。",
+    recommendationReason: "适合有强算法/机器学习/工程实现能力、能准备英文或日文技术面试、希望进入日本AI核心技术企业的人。",
+    interviewInfo: {
+      difficulty: "高",
+      japaneseInterviewDifficulty: "中高",
+      foreignerInterviewDifficulty: "高：需证明技术深度、沟通语言和长期在日工作可行性",
+      codingTest: "高度可能有算法/机器学习/系统设计/研究实现相关测试或深度技术问答",
+    },
+    riskAnalysis: {
+      foreignerFitRisk: "中：团队国际化可能性较高，但岗位语言、签证材料和日本语协作需逐项确认",
+      notes: ["官方业务强调AI半导体、计算基盘、生成AI基盤模型、AI产品/解决方案四层垂直整合", "技术面试和研究实现门槛高，建议准备6-12个月"],
+    },
+    suitedFor: ["机器学习、算法、分布式系统或高性能计算基础较强的人", "能阅读论文并把研究转成工程实现的人", "愿意把PFN作为挑战目标长期准备的人"],
+    notSuitedFor: ["只想找普通Web开发入门岗位的人", "没有作品集、研究经历或高质量项目经验的人", "日语/英语技术表达都不稳定的人"],
+    dataSourceNote: "员工数约350人为招聘/公开资料口径；业务描述参考PFN官网2026年6月页面，字段为求职研究用摘要。",
+    sourceUrls: ["https://www.preferred.jp/ja/", "https://www.preferred.jp/ja/business", "https://www.preferred.jp/ja/company", "https://www.preferred.jp/ja/careers"],
+  },
+  abeja: {
+    employees: "133名（2025年8月末时点）",
+    mainBusiness: "数字平台业务、ABEJA Platform、ABEJA LLM Series、AI伦理咨询、DX人材育成、Insight for Retail",
+    mainProducts: ["ABEJA Platform", "ABEJA LLM Series", "AI伦理咨询", "DX人材育成", "Insight for Retail"],
+    requiredSkills: ["Python", "机器学习", "云服务", "数据分析", "LLM应用", "客户课题理解"],
+    suitableForLowJapanese: false,
+    matchTags: ["小企业", "外国人友好", "适合新卒", "适合转职", "N2推荐", "远程/混合", "AI/DX", "薪资较好"],
+    riskTags: ["客户课题理解要求高", "项目变化快"],
+    languageProofRisk: "中：AI/DX项目通常需要客户课题理解和日语沟通，N2更稳；N3只能作为挑战，需确认岗位语言环境。",
+    decisionSummary: "ABEJA适合想进入AI/DX社会实装方向、具备N2左右日语和数据/云/机器学习基础的人。相比PFN更偏业务落地和客户课题解决，但仍不应按低日语轻松岗位理解。",
+    aiSummary: "ABEJA官网强调数字平台、ABEJA Platform、ABEJA LLM Series、AI伦理咨询、DX人材育成和零售洞察等业务。它适合AI/DX落地型求职者，关键风险是客户沟通、项目变化和日语业务理解。",
+    recommendationReason: "适合希望进入AI/DX项目、能把技术和客户业务问题连接起来的人。",
+    dataSourceNote: "员工数133名为ABEJA公司页面2025年8月末时点口径；业务描述参考ABEJA官网公司/业务页面，字段为求职研究用摘要。",
+    sourceUrls: ["https://www.abejainc.com/company", "https://www.abejainc.com/"],
+  },
+};
+
+const mergeCompanyOverride = (company) => {
+  const override = specialCompanyOverrides[company.slug];
+  if (!override) return company;
+  return {
+    ...company,
+    ...override,
+    interviewInfo: { ...company.interviewInfo, ...(override.interviewInfo ?? {}) },
+    riskAnalysis: { ...company.riskAnalysis, ...(override.riskAnalysis ?? {}) },
+  };
 };
 
 const interviewQuestionsOf = (industry, name, p, foreign, index) => {
@@ -498,10 +561,10 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
   const night = industry.includes("介护") || industry.includes("酒店") || industry.includes("物流");
   const scoreBreakdown = scoreBreakdownOf({ industry, salaryScore, openworkScore, remote, foreign, visa, overtime, shift });
   const rec = scoreBreakdown.total;
-  const suitability = suitabilityOf(industry, foreign, remote, overtime, salaryScore, index);
+  const japaneseLevel = japaneseOf(industry, foreign);
+  const suitability = suitabilityOf(industry, foreign, remote, overtime, salaryScore, index, japaneseLevel);
   const sizeTags = employeeBand === "100人以下" ? ["超小团队"] : employeeBand === "100-300人" ? ["小企业"] : [];
   const riskTags = riskTagsOf(industry, foreign, visa, overtime, salaryScore, shift);
-  const japaneseLevel = japaneseOf(industry, foreign);
   const recommendationReason = `${p.products[0]}或${p.positions[0]}相关岗位能积累实务经验；${foreign ? "外国人录用可能性较高" : "外国人案例较少但可作为挑战候选"}，${remote ? "工作方式较灵活" : "现场协作多"}，适合重视${scoreBreakdown.growth >= scoreBreakdown.stability ? "成长性" : "稳定性"}的人。`;
   const decisionSummary = decisionTextOf({ name, industry, foreign, visa, remote, overtime, japaneseLevel, score: rec });
   const aiSummary = `${name}不是单纯看公司规模就能判断的企业。它的优势在于${p.review[0]}和${p.products[0]}经验，风险在于${riskTags.length ? riskTags.join("、") : "制度执行仍需面试确认"}。如果你需要${visa ? "签证支持" : "稳定的签证说明"}、希望在${industry}积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。`;
@@ -556,6 +619,9 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
     suitableForNewGrad: suitability.suitableForNewGrad,
     suitableForCareerChange: suitability.suitableForCareerChange,
     suitableForLowJapanese: suitability.suitableForLowJapanese,
+    languageProofRisk: suitability.languageProofRisk,
+    dataSourceNote: "MVP估算数据：公开官网、招聘页面、公开评价摘要和企业公开资料整理；员工数、薪资、评价等字段需以投递时官网/募集要项为准。",
+    sourceUrls: [website],
     decisionSummary,
     aiSummary,
     recommendationReason,
@@ -599,7 +665,7 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
   };
 };
 
-for (const company of companies.map(toCompany)) {
+for (const company of companies.map(toCompany).map(mergeCompanyOverride)) {
   fs.writeFileSync(path.join(outDir, `${company.slug}.json`), `${JSON.stringify(company, null, 2)}\n`);
 }
 

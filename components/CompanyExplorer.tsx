@@ -136,7 +136,7 @@ export function CompanyExplorer({ companies, options }: Props) {
           <Select label="行业" value={filters.industry} options={options.industries} onChange={(value) => setFilter("industry", value)} />
           <Select label="地区" value={filters.region} options={options.regions} onChange={(value) => setFilter("region", value)} />
           <Select label="日语要求" value={filters.japaneseLevel} options={options.japaneseLevels} onChange={(value) => setFilter("japaneseLevel", value)} />
-          <Select label="公司规模" value={filters.employeeBand} options={options.employeeBands} onChange={(value) => setFilter("employeeBand", value)} />
+          <BoolSelect label="支持签证" value={filters.visaSupport} onChange={(value) => setFilter("visaSupport", value)} />
           <button
             className="flex h-10 items-center justify-between rounded-md border border-slate-200 px-3 text-sm font-semibold text-slate-700"
             onClick={() => setAdvancedOpen((value) => !value)}
@@ -146,12 +146,12 @@ export function CompanyExplorer({ companies, options }: Props) {
           </button>
           {advancedOpen && (
             <div className="grid gap-3 rounded-md border border-slate-100 bg-slate-50 p-3">
+              <Select label="公司规模" value={filters.employeeBand} options={options.employeeBands} onChange={(value) => setFilter("employeeBand", value)} />
               <Select label="工资区间" value={filters.salaryBand} options={options.salaryBands} onChange={(value) => setFilter("salaryBand", value)} />
-              <BoolSelect label="支持签证" value={filters.visaSupport} onChange={(value) => setFilter("visaSupport", value)} />
               <BoolSelect label="接受外国人" value={filters.acceptsForeigners} onChange={(value) => setFilter("acceptsForeigners", value)} />
               <BoolSelect label="适合新卒" value={filters.suitableForNewGrad} onChange={(value) => setFilter("suitableForNewGrad", value)} />
               <BoolSelect label="适合转职" value={filters.suitableForCareerChange} onChange={(value) => setFilter("suitableForCareerChange", value)} />
-              <BoolSelect label="低日语可挑战" value={filters.suitableForLowJapanese} onChange={(value) => setFilter("suitableForLowJapanese", value)} />
+              <BoolSelect label="N3可挑战" value={filters.suitableForLowJapanese} onChange={(value) => setFilter("suitableForLowJapanese", value)} />
               <BoolSelect label="轮班" value={filters.shiftWork} onChange={(value) => setFilter("shiftWork", value)} />
               <Select label="标签" value={filters.tag} options={options.tags} onChange={(value) => setFilter("tag", value)} />
               <Select label="加班" value={filters.overtime} options={["low", "mid", "high"]} labels={{ low: "20小时以内", mid: "21-35小时", high: "35小时以上" }} onChange={(value) => setFilter("overtime", value)} />
