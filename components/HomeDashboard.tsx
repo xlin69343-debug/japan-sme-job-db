@@ -7,6 +7,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
   const foreignerTop = companies.filter((company) => company.acceptsForeigners).sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore).slice(0, 5);
   const lowOvertime = [...companies].sort((a, b) => a.overtimeHours - b.overtimeHours).slice(0, 5);
   const newGrad = companies.filter((company) => company.suitableForNewGrad).slice(0, 5);
+  const smallCompanies = companies.filter((company) => company.employeeBand === "100人以下" || company.employeeBand === "100-300人").sort((a, b) => b.recommendationScore - a.recommendationScore).slice(0, 5);
   const riskCompanies = companies.filter((company) => company.riskTags.length > 0).slice(0, 5);
 
   return (
@@ -35,7 +36,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
           <ScoreBadge label="企业数量" value={`${companies.length}家`} />
           <ScoreBadge label="行业覆盖" value={`${industryCount}类`} tone="green" />
           <ScoreBadge label="签证支持" value={`${companies.filter((item) => item.visaSupport).length}家`} tone="amber" />
-          <ScoreBadge label="低日语可挑战" value={`${companies.filter((item) => item.suitableForLowJapanese).length}家`} tone="green" />
+          <ScoreBadge label="小企业样本" value={`${companies.filter((item) => item.employeeBand === "100人以下" || item.employeeBand === "100-300人").length}家`} tone="green" />
         </div>
       </section>
 
@@ -43,13 +44,13 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
         <PersonaLink icon={<BadgeCheck size={20} />} title="我是新卒" body="找培训压力较低、录用入口清楚的公司" href="/companies?s=newgrad" />
         <PersonaLink icon={<BriefcaseBusiness size={20} />} title="我是转职" body="比较工资、成长性和业务含金量" href="/companies?s=career" />
         <PersonaLink icon={<UserRoundCheck size={20} />} title="日语 N3-N2" body="优先看低日语可挑战和签证支持" href="/profile-test" />
-        <PersonaLink icon={<Route size={20} />} title="想稳定发展" body="避开高加班和离职率风险" href="/career-path" />
+        <PersonaLink icon={<Route size={20} />} title="找小企业" body="优先看 300 人以下、职责范围更宽的企业" href="/companies?s=small" />
       </section>
 
       <section className="grid gap-5 lg:grid-cols-3">
         <DecisionPanel title="外国人友好 Top" companies={foreignerTop} />
         <DecisionPanel title="低加班 Top" companies={lowOvertime} />
-        <DecisionPanel title="新卒推荐 Top" companies={newGrad} />
+        <DecisionPanel title="小企业精选" companies={smallCompanies.length ? smallCompanies : newGrad} />
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">

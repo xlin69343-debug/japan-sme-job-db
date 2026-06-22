@@ -212,12 +212,44 @@ const companies = [
   ["ubie","Ubie","IT / 软件 / AI","东京","约300人","https://ubie.life/","2017年",7.8,3.76,true,true],
   ["legalon","LegalOn Technologies","IT / 软件 / AI","东京","约500人","https://legalontech.jp/","2017年",7.6,3.65,true,true],
   ["layerx","LayerX","IT / 软件 / AI","东京","约400人","https://layerx.co.jp/","2018年",7.9,3.78,true,true],
+  ["helpfeel","Helpfeel","IT / 软件 / AI","京都","约120人","https://corp.helpfeel.com/","2007年",7.3,3.55,true,true],
+  ["autify","Autify","IT / 软件 / AI","东京","约100人","https://autify.com/","2016年",7.4,3.48,true,true],
+  ["findy","ファインディ","人材 / 平台","东京","约190人","https://findy.co.jp/","2016年",7.2,3.44,true,true],
+  ["herp","HERP","人材 / 平台","东京","约80人","https://herp.co.jp/","2017年",7.1,3.39,true,true],
+  ["shippio","Shippio","物流 / 仓储","东京","约80人","https://www.shippio.io/","2016年",7.0,3.30,true,true],
+  ["hacomono","hacomono","IT / 软件 / AI","东京","约220人","https://www.hacomono.jp/","2013年",7.1,3.36,true,true],
+  ["commmune","コミューン","IT / 软件 / AI","东京","约150人","https://commmune.jp/","2018年",7.0,3.32,true,true],
+  ["overflow","overflow","IT / 软件 / AI","东京","约70人","https://overflow.co.jp/","2017年",6.9,3.30,true,true],
+  ["yappli","ヤプリ","IT / 软件 / AI","东京","约250人","https://yappli.co.jp/","2013年",7.0,3.31,true,true],
+  ["repro","Repro","广告 / 媒体","东京","约120人","https://repro.io/","2014年",6.8,3.20,true,true],
+  ["sprocket","Sprocket","广告 / 媒体","东京","约80人","https://www.sprocket.bz/","2014年",6.6,3.14,true,false],
+  ["smartround","スマートラウンド","金融 / 保险","东京","约80人","https://jp.smartround.com/","2018年",6.9,3.24,true,true],
+  ["kanmu","カンム","金融 / 保险","东京","约70人","https://kanmu.co.jp/","2011年",7.2,3.30,true,true],
+  ["finatext","Finatext","金融 / 保险","东京","约250人","https://finatext.com/","2013年",7.5,3.40,true,true],
+  ["fabric-tokyo","FABRIC TOKYO","零售 / 电商","东京","约100人","https://fabric-tokyo.com/","2012年",6.4,3.08,true,true],
+  ["kokopelli","ココペリ","金融 / 保险","东京","约100人","https://www.kokopelli-inc.com/","2007年",6.6,3.10,true,false],
+  ["tsukuruba","ツクルバ","建筑 / 不动产","东京","约230人","https://tsukuruba.com/","2011年",6.7,3.22,true,true],
+  ["renoveru","リノべる","建筑 / 不动产","东京","约250人","https://www.renoveru.co.jp/","2010年",6.6,3.18,true,false],
+  ["visasq","ビザスク","人材 / 平台","东京","约250人","https://visasq.co.jp/","2012年",7.0,3.36,true,true],
+  ["coconala","ココナラ","人材 / 平台","东京","约200人","https://coconala.co.jp/","2012年",6.8,3.24,true,true],
+  ["anymind","AnyMind Japan","广告 / 媒体","东京","约300人","https://anymindgroup.com/","2016年",6.9,3.18,true,true],
+  ["wakuwaku","和久環組","建筑 / 不动产","神奈川","约80人","https://wakuwaku0909.co.jp/","2013年",6.2,3.05,false,false],
+  ["unito","Unito","酒店 / 旅游","东京","约60人","https://unito.life/","2017年",6.2,3.10,true,true],
+  ["kabuk-style","KabuK Style","酒店 / 旅游","长崎","约100人","https://kabuk.com/","2019年",6.3,3.12,true,true],
+  ["tablecross","テーブルクロス","餐饮","东京","约50人","https://tablecross.com/","2014年",5.9,2.95,true,true],
+  ["cookbiz","クックビズ","餐饮","大阪","约200人","https://cookbiz.co.jp/","2007年",6.1,3.02,true,true],
+  ["kidsline","キッズライン","介护 / 医疗福祉","东京","约80人","https://kidsline.me/","2014年",6.0,3.00,true,true],
+  ["global-crown","GLOBAL CROWN","教育 / 语言学校","东京","约60人","https://www.global-crown.com/","2015年",6.2,3.12,true,true],
+  ["spiber","Spiber","制造业","山形","约300人","https://spiber.inc/","2007年",7.0,3.35,false,true],
+  ["mui-lab","mui Lab","制造业","京都","约50人","https://mui.jp/","2017年",6.4,3.18,true,true],
 ];
 
 const regionOf = (location) => {
   if (["东京", "神奈川", "埼玉", "千叶"].includes(location)) return "关东";
   if (["大阪", "京都", "兵库"].includes(location)) return "关西";
   if (["爱知", "静冈", "长野"].includes(location)) return "中部";
+  if (["山形", "宫城", "福岛"].includes(location)) return "东北";
+  if (["福冈", "长崎", "熊本", "鹿儿岛"].includes(location)) return "九州";
   return "其他地区";
 };
 
@@ -459,6 +491,7 @@ const interviewQuestionsOf = (industry, name, p, foreign, index) => {
 
 const toCompany = ([slug, name, industry, location, employees, website, founded, salaryScore, openworkScore, remote, foreign], index) => {
   const p = industries[industry] ?? industries["IT / 软件 / AI"];
+  const employeeBand = employeeBandOf(employees);
   const overtime = industry.includes("餐饮") || industry.includes("介护") || industry.includes("建筑") ? 28 : remote ? 18 : 22;
   const visa = foreign && !industry.includes("金融");
   const shift = industry.includes("酒店") || industry.includes("餐饮") || industry.includes("介护") || industry.includes("物流");
@@ -466,6 +499,7 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
   const scoreBreakdown = scoreBreakdownOf({ industry, salaryScore, openworkScore, remote, foreign, visa, overtime, shift });
   const rec = scoreBreakdown.total;
   const suitability = suitabilityOf(industry, foreign, remote, overtime, salaryScore, index);
+  const sizeTags = employeeBand === "100人以下" ? ["超小团队"] : employeeBand === "100-300人" ? ["小企业"] : [];
   const riskTags = riskTagsOf(industry, foreign, visa, overtime, salaryScore, shift);
   const japaneseLevel = japaneseOf(industry, foreign);
   const recommendationReason = `${p.products[0]}或${p.positions[0]}相关岗位能积累实务经验；${foreign ? "外国人录用可能性较高" : "外国人案例较少但可作为挑战候选"}，${remote ? "工作方式较灵活" : "现场协作多"}，适合重视${scoreBreakdown.growth >= scoreBreakdown.stability ? "成长性" : "稳定性"}的人。`;
@@ -478,7 +512,7 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
     location: `${location}都道府县中心区域`,
     region: regionOf(location),
     employees,
-    employeeBand: employeeBandOf(employees),
+    employeeBand,
     website,
     founded,
     founderBackground: "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
@@ -517,7 +551,7 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
     foreignerFriendlyScore: foreign ? (visa ? 8 : 7) : 4,
     recommendationScore: rec,
     scoreBreakdown,
-    matchTags: suitability.matchTags,
+    matchTags: [...sizeTags, ...suitability.matchTags],
     riskTags,
     suitableForNewGrad: suitability.suitableForNewGrad,
     suitableForCareerChange: suitability.suitableForCareerChange,

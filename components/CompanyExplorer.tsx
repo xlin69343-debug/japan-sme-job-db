@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { SlidersHorizontal } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Company, Filters } from "@/lib/types";
 import { sortCompanies } from "@/lib/recommendation";
 import { CompanyCard } from "./CompanyCard";
@@ -45,6 +45,19 @@ const initialFilters: Filters = {
 export function CompanyExplorer({ companies, options }: Props) {
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [compare, setCompare] = useState<string[]>([]);
+
+  useEffect(() => {
+    const savedCompare = JSON.parse(localStorage.getItem("compareCompanies") || "[]") as string[];
+    setCompare(savedCompare.filter((slug) => companies.some((company) => company.slug === slug)).slice(0, 3));
+
+    const search = new URLSearchParams(window.location.search);
+    const preset = search.get("s");
+    if (preset === "newgrad") setFilters((current) => ({ ...current, suitableForNewGrad: "true", sort: "newGrad" }));
+    if (preset === "career") setFilters((current) => ({ ...current, suitableForCareerChange: "true", sort: "career" }));
+    if (preset === "small") setFilters((current) => ({ ...current, employeeBand: "100人以下", tag: "超小团队" }));
+    if (preset === "visa") setFilters((current) => ({ ...current, visaSupport: "true", acceptsForeigners: "true", sort: "foreigner" }));
+    if (preset === "lowjp") setFilters((current) => ({ ...current, suitableForLowJapanese: "true", visaSupport: "true" }));
+  }, [companies]);
 
   const filtered = useMemo(() => {
     const query = filters.query.trim().toLowerCase();
@@ -90,6 +103,9 @@ export function CompanyExplorer({ companies, options }: Props) {
 
   const compareCompanies = compare.map((slug) => companies.find((company) => company.slug === slug)).filter(Boolean) as Company[];
   const setFilter = (key: keyof Filters, value: string) => setFilters((current) => ({ ...current, [key]: value }));
+  const activeFilters = getActiveFilters(filters);
+  const setPreset = (patch: Partial<Filters>) => setFilters((current) => ({ ...current, ...patch }));
+  const clearFilter = (key: keyof Filters) => setFilters((current) => ({ ...current, [key]: key === "sort" ? "recommendation" : "" }));
   const toggleCompare = (slug: string) => {
     setCompare((current) => {
       const next = current.includes(slug) ? current.filter((item) => item !== slug) : current.length >= 3 ? current : [...current, slug];
@@ -140,6 +156,27 @@ export function CompanyExplorer({ companies, options }: Props) {
           <Link href="/profile-test" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
             做适合度测试
           </Link>
+        </div>
+        <div className="mb-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-sm font-semibold text-slate-700">快速筛选</span>
+            <QuickButton onClick={() => setPreset({ employeeBand: "100人以下", tag: "超小团队", sort: "recommendation" })}>超小团队</QuickButton>
+            <QuickButton onClick={() => setPreset({ employeeBand: "100-300人", tag: "小企业", sort: "recommendation" })}>小企业</QuickButton>
+            <QuickButton onClick={() => setPreset({ visaSupport: "true", acceptsForeigners: "true", sort: "foreigner" })}>外国人/签证</QuickButton>
+            <QuickButton onClick={() => setPreset({ suitableForLowJapanese: "true", visaSupport: "true" })}>低日语可挑战</QuickButton>
+            <QuickButton onClick={() => setPreset({ overtime: "low", sort: "overtime" })}>低加班</QuickButton>
+            <QuickButton onClick={() => setPreset({ suitableForNewGrad: "true", sort: "newGrad" })}>新卒友好</QuickButton>
+            <QuickButton onClick={() => setPreset({ remoteAvailable: "true", workStyle: "hybrid" })}>远程/混合</QuickButton>
+          </div>
+          {activeFilters.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
+              {activeFilters.map((item) => (
+                <button key={item.key} className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700" onClick={() => clearFilter(item.key)}>
+                  {item.label} ×
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         {filtered.length === 0 ? (
           <EmptyState title="没有匹配企业" body="尝试降低日语、地区、工资或签证筛选条件。求职决策里，完全匹配通常很少，候选池可以先放宽。" />
@@ -192,6 +229,38 @@ export function CompanyExplorer({ companies, options }: Props) {
       </aside>
     </div>
   );
+}
+
+function QuickButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+  return (
+    <button className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700" onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
+function getActiveFilters(filters: Filters) {
+  const labels: Partial<Record<keyof Filters, string>> = {
+    query: `搜索：${filters.query}`,
+    industry: `行业：${filters.industry}`,
+    region: `地区：${filters.region}`,
+    employeeBand: `规模：${filters.employeeBand}`,
+    salaryBand: `工资：${filters.salaryBand}`,
+    japaneseLevel: `日语：${filters.japaneseLevel}`,
+    visaSupport: filters.visaSupport === "true" ? "支持签证" : "不支持签证",
+    acceptsForeigners: filters.acceptsForeigners === "true" ? "接受外国人" : "外国人案例少",
+    remoteAvailable: filters.remoteAvailable === "true" ? "远程可" : "远程少",
+    shiftWork: filters.shiftWork === "true" ? "有轮班" : "无轮班",
+    overtime: filters.overtime === "low" ? "低加班" : filters.overtime === "mid" ? "中等加班" : filters.overtime === "high" ? "高加班" : "",
+    suitableForNewGrad: filters.suitableForNewGrad === "true" ? "适合新卒" : "不适合新卒",
+    suitableForCareerChange: filters.suitableForCareerChange === "true" ? "适合转职" : "不适合转职",
+    suitableForLowJapanese: filters.suitableForLowJapanese === "true" ? "低日语可挑战" : "日语压力高",
+    workStyle: filters.workStyle === "remote" ? "远程" : filters.workStyle === "hybrid" ? "混合" : filters.workStyle === "onsite" ? "到岗" : "",
+    tag: `标签：${filters.tag}`,
+  };
+  return (Object.keys(labels) as (keyof Filters)[])
+    .filter((key) => key !== "sort" && Boolean(filters[key]) && Boolean(labels[key]))
+    .map((key) => ({ key, label: labels[key] ?? "" }));
 }
 
 function Select({ label, value, options, labels = {}, onChange }: { label: string; value: string; options: string[]; labels?: Record<string, string>; onChange: (value: string) => void }) {

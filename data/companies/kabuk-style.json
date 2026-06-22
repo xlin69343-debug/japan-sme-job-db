@@ -1,13 +1,13 @@
 {
-  "slug": "veltra",
-  "name": "ベルトラ",
+  "slug": "kabuk-style",
+  "name": "KabuK Style",
   "industry": "酒店 / 旅游",
-  "location": "东京都道府县中心区域",
-  "region": "关东",
-  "employees": "约200人",
+  "location": "长崎都道府县中心区域",
+  "region": "九州",
+  "employees": "约100人",
   "employeeBand": "100-300人",
-  "website": "https://corp.veltra.com/",
-  "founded": "1991年",
+  "website": "https://kabuk.com/",
+  "founded": "2019年",
   "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
   "mainBusiness": "酒店运营、旅行产品、入境游服务、地方观光",
   "mainProducts": [
@@ -35,7 +35,7 @@
   "visaSupport": true,
   "acceptsForeigners": true,
   "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
-  "hiringType": "岗位型中途採用为主",
+  "hiringType": "新卒和中途均有",
   "workHours": "轮班或弹性排班，月度排班制",
   "restSystem": "月休8-10日，按排班取得休假",
   "shiftWork": true,
@@ -46,11 +46,11 @@
   "hybridWork": true,
   "overtime": "月均约18小时；项目、店铺、现场和繁忙期会波动",
   "overtimeHours": 18,
-  "salaryRange": "400万-600万日元",
-  "salaryBand": "400万-600万日元",
+  "salaryRange": "400万日元以下",
+  "salaryBand": "400万日元以下",
   "newGradSalary": "月给约21万-27万日元",
   "midCareerSalary": "年收约320万-600万日元，按经验浮动",
-  "bonus": "年2次奖金或业绩连动奖金",
+  "bonus": "按公司业绩和个人评价支付",
   "raiseSystem": "年度评价调薪，部分公司采用等级制或目标管理制度",
   "benefits": [
     "社会保险",
@@ -63,37 +63,38 @@
   "housingAllowance": "公开信息有限，需确认",
   "sideJob": "申报制可副业的可能性较高",
   "dressCode": "制服或商务正装",
-  "openworkScore": 3.16,
+  "openworkScore": 3.12,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 7.3,
+  "recommendationScore": 7,
   "scoreBreakdown": {
-    "salary": 6.3,
-    "stability": 7.1,
-    "growth": 7.8,
+    "salary": 4.8,
+    "stability": 7,
+    "growth": 7.7,
     "workLifeBalance": 7.2,
     "foreignerFriendliness": 8.3,
-    "businessValue": 7.4,
-    "employeeReviews": 6.3,
-    "total": 7.3
+    "businessValue": 7.3,
+    "employeeReviews": 6.2,
+    "total": 7
   },
   "matchTags": [
     "小企业",
     "外国人友好",
-    "新卒少量",
-    "适合转职",
+    "适合新卒",
+    "转职需经验",
     "低日语可挑战",
     "远程/混合",
     "低加班",
     "薪资普通"
   ],
   "riskTags": [
-    "轮班风险"
+    "轮班风险",
+    "薪资偏低"
   ],
-  "suitableForNewGrad": false,
-  "suitableForCareerChange": true,
+  "suitableForNewGrad": true,
+  "suitableForCareerChange": false,
   "suitableForLowJapanese": true,
-  "decisionSummary": "ベルトラ更适合外国人求职者，尤其是希望混合办公和自走空间、日语约N3-N2、能接受月18小时左右加班的人。综合评分 7.3/10，投递前应重点确认签证支持、评价制度和实际加班。",
-  "aiSummary": "ベルトラ不是单纯看公司规模就能判断的企业。它的优势在于外语有优势和酒店运营经验，风险在于轮班风险。如果你需要签证支持、希望在酒店 / 旅游积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "decisionSummary": "KabuK Style更适合外国人求职者，尤其是希望混合办公和自走空间、日语约N3-N2、能接受月18小时左右加班的人。综合评分 7/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "KabuK Style不是单纯看公司规模就能判断的企业。它的优势在于外语有优势和酒店运营经验，风险在于轮班风险、薪资偏低。如果你需要签证支持、希望在酒店 / 旅游积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
   "recommendationReason": "酒店运营或前台接待相关岗位能积累实务经验；外国人录用可能性较高，工作方式较灵活，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
@@ -129,14 +130,14 @@
     }
   },
   "interviewInfo": {
-    "rounds": "书类筛选 → 一次面试 → 最终面试",
+    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
     "questions": [
-      "遇到意见不合时，你通常如何沟通？",
-      "你为什么对ベルトラ的旅行产品业务感兴趣？",
+      "你过去最有成就感的一次工作或项目是什么？",
+      "你为什么对KabuK Style的酒店运营业务感兴趣？",
+      "请举例说明你提供过的一次好服务。",
       "你如何向外国游客介绍日本本地文化或服务规则？",
-      "遇到客诉时，你会怎样用日语或外语安抚客人？",
-      "如果入职后负责海外客户担当，你会如何运用英语/中文经验？",
-      "你希望公司在哪些方面提供外国人入职支持？"
+      "如果入职后负责旅游企划，你会如何运用日语接客经验？",
+      "你能接受只用日语写日报、邮件和业务记录吗？"
     ],
     "writtenTest": "SPI、适性检查或企业自编基础题",
     "codingTest": "通常无编码测试",
@@ -148,7 +149,7 @@
     "blackCompanyRisk": "低中：仍需确认制度执行情况",
     "overtimeRisk": "低中",
     "turnoverRisk": "中",
-    "lowSalaryRisk": "中",
+    "lowSalaryRisk": "中高",
     "foreignerFitRisk": "低中：语言和文化适应仍是关键",
     "notes": [
       "MVP数据为公开资料和求职口碑整合，不替代正式尽调",

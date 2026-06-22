@@ -40,8 +40,8 @@ const missing = companies.flatMap((company) =>
   required.filter((key) => company[key] === undefined || company[key] === null || company[key] === "").map((key) => `${company.slug}:${String(key)}`),
 );
 
-if (companies.length !== 100) {
-  throw new Error(`Expected 100 companies, got ${companies.length}`);
+if (companies.length < 130) {
+  throw new Error(`Expected at least 130 companies, got ${companies.length}`);
 }
 
 if (missing.length > 0) {
@@ -66,4 +66,9 @@ if (invalidTags.length > 0) {
   throw new Error(`Invalid decision data:\n${invalidTags.join("\n")}`);
 }
 
-console.log(`OK: ${companies.length} company files validated.`);
+const smallCompanies = companies.filter((company) => company.employeeBand === "100人以下" || company.employeeBand === "100-300人");
+if (smallCompanies.length < 35) {
+  throw new Error(`Expected at least 35 small companies, got ${smallCompanies.length}`);
+}
+
+console.log(`OK: ${companies.length} company files validated, including ${smallCompanies.length} small companies.`);

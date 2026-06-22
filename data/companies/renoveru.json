@@ -1,13 +1,13 @@
 {
-  "slug": "gooddays",
-  "name": "グッドルーム",
+  "slug": "renoveru",
+  "name": "リノべる",
   "industry": "建筑 / 不动产",
   "location": "东京都道府县中心区域",
   "region": "关东",
   "employees": "约250人",
   "employeeBand": "100-300人",
-  "website": "https://www.gooddays.jp/",
-  "founded": "2012年",
+  "website": "https://www.renoveru.co.jp/",
+  "founded": "2010年",
   "founderBackground": "创业者或经营团队多来自相关行业、技术开发、营业企划或本地服务领域；MVP阶段建议面试前查看公司沿革和役员资料。",
   "mainBusiness": "住宅开发、施工管理、物业管理、不动产仲介",
   "mainProducts": [
@@ -32,10 +32,10 @@
   ],
   "japaneseLevel": "N2-N1",
   "educationRequirement": "多数岗位本科或同等经验可，实务经验和作品集可弥补学历",
-  "visaSupport": true,
-  "acceptsForeigners": true,
-  "foreignEmployeeCases": "公开招聘信息和求职口碑中可见外国籍或双语人才录用案例，具体需面试确认。",
-  "hiringType": "中途为主，新卒少量",
+  "visaSupport": false,
+  "acceptsForeigners": false,
+  "foreignEmployeeCases": "公开信息中外国籍案例较少，建议投递前询问签证和语言支持。",
+  "hiringType": "新卒和中途均有",
   "workHours": "标准工作时间约9:00-18:00，部分岗位弹性",
   "restSystem": "完全周休二日制，节假日、年末年始、有给休假",
   "shiftWork": false,
@@ -50,7 +50,7 @@
   "salaryBand": "400万-600万日元",
   "newGradSalary": "月给约21万-27万日元",
   "midCareerSalary": "年收约320万-600万日元，按经验浮动",
-  "bonus": "年2次奖金或业绩连动奖金",
+  "bonus": "按公司业绩和个人评价支付",
   "raiseSystem": "年度评价调薪，部分公司采用等级制或目标管理制度",
   "benefits": [
     "社会保险",
@@ -63,22 +63,22 @@
   "housingAllowance": "公开信息有限，需确认",
   "sideJob": "申报制可副业的可能性较高",
   "dressCode": "现场制服或商务正装",
-  "openworkScore": 3.32,
-  "foreignerFriendlyScore": 8,
-  "recommendationScore": 7.2,
+  "openworkScore": 3.18,
+  "foreignerFriendlyScore": 4,
+  "recommendationScore": 6.3,
   "scoreBreakdown": {
     "salary": 6.3,
-    "stability": 6.6,
+    "stability": 6.5,
     "growth": 7.8,
     "workLifeBalance": 6.8,
-    "foreignerFriendliness": 8.3,
-    "businessValue": 7.3,
-    "employeeReviews": 6.6,
-    "total": 7.2
+    "foreignerFriendliness": 4.2,
+    "businessValue": 7.4,
+    "employeeReviews": 6.4,
+    "total": 6.3
   },
   "matchTags": [
     "小企业",
-    "外国人友好",
+    "外国人案例少",
     "适合新卒",
     "适合转职",
     "日语要求较高",
@@ -87,14 +87,15 @@
     "薪资普通"
   ],
   "riskTags": [
-    "加班风险"
+    "加班风险",
+    "外国人适配风险"
   ],
   "suitableForNewGrad": true,
   "suitableForCareerChange": true,
   "suitableForLowJapanese": false,
-  "decisionSummary": "グッドルーム更适合外国人求职者，尤其是希望混合办公和自走空间、日语约N2-N1、能接受月28小时左右加班的人。综合评分 7.2/10，投递前应重点确认签证支持、评价制度和实际加班。",
-  "aiSummary": "グッドルーム不是单纯看公司规模就能判断的企业。它的优势在于项目经验增长快和住宅开发经验，风险在于加班风险。如果你需要签证支持、希望在建筑 / 不动产积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
-  "recommendationReason": "住宅开发或施工管理相关岗位能积累实务经验；外国人录用可能性较高，工作方式较灵活，适合重视成长性的人。",
+  "decisionSummary": "リノべる更适合已有日本职场经验或日语较强的求职者，尤其是希望混合办公和自走空间、日语约N2-N1、能接受月28小时左右加班的人。综合评分 6.3/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "リノべる不是单纯看公司规模就能判断的企业。它的优势在于项目经验增长快和住宅开发经验，风险在于加班风险、外国人适配风险。如果你需要稳定的签证说明、希望在建筑 / 不动产积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "住宅开发或施工管理相关岗位能积累实务经验；外国人案例较少但可作为挑战候选，工作方式较灵活，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "项目经验增长快",
@@ -129,27 +130,27 @@
     }
   },
   "interviewInfo": {
-    "rounds": "书类筛选 → 一次面试 → 最终面试",
+    "rounds": "书类筛选 → Web面谈 → 职种面试 → 最终面试",
     "questions": [
-      "遇到意见不合时，你通常如何沟通？",
-      "你为什么对グッドルーム的施工管理业务感兴趣？",
-      "你如何保证报告、合同或图纸确认不出错？",
-      "你如何处理客户需求、现场条件和预算之间的矛盾？",
-      "如果入职后负责资产管理助理，你会如何运用安全管理经验？",
-      "你希望公司在哪些方面提供外国人入职支持？"
+      "你离职或换工作的主要原因是什么？",
+      "你为什么对リノべる的物业管理业务感兴趣？",
+      "如果客户提出不合理要求，你会如何说明和调整？",
+      "你对宅建、施工管理或建筑相关资格有什么计划？",
+      "如果入职后负责不动产营业，你会如何运用日语报告经验？",
+      "如果公司目前外国籍员工较少，你会如何证明自己能顺利融入团队？"
     ],
     "writtenTest": "SPI、适性检查或企业自编基础题",
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中高",
-    "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
-    "difficulty": "中"
+    "foreignerInterviewDifficulty": "中高：需主动确认签证支持和外国人录用经验",
+    "difficulty": "低中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "中：需确认固定残业、离职率和休假取得",
     "overtimeRisk": "中高",
     "turnoverRisk": "中",
     "lowSalaryRisk": "中",
-    "foreignerFitRisk": "低中：语言和文化适应仍是关键",
+    "foreignerFitRisk": "中高：签证支持和受入经验需提前确认",
     "notes": [
       "MVP数据为公开资料和求职口碑整合，不替代正式尽调",
       "投递前建议确认固定残业、试用期、转勤、签证支持"
