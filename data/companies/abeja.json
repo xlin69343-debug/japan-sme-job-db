@@ -66,7 +66,33 @@
   "dressCode": "商务休闲",
   "openworkScore": 3.74,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 10,
+  "recommendationScore": 8.3,
+  "scoreBreakdown": {
+    "salary": 9,
+    "stability": 7.3,
+    "growth": 9.2,
+    "workLifeBalance": 7.8,
+    "foreignerFriendliness": 8.3,
+    "businessValue": 8.5,
+    "employeeReviews": 7.5,
+    "total": 8.3
+  },
+  "matchTags": [
+    "外国人友好",
+    "适合新卒",
+    "适合转职",
+    "低日语可挑战",
+    "远程/混合",
+    "低加班",
+    "薪资较好"
+  ],
+  "riskTags": [],
+  "suitableForNewGrad": true,
+  "suitableForCareerChange": true,
+  "suitableForLowJapanese": true,
+  "decisionSummary": "ABEJA更适合外国人求职者，尤其是希望混合办公和自走空间、日语约N2、能接受月18小时左右加班的人。综合评分 8.3/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "ABEJA不是单纯看公司规模就能判断的企业。它的优势在于技术栈较新和受托开发经验，风险在于制度执行仍需面试确认。如果你需要签证支持、希望在IT / 软件 / AI积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "受托开发或软件工程师相关岗位能积累实务经验；外国人录用可能性较高，工作方式较灵活，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "技术栈较新",

@@ -65,7 +65,35 @@
   "dressCode": "现场制服或商务正装",
   "openworkScore": 3.58,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 10,
+  "recommendationScore": 7.3,
+  "scoreBreakdown": {
+    "salary": 6.3,
+    "stability": 6.9,
+    "growth": 7.8,
+    "workLifeBalance": 6.8,
+    "foreignerFriendliness": 8.3,
+    "businessValue": 7.4,
+    "employeeReviews": 7.2,
+    "total": 7.3
+  },
+  "matchTags": [
+    "外国人友好",
+    "新卒少量",
+    "适合转职",
+    "日语要求较高",
+    "远程/混合",
+    "加班需确认",
+    "薪资普通"
+  ],
+  "riskTags": [
+    "加班风险"
+  ],
+  "suitableForNewGrad": false,
+  "suitableForCareerChange": true,
+  "suitableForLowJapanese": false,
+  "decisionSummary": "LIFULL更适合外国人求职者，尤其是希望混合办公和自走空间、日语约N2-N1、能接受月28小时左右加班的人。综合评分 7.3/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "LIFULL不是单纯看公司规模就能判断的企业。它的优势在于项目经验增长快和住宅开发经验，风险在于加班风险。如果你需要签证支持、希望在建筑 / 不动产积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "住宅开发或施工管理相关岗位能积累实务经验；外国人录用可能性较高，工作方式较灵活，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "项目经验增长快",
@@ -113,7 +141,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中高",
     "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
-    "difficulty": "中高"
+    "difficulty": "中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "中：需确认固定残业、离职率和休假取得",

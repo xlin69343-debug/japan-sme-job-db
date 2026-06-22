@@ -65,7 +65,35 @@
   "dressCode": "商务休闲",
   "openworkScore": 3.02,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 9.6,
+  "recommendationScore": 7.1,
+  "scoreBreakdown": {
+    "salary": 4.8,
+    "stability": 6.9,
+    "growth": 7.7,
+    "workLifeBalance": 7.8,
+    "foreignerFriendliness": 8.3,
+    "businessValue": 7.3,
+    "employeeReviews": 6,
+    "total": 7.1
+  },
+  "matchTags": [
+    "外国人友好",
+    "适合新卒",
+    "转职需经验",
+    "日语要求较高",
+    "远程/混合",
+    "低加班",
+    "薪资普通"
+  ],
+  "riskTags": [
+    "薪资偏低"
+  ],
+  "suitableForNewGrad": true,
+  "suitableForCareerChange": false,
+  "suitableForLowJapanese": false,
+  "decisionSummary": "ヒューマンアカデミー更适合外国人求职者，尤其是希望混合办公和自走空间、日语约N2-N1、能接受月18小时左右加班的人。综合评分 7.1/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "ヒューマンアカデミー不是单纯看公司规模就能判断的企业。它的优势在于与外国人接点多和日语课程经验，风险在于薪资偏低。如果你需要签证支持、希望在教育 / 语言学校积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "日语课程或日语教师相关岗位能积累实务经验；外国人录用可能性较高，工作方式较灵活，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "与外国人接点多",
@@ -113,7 +141,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中高",
     "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
-    "difficulty": "中高"
+    "difficulty": "中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "低中：仍需确认制度执行情况",

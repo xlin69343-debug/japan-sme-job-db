@@ -65,7 +65,38 @@
   "dressCode": "制服",
   "openworkScore": 2.94,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 8.4,
+  "recommendationScore": 6.7,
+  "scoreBreakdown": {
+    "salary": 4.8,
+    "stability": 6.9,
+    "growth": 7.4,
+    "workLifeBalance": 5.4,
+    "foreignerFriendliness": 8.3,
+    "businessValue": 7.3,
+    "employeeReviews": 5.9,
+    "total": 6.7
+  },
+  "matchTags": [
+    "外国人友好",
+    "适合新卒",
+    "转职需经验",
+    "低日语可挑战",
+    "到岗为主",
+    "加班需确认",
+    "薪资普通"
+  ],
+  "riskTags": [
+    "加班风险",
+    "轮班风险",
+    "薪资偏低",
+    "离职率需确认"
+  ],
+  "suitableForNewGrad": true,
+  "suitableForCareerChange": false,
+  "suitableForLowJapanese": true,
+  "decisionSummary": "グローバルキッズ更适合外国人求职者，尤其是能接受到岗、现场协作或排班、日语约N3-N2、能接受月28小时左右加班的人。综合评分 6.7/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "グローバルキッズ不是单纯看公司规模就能判断的企业。它的优势在于社会需求强和养老设施经验，风险在于加班风险、轮班风险、薪资偏低、离职率需确认。如果你需要签证支持、希望在介护 / 医疗福祉积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "养老设施或介护职员相关岗位能积累实务经验；外国人录用可能性较高，现场协作多，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "社会需求强",
@@ -113,7 +144,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中",
     "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
-    "difficulty": "中高"
+    "difficulty": "中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "中：需确认固定残业、离职率和休假取得",

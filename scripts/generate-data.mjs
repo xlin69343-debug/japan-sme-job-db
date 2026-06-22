@@ -228,6 +228,13 @@ const salaryBandOf = (score) => {
   return "400万日元以下";
 };
 
+const salaryValueOf = (score) => {
+  if (score >= 8.5) return 9;
+  if (score >= 7.4) return 7.6;
+  if (score >= 6.5) return 6.3;
+  return 4.8;
+};
+
 const employeeBandOf = (text) => {
   const n = Number((text.match(/\d+/)?.[0] ?? "0"));
   if (n < 100) return "100人以下";
@@ -375,6 +382,60 @@ const industryInterviewQuestions = {
 const pickCyclic = (items, start, count) =>
   Array.from({ length: count }, (_, i) => items[(start + i) % items.length]);
 
+const clampScore = (value) => Math.min(10, Math.max(1, Math.round(value * 10) / 10));
+
+const scoreBreakdownOf = ({ industry, salaryScore, openworkScore, remote, foreign, visa, overtime, shift }) => {
+  const salary = salaryValueOf(salaryScore);
+  const stabilityBase = industry.includes("制造") || industry.includes("物流") || industry.includes("介护") ? 7.6 : industry.includes("IT") || industry.includes("游戏") ? 6.6 : 6.9;
+  const stability = clampScore(stabilityBase + Math.min(1, openworkScore - 3) - (overtime > 25 ? 0.6 : 0));
+  const growth = clampScore((industry.includes("IT") || industry.includes("AI") || industry.includes("广告") || industry.includes("游戏") ? 8 : 6.8) + salaryScore / 10 + (remote ? 0.3 : 0));
+  const workLifeBalance = clampScore(8.8 - overtime / 10 + (remote ? 0.8 : 0) - (shift ? 0.6 : 0));
+  const foreignerFriendliness = clampScore(foreign ? (visa ? 8.3 : 7.2) : 4.2);
+  const businessValue = clampScore((industry.includes("IT") || industry.includes("制造") || industry.includes("金融") ? 7.8 : 6.8) + salaryScore / 12);
+  const employeeReviews = clampScore(openworkScore * 2);
+  const total = clampScore(
+    salary * 0.15 +
+      stability * 0.15 +
+      growth * 0.15 +
+      workLifeBalance * 0.15 +
+      foreignerFriendliness * 0.2 +
+      businessValue * 0.1 +
+      employeeReviews * 0.1,
+  );
+  return { salary, stability, growth, workLifeBalance, foreignerFriendliness, businessValue, employeeReviews, total };
+};
+
+const suitabilityOf = (industry, foreign, remote, overtime, salaryScore, index) => {
+  const suitableForLowJapanese = foreign && (industry.includes("介护") || industry.includes("酒店") || industry.includes("餐饮") || industry.includes("IT"));
+  const suitableForNewGrad = index % 3 !== 2 || industry.includes("餐饮") || industry.includes("介护") || industry.includes("物流");
+  const suitableForCareerChange = salaryScore >= 6.5 || industry.includes("IT") || industry.includes("商社") || industry.includes("人材");
+  const matchTags = [
+    foreign ? "外国人友好" : "外国人案例少",
+    suitableForNewGrad ? "适合新卒" : "新卒少量",
+    suitableForCareerChange ? "适合转职" : "转职需经验",
+    suitableForLowJapanese ? "低日语可挑战" : "日语要求较高",
+    remote ? "远程/混合" : "到岗为主",
+    overtime <= 20 ? "低加班" : overtime <= 25 ? "中等加班" : "加班需确认",
+    salaryScore >= 7.4 ? "薪资较好" : "薪资普通",
+  ];
+  return { suitableForNewGrad, suitableForCareerChange, suitableForLowJapanese, matchTags };
+};
+
+const riskTagsOf = (industry, foreign, visa, overtime, salaryScore, shift) => [
+  ...(overtime > 25 ? ["加班风险"] : []),
+  ...(shift ? ["轮班风险"] : []),
+  ...(salaryScore < 6.5 ? ["薪资偏低"] : []),
+  ...(!foreign ? ["外国人适配风险"] : []),
+  ...(foreign && !visa ? ["签证需确认"] : []),
+  ...(industry.includes("餐饮") || industry.includes("介护") ? ["离职率需确认"] : []),
+];
+
+const decisionTextOf = ({ name, industry, foreign, visa, remote, overtime, japaneseLevel, score }) => {
+  const target = foreign ? "外国人求职者" : "已有日本职场经验或日语较强的求职者";
+  const style = remote ? "希望混合办公和自走空间" : "能接受到岗、现场协作或排班";
+  return `${name}更适合${target}，尤其是${style}、日语约${japaneseLevel}、能接受月${overtime}小时左右加班的人。综合评分 ${score}/10，投递前应重点确认签证支持、评价制度和实际加班。`;
+};
+
 const interviewQuestionsOf = (industry, name, p, foreign, index) => {
   const industryQuestions = industryInterviewQuestions[industry] ?? industryInterviewQuestions["IT / 软件 / AI"];
   const role = p.positions[index % p.positions.length];
@@ -399,10 +460,17 @@ const interviewQuestionsOf = (industry, name, p, foreign, index) => {
 const toCompany = ([slug, name, industry, location, employees, website, founded, salaryScore, openworkScore, remote, foreign], index) => {
   const p = industries[industry] ?? industries["IT / 软件 / AI"];
   const overtime = industry.includes("餐饮") || industry.includes("介护") || industry.includes("建筑") ? 28 : remote ? 18 : 22;
-  const rec = Math.min(10, Math.max(1, Math.round((openworkScore * 1.7 + (foreign ? 1.2 : 0.2) + (remote ? 0.8 : 0.1) + salaryScore / 2 - overtime / 30) * 10) / 10));
   const visa = foreign && !industry.includes("金融");
   const shift = industry.includes("酒店") || industry.includes("餐饮") || industry.includes("介护") || industry.includes("物流");
   const night = industry.includes("介护") || industry.includes("酒店") || industry.includes("物流");
+  const scoreBreakdown = scoreBreakdownOf({ industry, salaryScore, openworkScore, remote, foreign, visa, overtime, shift });
+  const rec = scoreBreakdown.total;
+  const suitability = suitabilityOf(industry, foreign, remote, overtime, salaryScore, index);
+  const riskTags = riskTagsOf(industry, foreign, visa, overtime, salaryScore, shift);
+  const japaneseLevel = japaneseOf(industry, foreign);
+  const recommendationReason = `${p.products[0]}或${p.positions[0]}相关岗位能积累实务经验；${foreign ? "外国人录用可能性较高" : "外国人案例较少但可作为挑战候选"}，${remote ? "工作方式较灵活" : "现场协作多"}，适合重视${scoreBreakdown.growth >= scoreBreakdown.stability ? "成长性" : "稳定性"}的人。`;
+  const decisionSummary = decisionTextOf({ name, industry, foreign, visa, remote, overtime, japaneseLevel, score: rec });
+  const aiSummary = `${name}不是单纯看公司规模就能判断的企业。它的优势在于${p.review[0]}和${p.products[0]}经验，风险在于${riskTags.length ? riskTags.join("、") : "制度执行仍需面试确认"}。如果你需要${visa ? "签证支持" : "稳定的签证说明"}、希望在${industry}积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。`;
   return {
     slug,
     name,
@@ -418,7 +486,7 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
     mainProducts: p.products,
     hiringPositions: p.positions,
     requiredSkills: p.skills,
-    japaneseLevel: japaneseOf(industry, foreign),
+    japaneseLevel,
     educationRequirement: industry.includes("制造") ? "理工岗位重视专业背景，综合职看岗位匹配" : "多数岗位本科或同等经验可，实务经验和作品集可弥补学历",
     visaSupport: visa,
     acceptsForeigners: foreign,
@@ -448,6 +516,15 @@ const toCompany = ([slug, name, industry, location, employees, website, founded,
     openworkScore,
     foreignerFriendlyScore: foreign ? (visa ? 8 : 7) : 4,
     recommendationScore: rec,
+    scoreBreakdown,
+    matchTags: suitability.matchTags,
+    riskTags,
+    suitableForNewGrad: suitability.suitableForNewGrad,
+    suitableForCareerChange: suitability.suitableForCareerChange,
+    suitableForLowJapanese: suitability.suitableForLowJapanese,
+    decisionSummary,
+    aiSummary,
+    recommendationReason,
     reviewSummary: {
       pros: [p.review[0], "中小企业中接触业务范围较广", "成长机会取决于项目和上司"],
       cons: [p.review[1], "制度成熟度可能不如大企业", "评价和配属透明度需面试确认"],

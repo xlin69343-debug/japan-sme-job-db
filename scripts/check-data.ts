@@ -24,6 +24,15 @@ const required: (keyof Company)[] = [
   "openworkScore",
   "foreignerFriendlyScore",
   "recommendationScore",
+  "scoreBreakdown",
+  "matchTags",
+  "riskTags",
+  "suitableForNewGrad",
+  "suitableForCareerChange",
+  "suitableForLowJapanese",
+  "decisionSummary",
+  "aiSummary",
+  "recommendationReason",
 ];
 
 const companies = files.map((file) => JSON.parse(fs.readFileSync(path.join(dir, file), "utf8")) as Company);
@@ -37,6 +46,24 @@ if (companies.length !== 100) {
 
 if (missing.length > 0) {
   throw new Error(`Missing fields:\n${missing.join("\n")}`);
+}
+
+const invalidScores = companies.flatMap((company) => {
+  const score = company.scoreBreakdown;
+  if (!score) return [`${company.slug}:scoreBreakdown`];
+  return Object.entries(score)
+    .filter(([, value]) => typeof value !== "number" || value < 1 || value > 10)
+    .map(([key]) => `${company.slug}:scoreBreakdown.${key}`);
+});
+
+const invalidTags = companies.filter((company) => company.matchTags.length < 4 || company.interviewInfo.questions.length < 5).map((company) => company.slug);
+
+if (invalidScores.length > 0) {
+  throw new Error(`Invalid scores:\n${invalidScores.join("\n")}`);
+}
+
+if (invalidTags.length > 0) {
+  throw new Error(`Invalid decision data:\n${invalidTags.join("\n")}`);
 }
 
 console.log(`OK: ${companies.length} company files validated.`);

@@ -65,7 +65,33 @@
   "dressCode": "办公室商务休闲，工厂制服",
   "openworkScore": 3.25,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 9.7,
+  "recommendationScore": 7.4,
+  "scoreBreakdown": {
+    "salary": 6.3,
+    "stability": 7.9,
+    "growth": 7.5,
+    "workLifeBalance": 6.6,
+    "foreignerFriendliness": 8.3,
+    "businessValue": 8.4,
+    "employeeReviews": 6.5,
+    "total": 7.4
+  },
+  "matchTags": [
+    "外国人友好",
+    "适合新卒",
+    "适合转职",
+    "日语要求较高",
+    "到岗为主",
+    "中等加班",
+    "薪资普通"
+  ],
+  "riskTags": [],
+  "suitableForNewGrad": true,
+  "suitableForCareerChange": true,
+  "suitableForLowJapanese": false,
+  "decisionSummary": "武蔵精密工業更适合外国人求职者，尤其是能接受到岗、现场协作或排班、日语约N2-N1、能接受月22小时左右加班的人。综合评分 7.4/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "武蔵精密工業不是单纯看公司规模就能判断的企业。它的优势在于技术积累深和精密零部件经验，风险在于制度执行仍需面试确认。如果你需要签证支持、希望在制造业积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "精密零部件或机械设计相关岗位能积累实务经验；外国人录用可能性较高，现场协作多，适合重视稳定性的人。",
   "reviewSummary": {
     "pros": [
       "技术积累深",
@@ -113,7 +139,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中高",
     "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
-    "difficulty": "中高"
+    "difficulty": "中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "低中：仍需确认制度执行情况",

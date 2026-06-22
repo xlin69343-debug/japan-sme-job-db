@@ -35,6 +35,17 @@ export type RiskAnalysis = {
   notes: string[];
 };
 
+export type ScoreBreakdown = {
+  salary: number;
+  stability: number;
+  growth: number;
+  workLifeBalance: number;
+  foreignerFriendliness: number;
+  businessValue: number;
+  employeeReviews: number;
+  total: number;
+};
+
 export type Company = {
   slug: string;
   name: string;
@@ -80,6 +91,15 @@ export type Company = {
   openworkScore: number;
   foreignerFriendlyScore: number;
   recommendationScore: number;
+  scoreBreakdown: ScoreBreakdown;
+  matchTags: string[];
+  riskTags: string[];
+  suitableForNewGrad: boolean;
+  suitableForCareerChange: boolean;
+  suitableForLowJapanese: boolean;
+  decisionSummary: string;
+  aiSummary: string;
+  recommendationReason: string;
   reviewSummary: ReviewSummary;
   interviewInfo: InterviewInfo;
   riskAnalysis: RiskAnalysis;
@@ -102,5 +122,25 @@ export type Filters = {
   overtime: string;
   score: string;
   recommendation: string;
+  suitableForNewGrad: string;
+  suitableForCareerChange: string;
+  suitableForLowJapanese: string;
+  workStyle: string;
+  tag: string;
+  sort: string;
 };
 
+export type UserProfile = {
+  nationality: string;
+  japaneseLevel: string;
+  education: string;
+  experience: string;
+  targetIndustry: string;
+  targetRegion: string;
+  desiredSalary: string;
+  needsVisa: boolean;
+  acceptsOvertime: string;
+  acceptsShift: boolean;
+  preferredWorkStyle: string;
+  careerGoal: string;
+};

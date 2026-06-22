@@ -28,6 +28,6 @@ export function getFilterOptions(companies: Company[]) {
     employeeBands: uniq(companies.map((company) => company.employeeBand)),
     salaryBands: uniq(companies.map((company) => company.salaryBand)),
     japaneseLevels: uniq(companies.map((company) => company.japaneseLevel)),
+    tags: uniq(companies.flatMap((company) => [...company.matchTags, ...company.riskTags])),
   };
 }
-

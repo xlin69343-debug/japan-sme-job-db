@@ -65,7 +65,36 @@
   "dressCode": "现场制服或商务正装",
   "openworkScore": 3.09,
   "foreignerFriendlyScore": 4,
-  "recommendationScore": 8,
+  "recommendationScore": 6.1,
+  "scoreBreakdown": {
+    "salary": 6.3,
+    "stability": 6.4,
+    "growth": 7.5,
+    "workLifeBalance": 6,
+    "foreignerFriendliness": 4.2,
+    "businessValue": 7.4,
+    "employeeReviews": 6.2,
+    "total": 6.1
+  },
+  "matchTags": [
+    "外国人案例少",
+    "新卒少量",
+    "适合转职",
+    "日语要求较高",
+    "到岗为主",
+    "加班需确认",
+    "薪资普通"
+  ],
+  "riskTags": [
+    "加班风险",
+    "外国人适配风险"
+  ],
+  "suitableForNewGrad": false,
+  "suitableForCareerChange": true,
+  "suitableForLowJapanese": false,
+  "decisionSummary": "グローバル・リンク・マネジメント更适合已有日本职场经验或日语较强的求职者，尤其是能接受到岗、现场协作或排班、日语约N2-N1、能接受月28小时左右加班的人。综合评分 6.1/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "グローバル・リンク・マネジメント不是单纯看公司规模就能判断的企业。它的优势在于项目经验增长快和住宅开发经验，风险在于加班风险、外国人适配风险。如果你需要稳定的签证说明、希望在建筑 / 不动产积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "住宅开发或施工管理相关岗位能积累实务经验；外国人案例较少但可作为挑战候选，现场协作多，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "项目经验增长快",
@@ -113,7 +142,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中高",
     "foreignerInterviewDifficulty": "中高：需主动确认签证支持和外国人录用经验",
-    "difficulty": "中高"
+    "difficulty": "低中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "中：需确认固定残业、离职率和休假取得",

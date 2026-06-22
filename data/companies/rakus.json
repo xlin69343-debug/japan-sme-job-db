@@ -66,7 +66,35 @@
   "dressCode": "商务休闲",
   "openworkScore": 3.42,
   "foreignerFriendlyScore": 4,
-  "recommendationScore": 9.8,
+  "recommendationScore": 6.9,
+  "scoreBreakdown": {
+    "salary": 6.3,
+    "stability": 7,
+    "growth": 9,
+    "workLifeBalance": 7.8,
+    "foreignerFriendliness": 4.2,
+    "businessValue": 8.4,
+    "employeeReviews": 6.8,
+    "total": 6.9
+  },
+  "matchTags": [
+    "外国人案例少",
+    "新卒少量",
+    "适合转职",
+    "日语要求较高",
+    "远程/混合",
+    "低加班",
+    "薪资普通"
+  ],
+  "riskTags": [
+    "外国人适配风险"
+  ],
+  "suitableForNewGrad": false,
+  "suitableForCareerChange": true,
+  "suitableForLowJapanese": false,
+  "decisionSummary": "ラクス更适合已有日本职场经验或日语较强的求职者，尤其是希望混合办公和自走空间、日语约N2-N1、能接受月18小时左右加班的人。综合评分 6.9/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "ラクス不是单纯看公司规模就能判断的企业。它的优势在于技术栈较新和受托开发经验，风险在于外国人适配风险。如果你需要稳定的签证说明、希望在IT / 软件 / AI积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "受托开发或软件工程师相关岗位能积累实务经验；外国人案例较少但可作为挑战候选，工作方式较灵活，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "技术栈较新",
@@ -114,7 +142,7 @@
     "codingTest": "可能有编码测试、GitHub/作品集审查或技术问答",
     "japaneseInterviewDifficulty": "中高",
     "foreignerInterviewDifficulty": "中高：需主动确认签证支持和外国人录用经验",
-    "difficulty": "中高"
+    "difficulty": "中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "低中：仍需确认制度执行情况",

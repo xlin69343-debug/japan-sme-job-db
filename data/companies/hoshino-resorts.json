@@ -65,7 +65,35 @@
   "dressCode": "制服或商务正装",
   "openworkScore": 3.45,
   "foreignerFriendlyScore": 8,
-  "recommendationScore": 9.8,
+  "recommendationScore": 7.2,
+  "scoreBreakdown": {
+    "salary": 6.3,
+    "stability": 7.4,
+    "growth": 7.5,
+    "workLifeBalance": 6,
+    "foreignerFriendliness": 8.3,
+    "businessValue": 7.4,
+    "employeeReviews": 6.9,
+    "total": 7.2
+  },
+  "matchTags": [
+    "外国人友好",
+    "适合新卒",
+    "适合转职",
+    "低日语可挑战",
+    "到岗为主",
+    "中等加班",
+    "薪资普通"
+  ],
+  "riskTags": [
+    "轮班风险"
+  ],
+  "suitableForNewGrad": true,
+  "suitableForCareerChange": true,
+  "suitableForLowJapanese": true,
+  "decisionSummary": "星野リゾート更适合外国人求职者，尤其是能接受到岗、现场协作或排班、日语约N3-N2、能接受月22小时左右加班的人。综合评分 7.2/10，投递前应重点确认签证支持、评价制度和实际加班。",
+  "aiSummary": "星野リゾート不是单纯看公司规模就能判断的企业。它的优势在于外语有优势和酒店运营经验，风险在于轮班风险。如果你需要签证支持、希望在酒店 / 旅游积累日本经验，可以放入候选；面试时建议追问固定残业、配属、评价制度和外国员工案例。",
+  "recommendationReason": "酒店运营或前台接待相关岗位能积累实务经验；外国人录用可能性较高，现场协作多，适合重视成长性的人。",
   "reviewSummary": {
     "pros": [
       "外语有优势",
@@ -113,7 +141,7 @@
     "codingTest": "通常无编码测试",
     "japaneseInterviewDifficulty": "中",
     "foreignerInterviewDifficulty": "中：重点确认签证、日语、长期工作意愿",
-    "difficulty": "中高"
+    "difficulty": "中"
   },
   "riskAnalysis": {
     "blackCompanyRisk": "低中：仍需确认制度执行情况",
