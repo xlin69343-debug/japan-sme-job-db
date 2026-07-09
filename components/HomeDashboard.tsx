@@ -51,8 +51,8 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
         <div className="grid gap-3 sm:grid-cols-2">
           <ScoreBadge label="当前阶段" value="准备期" />
           <ScoreBadge label="技术主线" value="C语言" tone="green" />
-          <ScoreBadge label="现实方向" value="制造IT/测试" tone="amber" />
-          <ScoreBadge label="候选库" value={`${companies.length}家 / ${industryCount}类`} tone="green" />
+          <ScoreBadge label="个人主线池" value="10-20家" tone="amber" />
+          <ScoreBadge label="原始研究库" value={`${companies.length}家 / ${industryCount}类`} tone="green" />
         </div>
       </section>
 
@@ -60,7 +60,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
         <div>
           <h2 className="text-xl font-semibold text-slate-950">我的当前定位</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
-            24岁，专科学历，大学学过 Web 但现在基本忘记，正在重新学 C 语言。策略不是幻想所有公司都能去，而是先找到“现实能走的入口”，再用项目、日语和工作经验往上移动。
+            24岁，专科学历，大学学过 Web 但现在基本忘记，正在重新学 C 语言。130家公司不是我要全部投的目标，而是用来做对照和排除的原始研究库。真正需要我长期盯住的，应该是10-20家现实目标。
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -68,7 +68,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
             ["现在重点", "建立C语言项目和日语表达"],
             ["优先公司", "培训明确、签证可确认、日语压力可控"],
             ["暂不主攻", "顶级AI研究岗、算法门槛极高公司"],
-            ["下一步", "选10家现实目标，补作品集和面试材料"],
+            ["下一步", "从130家里收敛出10-20家主线目标"],
           ].map(([label, value]) => (
             <div key={label} className="rounded-md bg-slate-50 p-4">
               <div className="text-xs font-semibold text-slate-500">{label}</div>
@@ -90,7 +90,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            ["我现在能研究什么", "把公司分成现在可研究、现实目标、挑战目标和暂不建议", "/student-fit"],
+            ["我现在真正该看哪些", "把130家拆成主线目标、观察样本、挑战目标和排除项", "/student-fit"],
             ["找现实目标公司", "优先看制造IT、测试、社内SE助理和培训明确的中小企业", "/student-fit"],
             ["查支持工签企业", "先确认能不能留下来，再比较工资和成长性", "/companies?s=visa"],
             ["补C语言项目", "把学习路线转成能写进简历的作品集", "/career-path"],

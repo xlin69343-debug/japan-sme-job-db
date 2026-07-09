@@ -168,13 +168,20 @@ export function CompanyExplorer({ companies, options }: Props) {
       <section className="min-w-0">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-950">企业决策列表</h1>
-            <p className="mt-1 text-sm text-slate-500">当前显示 {filtered.length} 家。重点看签证、日语、加班、工资、风险和适合人群。</p>
+            <h1 className="text-2xl font-semibold text-slate-950">原始企业研究库</h1>
+            <p className="mt-1 text-sm text-slate-500">当前显示 {filtered.length} 家。这里不是“都适合我”，而是用来搜索、排除、对照和筛出10-20家个人主线目标。</p>
           </div>
           <Link href="/profile-test" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
             做适合度测试
           </Link>
         </div>
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-4 shadow-sm">
+          <div className="text-sm font-semibold text-amber-900">个人使用原则：不要把130家公司当任务清单</div>
+          <p className="mt-1 text-sm leading-6 text-amber-800">
+            这页的作用是扩大视野和做判断。真正进入投递准备的公司应少而精：先筛出10-20家现实目标，再从里面选3-5家重点准备。
+          </p>
+        </div>
+
         <div className="mb-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex flex-wrap items-center gap-2">
             <span className="mr-1 text-sm font-semibold text-slate-700">快速标签</span>
@@ -222,6 +229,13 @@ export function CompanyExplorer({ companies, options }: Props) {
           {filters.overtime === "low" && <Tag tone="green">低加班</Tag>}
           {filters.tag && <Tag tone="blue">{filters.tag}</Tag>}
           {!filters.visaSupport && !filters.acceptsForeigners && !filters.tag && <span className="text-sm text-slate-500">选择筛选后，这里会显示你的判断条件。</span>}
+        </div>
+
+        <div className="mt-5 rounded-md bg-blue-50 p-3">
+          <div className="text-sm font-semibold text-blue-900">个人主线建议</div>
+          <p className="mt-1 text-sm leading-6 text-blue-800">
+            130家是地图，不是路线。优先把“支持工签 + 日语压力可控 + 岗位能从基础做起”的公司放入收藏。
+          </p>
         </div>
 
         <div className="mt-5 border-t border-slate-200 pt-4">

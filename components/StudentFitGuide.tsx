@@ -19,10 +19,10 @@ export function StudentFitGuide({ companies }: { companies: Company[] }) {
   return (
     <div className="grid gap-6">
       <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">留学生适配地图</div>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">你现在不是要看全部公司，而是先知道哪些公司够得到</h1>
+        <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">个人公司适配地图</div>
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">130家公司不是目标清单，而是用来筛出我的路线</h1>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
-          按你的当前画像：24岁、专科学历、Web学过但已忘、正在学C语言、希望在日本就业。系统会把企业拆成四层：现在可研究、现实目标、挑战目标、暂不建议。
+          按你的当前画像：24岁、专科学历、Web学过但已忘、正在学C语言、希望在日本就业。系统会把企业拆成四层：现在可研究、现实目标、挑战目标、暂不建议。真正需要你投入精力的不是130家，而是其中10-20家现实目标和3-5家重点准备对象。
         </p>
         <div className="mt-5 grid gap-3 md:grid-cols-4">
           <ProfileCard icon={<GraduationCap size={18} />} label="学历" value="专科 / 专门学校层级" />
@@ -36,6 +36,23 @@ export function StudentFitGuide({ companies }: { companies: Company[] }) {
         {tiers.map((tier) => (
           <TierPanel key={tier.title} tier={tier} />
         ))}
+      </section>
+
+      <section className="rounded-lg border border-blue-200 bg-blue-50 p-5">
+        <h2 className="text-xl font-semibold text-slate-950">个人筛选结论</h2>
+        <div className="mt-4 grid gap-3 md:grid-cols-4">
+          {[
+            ["130家", "原始研究库，用来建立行业地图和做排除"],
+            ["30家左右", "可浏览样本，用来理解日本中小企业岗位差异"],
+            ["10-20家", "个人主线目标，需要收藏、做笔记、查官网"],
+            ["3-5家", "近期重点准备对象，需要写志望动机和面试答案"],
+          ].map(([label, body]) => (
+            <div key={label} className="rounded-md bg-white/80 p-4">
+              <div className="text-2xl font-semibold text-blue-700">{label}</div>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{body}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
