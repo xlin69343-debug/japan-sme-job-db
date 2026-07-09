@@ -17,6 +17,26 @@ export function ProfileMatcher({ companies, industries, regions }: { companies: 
       <section className="h-fit rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-4">
         <h1 className="text-2xl font-semibold text-slate-950">适合度测试</h1>
         <p className="mt-2 text-sm leading-6 text-slate-500">输入你的画像，系统会按签证、日语、行业、地区、薪资、加班和职业目标推荐企业。</p>
+        <button
+          className="mt-4 h-10 rounded-md bg-blue-600 px-3 text-sm font-semibold text-white"
+          onClick={() => setProfile({
+            ...defaultProfile,
+            nationality: "中国",
+            japaneseLevel: "N3",
+            education: "专门学校",
+            experience: "无经验",
+            targetIndustry: "制造业",
+            targetRegion: "关东",
+            desiredSalary: "400万-600万日元",
+            needsVisa: true,
+            acceptsOvertime: "20-30小时",
+            acceptsShift: false,
+            preferredWorkStyle: "到岗",
+            careerGoal: "拿日本工作经验",
+          })}
+        >
+          使用我的当前背景
+        </button>
         <div className="mt-5 grid gap-3">
           <Input label="国籍" value={profile.nationality} onChange={(value) => update("nationality", value)} />
           <Select label="日语水平" value={profile.japaneseLevel} options={["N1", "N2", "N3", "N4以下"]} onChange={(value) => update("japaneseLevel", value)} />

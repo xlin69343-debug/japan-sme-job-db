@@ -19,6 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-600">
               {[
                 ["工作台", "/dashboard"],
+                ["留学生适配", "/student-fit"],
                 ["找企业", "/companies"],
                 ["适合度测试", "/profile-test"],
                 ["职业路线", "/career-path"],

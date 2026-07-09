@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BriefcaseBusiness, ClipboardCheck, FileCheck2, GitCompare, Route, SearchCheck, ShieldCheck, Target, UserRoundCheck } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, ClipboardCheck, FileCheck2, GitCompare, GraduationCap, Route, SearchCheck, ShieldCheck, Target, UserRoundCheck } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Company, UserProfile } from "@/lib/types";
 import { calculateMatch, defaultProfile } from "@/lib/recommendation";
@@ -209,6 +209,7 @@ export function CareerDecisionWorkbench({ companies, industries, regions }: Prop
 }
 
 const scenes = [
+  { title: "留学生适配", body: "按24岁、专科学历、Web忘记、C语言学习中的背景，分出现在能投、现实目标和挑战目标。", href: "/student-fit", icon: <GraduationCap size={18} />, tags: ["能去哪", "差距", "分层"] },
   { title: "企业研究", body: "按行业、签证、日语、加班、外国人友好度筛出值得深入研究的企业。", href: "/companies", icon: <SearchCheck size={18} />, tags: ["筛选", "风险", "对比"] },
   { title: "职业规划", body: "把当前阶段、目标能力、目标企业和准备周期连接成路线图。", href: "/career-path", icon: <Route size={18} />, tags: ["路线图", "阶段", "目标"] },
   { title: "工签评估", body: "先判断在留资格可行性，再决定是否投递和面试要确认什么。", href: "/companies?s=visa", icon: <ShieldCheck size={18} />, tags: ["工签", "在留", "风险"] },
