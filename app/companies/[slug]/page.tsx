@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: CompanyPageProps) {
   const { slug } = await params;
   const company = getCompany(slug);
   return {
-    title: company ? `${company.name} | 日本中小企业求职决策库` : "企业详情",
+    title: company ? `${company.name} | 我的日本求职成长台` : "企业详情",
   };
 }
 

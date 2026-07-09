@@ -4,7 +4,7 @@ import type { Company } from "@/lib/types";
 import { Tag } from "@/components/DecisionUi";
 
 export const metadata = {
-  title: "地图视图 | 日本中小企业求职决策库",
+  title: "地区地图 | 我的日本求职成长台",
 };
 
 export default function MapPage() {
@@ -21,8 +21,8 @@ export default function MapPage() {
   return (
     <main className="mx-auto max-w-[1500px] px-4 py-6 md:px-8">
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-        <h1 className="text-2xl font-semibold text-slate-950">地区聚合地图</h1>
-        <p className="mt-2 text-sm leading-6 text-slate-500">MVP 先按地区聚合，不接真实地图 API。用企业数量、平均加班、外国人友好企业数量和推荐行业判断求职区域。</p>
+        <h1 className="text-2xl font-semibold text-slate-950">我的求职地区地图</h1>
+        <p className="mt-2 text-sm leading-6 text-slate-500">先按地区聚合，不接真实地图 API。用企业数量、平均加班、外国人友好企业数量和推荐行业判断我适合把求职重心放在哪里。</p>
       </section>
 
       <section className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

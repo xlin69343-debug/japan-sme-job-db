@@ -2,7 +2,7 @@ import { FavoritesBoard } from "@/components/FavoritesBoard";
 import { getCompanies } from "@/lib/companies";
 
 export const metadata = {
-  title: "收藏与投递管理 | 日本中小企业求职决策库",
+  title: "收藏与投递管理 | 我的日本求职成长台",
 };
 
 export default function FavoritesPage() {

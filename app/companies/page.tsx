@@ -2,7 +2,7 @@ import { CompanyExplorer } from "@/components/CompanyExplorer";
 import { getCompanies, getFilterOptions } from "@/lib/companies";
 
 export const metadata = {
-  title: "企业决策列表 | 日本中小企业求职决策库",
+  title: "候选企业研究 | 我的日本求职成长台",
 };
 
 export default function CompaniesPage() {

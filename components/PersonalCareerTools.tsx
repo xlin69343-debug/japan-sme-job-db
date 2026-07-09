@@ -116,7 +116,7 @@ export function PersonalHomePanel({ companies }: { companies: Company[] }) {
       <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex items-center gap-2">
           <Star size={18} className="text-blue-600" />
-          <h2 className="text-lg font-semibold text-slate-950">今日推荐企业</h2>
+          <h2 className="text-lg font-semibold text-slate-950">今日研究对象</h2>
         </div>
         <Link href={`/companies/${todayCompany.slug}`} className="mt-4 block rounded-lg bg-blue-50 p-4 transition hover:bg-blue-100">
           <div className="flex flex-wrap items-start justify-between gap-3">
@@ -124,7 +124,7 @@ export function PersonalHomePanel({ companies }: { companies: Company[] }) {
               <div className="text-xl font-semibold text-slate-950">{todayCompany.name}</div>
               <p className="mt-2 text-sm leading-6 text-slate-700">{todayCompany.decisionSummary}</p>
             </div>
-            <span className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white">匹配参考 {Math.round(todayCompany.recommendationScore * 10)}%</span>
+            <span className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white">研究优先度 {Math.round(todayCompany.recommendationScore * 10)}%</span>
           </div>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {todayReasons(todayCompany).map((reason) => (

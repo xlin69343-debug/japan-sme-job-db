@@ -61,10 +61,10 @@ export function CareerDecisionWorkbench({ companies, industries, regions }: Prop
     <div className="grid gap-6">
       <section className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">Personal Career Intelligence Dashboard</div>
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">外国人在日本求职的一站式职业决策平台</h1>
+          <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">Personal Career Growth Dashboard</div>
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">我的个人成长与日本求职工作台</h1>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
-            围绕企业研究、职业规划、工签评估、能力差距、求职准备、投递管理六个场景，把“我能不能投、还差什么、下一步做什么”变成可执行的研究流程。
+            围绕 C 语言学习、日语准备、企业研究、工签评估、能力差距、求职准备和投递管理，把“我现在能不能投、离目标多远、下一步做什么”变成可执行的个人成长流程。
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <Metric title="投递准备度" value={`${applicationReady}%`} />
@@ -91,8 +91,8 @@ export function CareerDecisionWorkbench({ companies, industries, regions }: Prop
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold text-slate-950">六大核心场景</h2>
-            <p className="mt-2 text-sm text-slate-500">从研究到投递不是分散页面，而是一条连续决策链。</p>
+            <h2 className="text-xl font-semibold text-slate-950">我的六个求职成长场景</h2>
+            <p className="mt-2 text-sm text-slate-500">从学习、研究、判断到投递，不是分散页面，而是一条连续的个人成长链。</p>
           </div>
           <Link href="/companies" className="rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white">进入企业研究</Link>
         </div>
@@ -209,13 +209,13 @@ export function CareerDecisionWorkbench({ companies, industries, regions }: Prop
 }
 
 const scenes = [
-  { title: "留学生适配", body: "按24岁、专科学历、Web忘记、C语言学习中的背景，分出现在能投、现实目标和挑战目标。", href: "/student-fit", icon: <GraduationCap size={18} />, tags: ["能去哪", "差距", "分层"] },
-  { title: "企业研究", body: "按行业、签证、日语、加班、外国人友好度筛出值得深入研究的企业。", href: "/companies", icon: <SearchCheck size={18} />, tags: ["筛选", "风险", "对比"] },
-  { title: "职业规划", body: "把当前阶段、目标能力、目标企业和准备周期连接成路线图。", href: "/career-path", icon: <Route size={18} />, tags: ["路线图", "阶段", "目标"] },
-  { title: "工签评估", body: "先判断在留资格可行性，再决定是否投递和面试要确认什么。", href: "/companies?s=visa", icon: <ShieldCheck size={18} />, tags: ["工签", "在留", "风险"] },
-  { title: "能力差距", body: "用日语、技能、作品集、面试表达拆出你距离目标企业的差距。", href: "/profile-test", icon: <UserRoundCheck size={18} />, tags: ["准备度", "差距", "建议"] },
-  { title: "求职准备", body: "维护简历、面试、逆質問、签证说明等投递前清单。", href: "/dashboard", icon: <FileCheck2 size={18} />, tags: ["清单", "面试", "材料"] },
-  { title: "投递管理", body: "追踪收藏、重点关注、准备投递、已投递和面试中的企业。", href: "/favorites", icon: <GitCompare size={18} />, tags: ["状态", "笔记", "行动"] },
+  { title: "我能去哪", body: "按24岁、专科学历、Web忘记、C语言学习中的背景，分出现在可研究、现实目标、挑战目标和暂不建议。", href: "/student-fit", icon: <GraduationCap size={18} />, tags: ["适配", "差距", "分层"] },
+  { title: "研究候选公司", body: "按行业、签证、日语、加班、外国人友好度筛出我值得继续研究的企业。", href: "/companies", icon: <SearchCheck size={18} />, tags: ["筛选", "风险", "对比"] },
+  { title: "规划成长路线", body: "把C语言项目、日语目标、目标岗位和准备周期连接成路线图。", href: "/career-path", icon: <Route size={18} />, tags: ["路线图", "阶段", "目标"] },
+  { title: "评估工签风险", body: "先判断在留资格和日语证明风险，再决定是否投递和面试要确认什么。", href: "/companies?s=visa", icon: <ShieldCheck size={18} />, tags: ["工签", "在留", "风险"] },
+  { title: "拆能力差距", body: "用日语、技能、作品集、面试表达拆出我距离目标企业的差距。", href: "/profile-test", icon: <UserRoundCheck size={18} />, tags: ["准备度", "差距", "建议"] },
+  { title: "准备求职材料", body: "维护简历、作品集、面试回答、逆質問和签证说明等投递前清单。", href: "/dashboard", icon: <FileCheck2 size={18} />, tags: ["清单", "面试", "材料"] },
+  { title: "管理投递闭环", body: "追踪研究、收藏、准备投递、已投递、面试中和复盘后的企业。", href: "/favorites", icon: <GitCompare size={18} />, tags: ["状态", "笔记", "行动"] },
 ];
 
 function readJson<T>(key: string, fallback: T): T {

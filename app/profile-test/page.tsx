@@ -2,7 +2,7 @@ import { ProfileMatcher } from "@/components/ProfileMatcher";
 import { getCompanies, getFilterOptions } from "@/lib/companies";
 
 export const metadata = {
-  title: "适合度测试 | 日本中小企业求职决策库",
+  title: "个人适合度测试 | 我的日本求职成长台",
 };
 
 export default function ProfileTestPage() {

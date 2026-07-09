@@ -2,7 +2,7 @@ import { CareerPathTool } from "@/components/CareerPathTool";
 import { getCompanies, getFilterOptions } from "@/lib/companies";
 
 export const metadata = {
-  title: "职业路线 | 日本中小企业求职决策库",
+  title: "成长路线 | 我的日本求职成长台",
 };
 
 export default function CareerPathPage() {

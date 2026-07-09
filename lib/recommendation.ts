@@ -2,17 +2,17 @@ import type { Company, UserProfile } from "./types";
 
 export const defaultProfile: UserProfile = {
   nationality: "中国",
-  japaneseLevel: "N2",
-  education: "本科",
-  experience: "1-3年",
+  japaneseLevel: "N3",
+  education: "专科学历",
+  experience: "无经验",
   targetIndustry: "",
   targetRegion: "",
-  desiredSalary: "400万-600万日元",
+  desiredSalary: "400万日元以下",
   needsVisa: true,
   acceptsOvertime: "20-30小时",
   acceptsShift: false,
-  preferredWorkStyle: "混合",
-  careerGoal: "稳定发展",
+  preferredWorkStyle: "到岗",
+  careerGoal: "拿日本工作经验",
 };
 
 export function calculateMatch(company: Company, profile: UserProfile) {

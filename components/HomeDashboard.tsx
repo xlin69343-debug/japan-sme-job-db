@@ -5,63 +5,97 @@ import { ScoreBadge, Tag } from "./DecisionUi";
 import { PersonalHomePanel } from "./PersonalCareerTools";
 
 export function HomeDashboard({ companies, industryCount }: { companies: Company[]; industryCount: number }) {
-  const newGrad = companies.filter((company) => company.suitableForNewGrad).slice(0, 5);
-  const careerChange = companies.filter((company) => company.suitableForCareerChange).sort((a, b) => b.scoreBreakdown.growth - a.scoreBreakdown.growth).slice(0, 5);
-  const lowJapanese = companies.filter((company) => company.suitableForLowJapanese && company.visaSupport).sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore).slice(0, 5);
-  const smallCompanies = companies.filter((company) => company.employeeBand.includes("超小型") || company.employeeBand.includes("小型") || company.employeeBand.includes("成长型")).sort((a, b) => b.recommendationScore - a.recommendationScore).slice(0, 5);
+  const realisticTargets = companies
+    .filter((company) => company.visaSupport && (company.suitableForLowJapanese || company.suitableForNewGrad || company.industry.includes("制造") || company.industry.includes("物流")))
+    .sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .slice(0, 5);
+  const growthTargets = companies
+    .filter((company) => company.suitableForCareerChange || company.scoreBreakdown.growth >= 8)
+    .sort((a, b) => b.scoreBreakdown.growth - a.scoreBreakdown.growth)
+    .slice(0, 5);
+  const visaTargets = companies
+    .filter((company) => company.visaSupport && company.acceptsForeigners)
+    .sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .slice(0, 5);
+  const smallCompanies = companies
+    .filter((company) => company.employeeBand.includes("超小型") || company.employeeBand.includes("小型") || company.employeeBand.includes("成长型"))
+    .sort((a, b) => b.recommendationScore - a.recommendationScore)
+    .slice(0, 5);
 
   return (
     <div className="space-y-8">
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-lg border border-slate-200 bg-white p-7 shadow-sm">
-          <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">外国人在日本求职的一站式职业决策平台</div>
+          <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">我的个人成长求职网站</div>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-            从查企业到决定下一步行动
+            从 C 语言学习到日本就业的个人作战台
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-            不只是公司列表。这里围绕企业研究、职业规划、工签评估、能力差距分析、求职准备和投递管理，帮助你判断这家公司能不能投、距离目标还有多远、下一步该做什么。
+            这里不是招聘网站，而是记录我当前背景、学习进度、公司适配、工签风险和投递状态的求职研究台。核心问题只有一个：以我现在的条件，哪些公司能研究、哪些公司够得着、我还缺什么、下一步做什么。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/dashboard" className="inline-flex h-11 items-center gap-2 rounded-md bg-blue-600 px-4 text-sm font-semibold text-white">
+            <Link href="/student-fit" className="inline-flex h-11 items-center gap-2 rounded-md bg-blue-600 px-4 text-sm font-semibold text-white">
+              <UserRoundCheck size={17} />
+              看我能投哪些公司
+            </Link>
+            <Link href="/dashboard" className="inline-flex h-11 items-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-800">
               <UserRoundCheck size={17} />
               打开个人工作台
             </Link>
-            <Link href="/profile-test" className="inline-flex h-11 items-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-800">
-              <UserRoundCheck size={17} />
-              适合度测试
-            </Link>
-            <Link href="/companies" className="inline-flex h-11 items-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-800">
+            <Link href="/favorites" className="inline-flex h-11 items-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-800">
               <SearchCheck size={17} />
-              浏览企业
+              管理候选清单
             </Link>
           </div>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
-          <ScoreBadge label="企业数量" value={`${companies.length}家`} />
-          <ScoreBadge label="行业覆盖" value={`${industryCount}类`} tone="green" />
-          <ScoreBadge label="签证支持" value={`${companies.filter((item) => item.visaSupport).length}家`} tone="amber" />
-          <ScoreBadge label="小企业样本" value={`${companies.filter((item) => item.employeeBand.includes("超小型") || item.employeeBand.includes("小型") || item.employeeBand.includes("成长型")).length}家`} tone="green" />
+          <ScoreBadge label="当前阶段" value="准备期" />
+          <ScoreBadge label="技术主线" value="C语言" tone="green" />
+          <ScoreBadge label="现实方向" value="制造IT/测试" tone="amber" />
+          <ScoreBadge label="候选库" value={`${companies.length}家 / ${industryCount}类`} tone="green" />
+        </div>
+      </section>
+
+      <section className="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <h2 className="text-xl font-semibold text-slate-950">我的当前定位</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            24岁，专科学历，大学学过 Web 但现在基本忘记，正在重新学 C 语言。策略不是幻想所有公司都能去，而是先找到“现实能走的入口”，再用项目、日语和工作经验往上移动。
+          </p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["现在重点", "建立C语言项目和日语表达"],
+            ["优先公司", "培训明确、签证可确认、日语压力可控"],
+            ["暂不主攻", "顶级AI研究岗、算法门槛极高公司"],
+            ["下一步", "选10家现实目标，补作品集和面试材料"],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-md bg-slate-50 p-4">
+              <div className="text-xs font-semibold text-slate-500">{label}</div>
+              <div className="mt-2 text-sm font-semibold leading-6 text-slate-900">{value}</div>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold text-slate-950">快速开始</h2>
-            <p className="mt-2 text-sm text-slate-500">先不用看完整列表，从一个明确问题进入：我现在要研究哪一类企业。</p>
+            <h2 className="text-xl font-semibold text-slate-950">今天从哪里开始</h2>
+            <p className="mt-2 text-sm text-slate-500">不从海量列表开始，而是从我当前最需要回答的问题开始。</p>
           </div>
-          <Link href="/companies" className="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">
-            打开全部企业
+          <Link href="/student-fit" className="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">
+            查看公司分层
           </Link>
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            ["AI企业", "看技术含金量和作品集要求", "/companies?q=AI"],
-            ["外国人友好企业", "优先确认录用历史和沟通压力", "/companies?s=foreigner"],
-            ["支持工签企业", "先解决在留资格可持续性", "/companies?s=visa"],
-            ["东京企业", "通勤、面试机会和行业密度更高", "/companies?region=东京"],
-            ["N2推荐企业", "适合日语已有基础、想正式投递的人", "/companies?s=lowjp"],
-            ["成长性企业", "看业务含金量、岗位宽度和转职价值", "/companies?s=growth"],
+            ["我现在能研究什么", "把公司分成现在可研究、现实目标、挑战目标和暂不建议", "/student-fit"],
+            ["找现实目标公司", "优先看制造IT、测试、社内SE助理和培训明确的中小企业", "/student-fit"],
+            ["查支持工签企业", "先确认能不能留下来，再比较工资和成长性", "/companies?s=visa"],
+            ["补C语言项目", "把学习路线转成能写进简历的作品集", "/career-path"],
+            ["重新算适合度", "用我的学历、日语、经验和目标重新排序企业", "/profile-test"],
+            ["管理投递进度", "把研究、收藏、准备、投递和面试复盘接起来", "/favorites"],
           ].map(([title, body, href]) => (
             <Link key={title} href={href} className="group rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-sm">
               <div className="flex items-center justify-between gap-3">
@@ -79,8 +113,8 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold text-slate-950">按你的求职阶段直接判断</h2>
-            <p className="mt-2 text-sm text-slate-500">这四块不再只是入口，而是不同人群的候选池、风险和下一步动作。</p>
+            <h2 className="text-xl font-semibold text-slate-950">按我的现实距离直接判断</h2>
+            <p className="mt-2 text-sm text-slate-500">每一类都对应不同的准备动作，不再把所有公司都当成“好像能投”。</p>
           </div>
           <Link href="/profile-test" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
             用个人画像重新计算
@@ -89,42 +123,42 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
           <DecisionTrack
             icon={<BadgeCheck size={20} />}
-            title="新卒 / 第二新卒"
-            verdict="优先看培训入口、日语压力、配属透明度，不要只看综合分。"
-            bestFor={["适合新卒", "低加班", "签证可确认"]}
-            watchOut={["固定残业", "研修后配属", "转勤范围"]}
-            companies={newGrad}
-            primaryHref="/companies?s=newgrad"
+            title="现在可研究"
+            verdict="先建立日本求职感觉，重点看岗位语言、工签、培训和真实工作内容。"
+            bestFor={["入门研究", "签证可确认", "岗位门槛可拆解"]}
+            watchOut={["是否真招未经验", "日语沟通量", "研修后配属"]}
+            companies={smallCompanies}
+            primaryHref="/student-fit"
             secondaryHref="/career-path"
           />
           <DecisionTrack
             icon={<BriefcaseBusiness size={20} />}
-            title="转职 / 想提高年收"
-            verdict="重点比较成长性、业务含金量和工资上限，低分但岗位对口也可以留候选。"
-            bestFor={["适合转职", "成长性", "薪资较好"]}
-            watchOut={["试用期条件", "评价制度", "实际职责范围"]}
-            companies={careerChange}
-            primaryHref="/companies?s=career"
+            title="6-12个月现实目标"
+            verdict="最适合作为主线候选：补C语言项目、日语表达和面试材料后，有机会进入投递池。"
+            bestFor={["制造IT", "测试/运维", "培训明确"]}
+            watchOut={["学历筛选", "客户现场", "加班波动"]}
+            companies={realisticTargets}
+            primaryHref="/student-fit"
             secondaryHref="/compare"
           />
           <DecisionTrack
             icon={<UserRoundCheck size={20} />}
-            title="日语 N3-N2 / 需要签证"
-            verdict="先看签证支持和外国人案例，再看工资。能不能留下来比第一年年收更重要。"
-            bestFor={["N3可挑战", "外国人友好", "支持签证"]}
-            watchOut={["日语日报", "客户沟通", "签证更新责任"]}
-            companies={lowJapanese}
-            primaryHref="/companies?s=lowjp"
+            title="签证优先候选"
+            verdict="对留学生来说，工签可持续性是第一层门槛。先看外国人案例，再看岗位成长。"
+            bestFor={["支持工签", "外国人案例", "沟通压力可确认"]}
+            watchOut={["日语证明风险", "雇佣形态", "签证更新责任"]}
+            companies={visaTargets}
+            primaryHref="/companies?s=visa"
             secondaryHref="/profile-test"
           />
           <DecisionTrack
             icon={<Route size={20} />}
-            title="想进小企业"
-            verdict="小企业适合想快速接触业务的人，但要重点确认制度成熟度和上司风格。"
-            bestFor={["超小团队", "小企业", "职责范围广"]}
-            watchOut={["制度不标准", "老板风格", "加班计算"]}
-            companies={smallCompanies}
-            primaryHref="/companies?s=small"
+            title="挑战目标"
+            verdict="可以研究，但不建议现在主投。它们更适合在日语、项目和基础工作经验补上之后冲。"
+            bestFor={["成长快", "技术含金量", "未来转职价值"]}
+            watchOut={["技术面试", "N2以上表达", "竞争强度"]}
+            companies={growthTargets}
+            primaryHref="/companies?s=growth"
             secondaryHref="/map"
           />
         </div>

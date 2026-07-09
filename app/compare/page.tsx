@@ -2,7 +2,7 @@ import { CompareBoard } from "@/components/CompareBoard";
 import { getCompanies } from "@/lib/companies";
 
 export const metadata = {
-  title: "企业对比 | 日本中小企业求职决策库",
+  title: "候选企业对比 | 我的日本求职成长台",
 };
 
 export default function ComparePage() {
