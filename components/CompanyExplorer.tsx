@@ -25,14 +25,16 @@ type Lane = {
 export function CompanyExplorer({ companies }: Props) {
   const [query, setQuery] = useState("");
   const [preset, setPreset] = useState("");
+  const [manualFocus, setManualFocus] = useState<string[]>([]);
 
   useEffect(() => {
     const search = new URLSearchParams(window.location.search);
     setPreset(search.get("s") || "");
     setQuery(search.get("q") || "");
+    setManualFocus(readJson<string[]>("focusCompanies", []));
   }, []);
 
-  const lanes = useMemo(() => buildPersonalLanes(companies, preset), [companies, preset]);
+  const lanes = useMemo(() => buildPersonalLanes(companies, preset, manualFocus), [companies, preset, manualFocus]);
   const filteredLanes = useMemo(() => {
     const keywords = expandQuery(query);
     if (keywords.length === 0) return lanes;
@@ -139,16 +141,19 @@ export function CompanyExplorer({ companies }: Props) {
   );
 }
 
-function buildPersonalLanes(companies: Company[], preset: string): Lane[] {
-  const focusTargets = companies
+function buildPersonalLanes(companies: Company[], preset: string, manualFocus: string[]): Lane[] {
+  const pinnedTargets = manualFocus.map((slug) => companies.find((company) => company.slug === slug)).filter(Boolean) as Company[];
+  const focusTargets = [
+    ...pinnedTargets,
+    ...companies
     .filter((company) => {
       const routeFit = company.industry.includes("制造") || company.industry.includes("IT") || company.hiringPositions.join("").includes("测试") || company.hiringPositions.join("").includes("社内");
       const supportFit = company.visaSupport || company.acceptsForeigners || company.suitableForLowJapanese || company.suitableForNewGrad;
       const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews"].includes(company.slug) || company.interviewInfo.difficulty === "高";
-      return routeFit && supportFit && !tooHard;
+      return routeFit && supportFit && !tooHard && !manualFocus.includes(company.slug);
     })
     .sort((a, b) => Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
-    .slice(0, 5);
+  ].slice(0, 5);
 
   const focusSlugs = new Set(focusTargets.map((company) => company.slug));
 
@@ -286,4 +291,12 @@ function PresetButton({ children, active, onClick }: { children: React.ReactNode
       {children}
     </button>
   );
+}
+
+function readJson<T>(key: string, fallback: T): T {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "") as T;
+  } catch {
+    return fallback;
+  }
 }

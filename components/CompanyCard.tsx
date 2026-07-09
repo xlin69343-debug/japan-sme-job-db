@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bookmark, SearchCheck, Sparkles, TriangleAlert, UserCheck } from "lucide-react";
+import { Bookmark, Pin, SearchCheck, Sparkles, TriangleAlert, UserCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Company } from "@/lib/types";
 import { ScoreBar, Tag } from "./DecisionUi";
@@ -13,13 +13,16 @@ type Props = {
 
 export function CompanyCard({ company }: Props) {
   const [saved, setSaved] = useState(false);
+  const [focused, setFocused] = useState(false);
   const reasons = buildReasons(company);
   const suitable = buildSuitable(company);
   const cautions = buildCautions(company);
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favoriteCompanies") || "[]") as string[];
+    const focusedCompanies = JSON.parse(localStorage.getItem("focusCompanies") || "[]") as string[];
     setSaved(favorites.includes(company.slug));
+    setFocused(focusedCompanies.includes(company.slug));
   }, [company.slug]);
 
   const toggleFavorite = () => {
@@ -27,6 +30,15 @@ export function CompanyCard({ company }: Props) {
     const next = favorites.includes(company.slug) ? favorites.filter((slug) => slug !== company.slug) : [...favorites, company.slug];
     localStorage.setItem("favoriteCompanies", JSON.stringify(next));
     setSaved(next.includes(company.slug));
+  };
+
+  const toggleFocus = () => {
+    const focusedCompanies = JSON.parse(localStorage.getItem("focusCompanies") || "[]") as string[];
+    const next = focusedCompanies.includes(company.slug)
+      ? focusedCompanies.filter((slug) => slug !== company.slug)
+      : [company.slug, ...focusedCompanies].slice(0, 5);
+    localStorage.setItem("focusCompanies", JSON.stringify(next));
+    setFocused(next.includes(company.slug));
   };
 
   return (
@@ -80,11 +92,19 @@ export function CompanyCard({ company }: Props) {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-3 gap-2">
         <Link href={`/companies/${company.slug}`} className="inline-flex h-10 items-center justify-center gap-1 rounded-md bg-slate-950 px-3 text-sm font-semibold text-white">
           <SearchCheck size={16} />
           详情
         </Link>
+        <button
+          className={`inline-flex h-10 items-center justify-center gap-1 rounded-md border px-3 text-sm font-semibold transition active:scale-95 ${focused ? "border-amber-200 bg-amber-50 text-amber-700" : "border-slate-200 text-slate-700 hover:border-amber-300 hover:bg-amber-50"}`}
+          onClick={toggleFocus}
+          title="固定为重点准备公司"
+        >
+          <Pin size={16} fill={focused ? "currentColor" : "none"} />
+          {focused ? "重点" : "固定"}
+        </button>
         <button
           className={`inline-flex h-10 items-center justify-center gap-1 rounded-md border px-3 text-sm font-semibold transition active:scale-95 ${saved ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50"}`}
           onClick={toggleFavorite}

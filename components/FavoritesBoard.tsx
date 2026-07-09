@@ -10,6 +10,9 @@ type Note = {
   priority: string;
   memo: string;
   nextAction: string;
+  dueDate: string;
+  blocker: string;
+  review: string;
 };
 
 const defaultNote: Note = {
@@ -17,6 +20,9 @@ const defaultNote: Note = {
   priority: "中",
   memo: "",
   nextAction: "确认签证支持和实际加班",
+  dueDate: "",
+  blocker: "",
+  review: "",
 };
 
 export function FavoritesBoard({ companies }: { companies: Company[] }) {
@@ -59,14 +65,14 @@ export function FavoritesBoard({ companies }: { companies: Company[] }) {
 
   const statusCounts = ["考虑中", "准备投递", "已投递", "面试中", "内定", "放弃"].map((status) => ({
     status,
-    count: favorites.filter((company) => (notes[company.slug] ?? defaultNote).status === status).length,
+    count: favorites.filter((company) => ({ ...defaultNote, ...(notes[company.slug] ?? {}) }).status === status).length,
   }));
 
   return (
     <div className="grid gap-6">
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <h1 className="text-2xl font-semibold text-slate-950">收藏与投递管理</h1>
-        <p className="mt-2 text-sm text-slate-500">这里负责闭环：研究 → 收藏 → 准备 → 投递 → 面试 → 复盘。每家公司都可以维护状态、优先级、备注和下一步行动。</p>
+        <p className="mt-2 text-sm text-slate-500">这里负责闭环：研究 → 收藏 → 准备 → 投递 → 面试 → 复盘。每家公司必须有下一步、截止日期、阻碍点和复盘，不让收藏变成仓库。</p>
         <div className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {statusCounts.map((item) => (
             <div key={item.status} className="rounded-md bg-slate-50 p-3">
@@ -99,7 +105,7 @@ export function FavoritesBoard({ companies }: { companies: Company[] }) {
       ) : (
         <div className="grid gap-4">
           {favorites.map((company) => {
-            const note = notes[company.slug] ?? defaultNote;
+            const note = { ...defaultNote, ...(notes[company.slug] ?? {}) };
             return (
               <article key={company.slug} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex flex-wrap items-start justify-between gap-4">
@@ -119,11 +125,23 @@ export function FavoritesBoard({ companies }: { companies: Company[] }) {
                 <div className="mt-4 grid gap-3 md:grid-cols-4">
                   <Select label="投递状态" value={note.status} options={["考虑中", "准备投递", "已投递", "面试中", "内定", "放弃"]} onChange={(value) => updateNote(company.slug, { status: value })} />
                   <Select label="优先级" value={note.priority} options={["高", "中", "低"]} onChange={(value) => updateNote(company.slug, { priority: value })} />
-                  <label className="grid gap-1 text-xs font-medium text-slate-500 md:col-span-2">
-                    下次行动
+                  <label className="grid gap-1 text-xs font-medium text-slate-500">
+                    截止日期
+                    <input type="date" className="focus-ring h-10 rounded-md border border-slate-200 bg-slate-50 px-3" value={note.dueDate} onInput={(event) => updateNote(company.slug, { dueDate: event.currentTarget.value })} />
+                  </label>
+                  <label className="grid gap-1 text-xs font-medium text-slate-500">
+                    下一个动作
                     <input className="focus-ring h-10 rounded-md border border-slate-200 bg-slate-50 px-3" value={note.nextAction} onInput={(event) => updateNote(company.slug, { nextAction: event.currentTarget.value })} />
                   </label>
-                  <label className="grid gap-1 text-xs font-medium text-slate-500 md:col-span-4">
+                  <label className="grid gap-1 text-xs font-medium text-slate-500 md:col-span-2">
+                    当前阻碍
+                    <input className="focus-ring h-10 rounded-md border border-slate-200 bg-slate-50 px-3" value={note.blocker} placeholder="例如：官网没读懂 / 不知道志望动机怎么写" onInput={(event) => updateNote(company.slug, { blocker: event.currentTarget.value })} />
+                  </label>
+                  <label className="grid gap-1 text-xs font-medium text-slate-500 md:col-span-2">
+                    复盘记录
+                    <textarea className="focus-ring min-h-20 rounded-md border border-slate-200 bg-slate-50 p-3" value={note.review} placeholder="例如：这家公司先不投，原因是日语要求高；3个月后重评。" onInput={(event) => updateNote(company.slug, { review: event.currentTarget.value })} />
+                  </label>
+                  <label className="grid gap-1 text-xs font-medium text-slate-500 md:col-span-2">
                     备注
                     <textarea className="focus-ring min-h-20 rounded-md border border-slate-200 bg-slate-50 p-3" value={note.memo} placeholder="例如：需要确认固定残业、签证更新、是否能新卒入社" onInput={(event) => updateNote(company.slug, { memo: event.currentTarget.value })} />
                   </label>

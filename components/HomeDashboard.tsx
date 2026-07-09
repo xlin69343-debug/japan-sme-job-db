@@ -1,11 +1,35 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, CircleAlert, Target } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import type { Company } from "@/lib/types";
 import { ScoreBadge, Tag } from "./DecisionUi";
 
+const focusKey = "focusCompanies";
+const todayTaskKey = "todayTaskDone";
+
 export function HomeDashboard({ companies }: { companies: Company[]; industryCount: number }) {
-  const focusCompanies = buildFocusCompanies(companies);
+  const [manualFocus, setManualFocus] = useState<string[]>([]);
+  const [taskDone, setTaskDone] = useState(false);
+
+  useEffect(() => {
+    setManualFocus(readJson<string[]>(focusKey, []));
+    setTaskDone(localStorage.getItem(todayTaskKey) === "true");
+  }, []);
+
+  const focusCompanies = useMemo(() => {
+    const pinned = manualFocus.map((slug) => companies.find((company) => company.slug === slug)).filter(Boolean) as Company[];
+    const fallback = buildFocusCompanies(companies).filter((company) => !manualFocus.includes(company.slug));
+    return [...pinned, ...fallback].slice(0, 5);
+  }, [companies, manualFocus]);
   const observeCompanies = buildObserveCompanies(companies, focusCompanies).slice(0, 6);
+
+  const toggleTodayTask = () => {
+    const next = !taskDone;
+    setTaskDone(next);
+    localStorage.setItem(todayTaskKey, String(next));
+  };
 
   return (
     <div className="space-y-6">
@@ -27,19 +51,27 @@ export function HomeDashboard({ companies }: { companies: Company[]; industryCou
 
       <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
-          <div className="flex items-center gap-2">
-            <Target size={18} className="text-blue-700" />
-            <h2 className="text-xl font-semibold text-slate-950">本周最重要的事</h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <Target size={18} className="text-blue-700" />
+              <h2 className="text-xl font-semibold text-slate-950">今日唯一任务</h2>
+            </div>
+            <button
+              className={`rounded-md px-3 py-2 text-sm font-semibold transition ${taskDone ? "bg-emerald-600 text-white" : "bg-white text-blue-700 hover:bg-blue-100"}`}
+              onClick={toggleTodayTask}
+            >
+              {taskDone ? "今日已推进" : "标记完成"}
+            </button>
           </div>
           <div className="mt-4 grid gap-3">
             {[
-              ["1", "完成一个C语言文件管理小项目", "能写进简历，比继续看公司更重要。"],
-              ["2", "只研究5家主线公司", "查官网、岗位、签证、日语要求，不再漫游130家。"],
-              ["3", "写一版日语自我介绍", "围绕“为什么从Web转向C/制造IT”准备。"],
+              ["任务", "完成一个C语言文件管理小项目 v1", "比继续看公司更重要。它是你证明“我能做技术”的第一块证据。"],
+              ["完成标准", "能在面试中用日语解释项目功能", "文件读取、增删改查、错误处理、为什么这样设计。"],
+              ["关联公司", "制造IT / 测试 / 社内SE助理", "这些岗位不一定要你很强，但要看到你真的开始动手。"],
             ].map(([index, title, body]) => (
               <div key={index} className="rounded-md bg-white/80 p-4">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-blue-600 text-sm font-semibold text-white">{index}</span>
+                  <span className="shrink-0 rounded-md bg-blue-600 px-2 py-1 text-xs font-semibold text-white">{index}</span>
                   <div>
                     <div className="font-semibold text-slate-950">{title}</div>
                     <p className="mt-1 text-sm leading-6 text-slate-600">{body}</p>
@@ -71,6 +103,9 @@ export function HomeDashboard({ companies }: { companies: Company[]; industryCou
               </Link>
             ))}
           </div>
+          {manualFocus.length > 0 && (
+            <p className="mt-3 text-xs text-slate-500">已优先显示你手动固定的重点公司。</p>
+          )}
         </div>
       </section>
 
@@ -158,4 +193,12 @@ function buildObserveCompanies(companies: Company[], focusCompanies: Company[]) 
     .filter((company) => company.visaSupport || company.acceptsForeigners)
     .sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore)
     .slice(0, 8);
+}
+
+function readJson<T>(key: string, fallback: T): T {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "") as T;
+  } catch {
+    return fallback;
+  }
 }
