@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, BriefcaseBusiness, Route, SearchCheck, UserRoundCheck } from "lucide-react";
 import type { Company } from "@/lib/types";
 import { ScoreBadge, Tag } from "./DecisionUi";
-import { PersonalHomePanel } from "./PersonalCareerTools";
 
 export function HomeDashboard({ companies, industryCount }: { companies: Company[]; industryCount: number }) {
   const realisticTargets = companies
@@ -94,7 +93,6 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
             ["找现实目标公司", "优先看制造IT、测试、社内SE助理和培训明确的中小企业", "/student-fit"],
             ["查支持工签企业", "先确认能不能留下来，再比较工资和成长性", "/companies?s=visa"],
             ["补C语言项目", "把学习路线转成能写进简历的作品集", "/career-path"],
-            ["重新算适合度", "用我的学历、日语、经验和目标重新排序企业", "/profile-test"],
             ["管理投递进度", "把研究、收藏、准备、投递和面试复盘接起来", "/favorites"],
           ].map(([title, body, href]) => (
             <Link key={title} href={href} className="group rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-sm">
@@ -108,16 +106,14 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
         </div>
       </section>
 
-      <PersonalHomePanel companies={companies} />
-
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="text-xl font-semibold text-slate-950">按我的现实距离直接判断</h2>
             <p className="mt-2 text-sm text-slate-500">每一类都对应不同的准备动作，不再把所有公司都当成“好像能投”。</p>
           </div>
-          <Link href="/profile-test" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
-            用个人画像重新计算
+          <Link href="/companies" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
+            看主线候选
           </Link>
         </div>
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -139,7 +135,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
             watchOut={["学历筛选", "客户现场", "加班波动"]}
             companies={realisticTargets}
             primaryHref="/student-fit"
-            secondaryHref="/compare"
+            secondaryHref="/favorites"
           />
           <DecisionTrack
             icon={<UserRoundCheck size={20} />}
@@ -149,7 +145,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
             watchOut={["日语证明风险", "雇佣形态", "签证更新责任"]}
             companies={visaTargets}
             primaryHref="/companies?s=visa"
-            secondaryHref="/profile-test"
+            secondaryHref="/favorites"
           />
           <DecisionTrack
             icon={<Route size={20} />}
@@ -159,7 +155,7 @@ export function HomeDashboard({ companies, industryCount }: { companies: Company
             watchOut={["技术面试", "N2以上表达", "竞争强度"]}
             companies={growthTargets}
             primaryHref="/companies?s=growth"
-            secondaryHref="/map"
+            secondaryHref="/career-path"
           />
         </div>
       </section>

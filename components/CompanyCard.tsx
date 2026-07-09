@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bookmark, GitCompare, SearchCheck, Sparkles, TriangleAlert, UserCheck } from "lucide-react";
+import { Bookmark, SearchCheck, Sparkles, TriangleAlert, UserCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Company } from "@/lib/types";
 import { ScoreBar, Tag } from "./DecisionUi";
@@ -9,12 +9,9 @@ import { CompanyStatusSelect } from "./PersonalCareerTools";
 
 type Props = {
   company: Company;
-  compareSelected?: boolean;
-  compareDisabled?: boolean;
-  onCompare?: () => void;
 };
 
-export function CompanyCard({ company, compareSelected = false, compareDisabled = false, onCompare }: Props) {
+export function CompanyCard({ company }: Props) {
   const [saved, setSaved] = useState(false);
   const reasons = buildReasons(company);
   const suitable = buildSuitable(company);
@@ -83,20 +80,11 @@ export function CompanyCard({ company, compareSelected = false, compareDisabled 
         ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <Link href={`/companies/${company.slug}`} className="inline-flex h-10 items-center justify-center gap-1 rounded-md bg-slate-950 px-3 text-sm font-semibold text-white">
           <SearchCheck size={16} />
           详情
         </Link>
-        <button
-          className={`inline-flex h-10 items-center justify-center gap-1 rounded-md border px-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-40 ${compareSelected ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50"}`}
-          disabled={compareDisabled}
-          onClick={onCompare}
-          title="加入企业对比"
-        >
-          <GitCompare size={16} />
-          {compareSelected ? "取消" : "对比"}
-        </button>
         <button
           className={`inline-flex h-10 items-center justify-center gap-1 rounded-md border px-3 text-sm font-semibold transition active:scale-95 ${saved ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50"}`}
           onClick={toggleFavorite}

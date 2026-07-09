@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BriefcaseBusiness, ClipboardCheck, FileCheck2, GitCompare, GraduationCap, Route, SearchCheck, ShieldCheck, Target, UserRoundCheck } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, ClipboardCheck, FileCheck2, GraduationCap, Route, SearchCheck, ShieldCheck, Target } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Company, UserProfile } from "@/lib/types";
 import { calculateMatch, defaultProfile } from "@/lib/recommendation";
@@ -184,7 +184,7 @@ export function CareerDecisionWorkbench({ companies, industries, regions }: Prop
             <h2 className="text-xl font-semibold text-slate-950">现在最值得研究的企业</h2>
             <p className="mt-2 text-sm text-slate-500">根据你的画像即时排序，并给出下一步动作。</p>
           </div>
-          <Link href="/profile-test" className="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">完整适合度测试</Link>
+          <Link href="/companies" className="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">进入主线候选</Link>
         </div>
         <div className="mt-5 grid gap-3 lg:grid-cols-2">
           {matches.map(({ company, match }) => (
@@ -210,12 +210,12 @@ export function CareerDecisionWorkbench({ companies, industries, regions }: Prop
 
 const scenes = [
   { title: "我能去哪", body: "按24岁、专科学历、Web忘记、C语言学习中的背景，分出现在可研究、现实目标、挑战目标和暂不建议。", href: "/student-fit", icon: <GraduationCap size={18} />, tags: ["适配", "差距", "分层"] },
-  { title: "研究候选公司", body: "按行业、签证、日语、加班、外国人友好度筛出我值得继续研究的企业。", href: "/companies", icon: <SearchCheck size={18} />, tags: ["筛选", "风险", "对比"] },
+  { title: "研究候选公司", body: "只看和我路线有关的公司，不再浏览全部130家。", href: "/companies", icon: <SearchCheck size={18} />, tags: ["主线", "风险", "收藏"] },
   { title: "规划成长路线", body: "把C语言项目、日语目标、目标岗位和准备周期连接成路线图。", href: "/career-path", icon: <Route size={18} />, tags: ["路线图", "阶段", "目标"] },
   { title: "评估工签风险", body: "先判断在留资格和日语证明风险，再决定是否投递和面试要确认什么。", href: "/companies?s=visa", icon: <ShieldCheck size={18} />, tags: ["工签", "在留", "风险"] },
-  { title: "拆能力差距", body: "用日语、技能、作品集、面试表达拆出我距离目标企业的差距。", href: "/profile-test", icon: <UserRoundCheck size={18} />, tags: ["准备度", "差距", "建议"] },
+  { title: "拆能力差距", body: "用日语、C语言项目、作品集和面试表达拆出我距离目标企业的差距。", href: "/career-path", icon: <Target size={18} />, tags: ["准备度", "差距", "建议"] },
   { title: "准备求职材料", body: "维护简历、作品集、面试回答、逆質問和签证说明等投递前清单。", href: "/dashboard", icon: <FileCheck2 size={18} />, tags: ["清单", "面试", "材料"] },
-  { title: "管理投递闭环", body: "追踪研究、收藏、准备投递、已投递、面试中和复盘后的企业。", href: "/favorites", icon: <GitCompare size={18} />, tags: ["状态", "笔记", "行动"] },
+  { title: "管理投递闭环", body: "追踪研究、收藏、准备投递、已投递、面试中和复盘后的企业。", href: "/favorites", icon: <ClipboardCheck size={18} />, tags: ["状态", "笔记", "行动"] },
 ];
 
 function readJson<T>(key: string, fallback: T): T {
@@ -276,5 +276,5 @@ function buildGaps(profile: UserProfile, doneItems: string[]) {
   if (!doneItems.includes("准备3个项目或工作案例")) gaps.push("项目/工作案例");
   if (profile.needsVisa && !doneItems.includes("确认在留资格与更新时间")) gaps.push("签证说明");
   if (!profile.targetIndustry) gaps.push("目标行业选择");
-  return gaps.length ? gaps.slice(0, 4) : ["进入投递准备", "面试复盘", "企业对比"];
+  return gaps.length ? gaps.slice(0, 4) : ["进入投递准备", "面试复盘", "整理重点候选"];
 }

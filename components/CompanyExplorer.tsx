@@ -1,303 +1,220 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, GitCompare, SlidersHorizontal, X } from "lucide-react";
+import { Search, Target } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import type { Company, Filters } from "@/lib/types";
-import { sortCompanies } from "@/lib/recommendation";
+import type { Company } from "@/lib/types";
 import { CompanyCard } from "./CompanyCard";
 import { EmptyState, Tag } from "./DecisionUi";
 
 type Props = {
   companies: Company[];
-  options: {
-    industries: string[];
-    regions: string[];
-    employeeBands: string[];
-    salaryBands: string[];
-    japaneseLevels: string[];
-    tags: string[];
-  };
+  options: unknown;
 };
 
-const initialFilters: Filters = {
-  query: "",
-  industry: "",
-  region: "",
-  employeeBand: "",
-  salaryBand: "",
-  japaneseLevel: "",
-  visaSupport: "",
-  acceptsForeigners: "",
-  remoteAvailable: "",
-  shiftWork: "",
-  overtime: "",
-  score: "",
-  recommendation: "",
-  suitableForNewGrad: "",
-  suitableForCareerChange: "",
-  suitableForLowJapanese: "",
-  workStyle: "",
-  tag: "",
-  sort: "recommendation",
+type Lane = {
+  key: string;
+  title: string;
+  subtitle: string;
+  intent: string;
+  companies: Company[];
+  tone: "green" | "blue" | "amber" | "red";
 };
 
-export function CompanyExplorer({ companies, options }: Props) {
-  const [filters, setFilters] = useState<Filters>(initialFilters);
-  const [compare, setCompare] = useState<string[]>([]);
-  const [advancedOpen, setAdvancedOpen] = useState(false);
+export function CompanyExplorer({ companies }: Props) {
+  const [query, setQuery] = useState("");
+  const [preset, setPreset] = useState("");
 
   useEffect(() => {
-    const savedCompare = JSON.parse(localStorage.getItem("compareCompanies") || "[]") as string[];
-    setCompare(savedCompare.filter((slug) => companies.some((company) => company.slug === slug)).slice(0, 3));
-
     const search = new URLSearchParams(window.location.search);
-    const preset = search.get("s");
-    const query = search.get("q");
-    const region = search.get("region");
-    if (query) setFilters((current) => ({ ...current, query }));
-    if (region) setFilters((current) => ({ ...current, region }));
-    if (preset === "newgrad") setFilters((current) => ({ ...current, suitableForNewGrad: "true", sort: "newGrad" }));
-    if (preset === "career") setFilters((current) => ({ ...current, suitableForCareerChange: "true", sort: "career" }));
-    if (preset === "small") setFilters((current) => ({ ...current, employeeBand: "小型 51-100人", tag: "小企业" }));
-    if (preset === "visa") setFilters((current) => ({ ...current, visaSupport: "true", acceptsForeigners: "true", sort: "foreigner" }));
-    if (preset === "lowjp") setFilters((current) => ({ ...current, suitableForLowJapanese: "true", visaSupport: "true" }));
-    if (preset === "foreigner") setFilters((current) => ({ ...current, acceptsForeigners: "true", sort: "foreigner" }));
-    if (preset === "growth") setFilters((current) => ({ ...current, sort: "growth" }));
-  }, [companies]);
+    setPreset(search.get("s") || "");
+    setQuery(search.get("q") || "");
+  }, []);
 
-  const filtered = useMemo(() => {
-    const query = expandQuery(filters.query);
-    const result = companies.filter((company) => {
-      const text = [
-        company.name,
-        company.industry,
-        company.location,
-        company.region,
-        company.mainBusiness,
-        company.hiringPositions.join(" "),
-        company.requiredSkills.join(" "),
-        company.reviewSummary.keywords.join(" "),
-        company.matchTags.join(" "),
-        company.riskTags.join(" "),
-      ].join(" ").toLowerCase();
-      if (query.length > 0 && !query.some((keyword) => text.includes(keyword))) return false;
-      if (filters.industry && company.industry !== filters.industry) return false;
-      if (filters.region && company.region !== filters.region) return false;
-      if (filters.employeeBand && company.employeeBand !== filters.employeeBand) return false;
-      if (filters.salaryBand && company.salaryBand !== filters.salaryBand) return false;
-      if (filters.japaneseLevel && company.japaneseLevel !== filters.japaneseLevel) return false;
-      if (filters.visaSupport && String(company.visaSupport) !== filters.visaSupport) return false;
-      if (filters.acceptsForeigners && String(company.acceptsForeigners) !== filters.acceptsForeigners) return false;
-      if (filters.remoteAvailable && String(company.remoteAvailable) !== filters.remoteAvailable) return false;
-      if (filters.shiftWork && String(company.shiftWork) !== filters.shiftWork) return false;
-      if (filters.suitableForNewGrad && String(company.suitableForNewGrad) !== filters.suitableForNewGrad) return false;
-      if (filters.suitableForCareerChange && String(company.suitableForCareerChange) !== filters.suitableForCareerChange) return false;
-      if (filters.suitableForLowJapanese && String(company.suitableForLowJapanese) !== filters.suitableForLowJapanese) return false;
-      if (filters.workStyle === "remote" && !company.remoteAvailable) return false;
-      if (filters.workStyle === "hybrid" && !company.hybridWork) return false;
-      if (filters.workStyle === "onsite" && company.remoteAvailable) return false;
-      if (filters.tag && !company.matchTags.includes(filters.tag) && !company.riskTags.includes(filters.tag)) return false;
-      if (filters.overtime === "low" && company.overtimeHours > 20) return false;
-      if (filters.overtime === "mid" && (company.overtimeHours <= 20 || company.overtimeHours > 35)) return false;
-      if (filters.overtime === "high" && company.overtimeHours <= 35) return false;
-      if (filters.score && company.openworkScore < Number(filters.score)) return false;
-      if (filters.recommendation && company.recommendationScore < Number(filters.recommendation)) return false;
-      return true;
-    });
-    return sortCompanies(result, filters.sort);
-  }, [companies, filters]);
+  const lanes = useMemo(() => buildPersonalLanes(companies, preset), [companies, preset]);
+  const filteredLanes = useMemo(() => {
+    const keywords = expandQuery(query);
+    if (keywords.length === 0) return lanes;
+    return lanes
+      .map((lane) => ({
+        ...lane,
+        companies: lane.companies.filter((company) => matchCompany(company, keywords)),
+      }))
+      .filter((lane) => lane.companies.length > 0);
+  }, [lanes, query]);
 
-  const compareCompanies = compare.map((slug) => companies.find((company) => company.slug === slug)).filter(Boolean) as Company[];
-  const setFilter = (key: keyof Filters, value: string) => setFilters((current) => ({ ...current, [key]: value }));
-  const activeFilters = getActiveFilters(filters);
-  const setPreset = (patch: Partial<Filters>) => setFilters((current) => ({ ...current, ...patch }));
-  const clearFilter = (key: keyof Filters) => setFilters((current) => ({ ...current, [key]: key === "sort" ? "recommendation" : "" }));
-  const toggleCompare = (slug: string) => {
-    setCompare((current) => {
-      const next = current.includes(slug) ? current.filter((item) => item !== slug) : current.length >= 3 ? current : [...current, slug];
-      localStorage.setItem("compareCompanies", JSON.stringify(next));
-      return next;
-    });
-  };
+  const total = filteredLanes.reduce((sum, lane) => sum + lane.companies.length, 0);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[280px_minmax(0,1fr)_260px]">
-      <aside className="h-fit rounded-lg border border-slate-200 bg-white p-4 shadow-sm lg:sticky lg:top-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-slate-950">
-          <SlidersHorizontal size={16} />
-          决策筛选
-        </div>
-        <div className="mt-4 grid gap-3">
-          <label className="grid gap-1 text-xs font-medium text-slate-500">
-            智能搜索
-            <input className="focus-ring h-10 rounded-md border border-slate-200 bg-slate-50 px-3" placeholder="AI、外国人、工签、N3、低加班" value={filters.query} onInput={(event) => setFilter("query", event.currentTarget.value)} />
-          </label>
-          <Select label="行业" value={filters.industry} options={options.industries} onChange={(value) => setFilter("industry", value)} />
-          <Select label="地区" value={filters.region} options={options.regions} onChange={(value) => setFilter("region", value)} />
-          <Select label="日语要求" value={filters.japaneseLevel} options={options.japaneseLevels} onChange={(value) => setFilter("japaneseLevel", value)} />
-          <BoolSelect label="支持签证" value={filters.visaSupport} onChange={(value) => setFilter("visaSupport", value)} />
-          <button
-            className="flex h-10 items-center justify-between rounded-md border border-slate-200 px-3 text-sm font-semibold text-slate-700"
-            onClick={() => setAdvancedOpen((value) => !value)}
-          >
-            高级筛选
-            <span className="text-xs text-slate-400">{advancedOpen ? "收起" : "展开"}</span>
-          </button>
-          {advancedOpen && (
-            <div className="grid gap-3 rounded-md border border-slate-100 bg-slate-50 p-3">
-              <Select label="公司规模" value={filters.employeeBand} options={options.employeeBands} onChange={(value) => setFilter("employeeBand", value)} />
-              <Select label="工资区间" value={filters.salaryBand} options={options.salaryBands} onChange={(value) => setFilter("salaryBand", value)} />
-              <BoolSelect label="接受外国人" value={filters.acceptsForeigners} onChange={(value) => setFilter("acceptsForeigners", value)} />
-              <BoolSelect label="适合新卒" value={filters.suitableForNewGrad} onChange={(value) => setFilter("suitableForNewGrad", value)} />
-              <BoolSelect label="适合转职" value={filters.suitableForCareerChange} onChange={(value) => setFilter("suitableForCareerChange", value)} />
-              <BoolSelect label="N3可挑战" value={filters.suitableForLowJapanese} onChange={(value) => setFilter("suitableForLowJapanese", value)} />
-              <BoolSelect label="轮班" value={filters.shiftWork} onChange={(value) => setFilter("shiftWork", value)} />
-              <Select label="标签" value={filters.tag} options={options.tags} onChange={(value) => setFilter("tag", value)} />
-              <Select label="加班" value={filters.overtime} options={["low", "mid", "high"]} labels={{ low: "20小时以内", mid: "21-35小时", high: "35小时以上" }} onChange={(value) => setFilter("overtime", value)} />
-              <Select label="工作方式" value={filters.workStyle} options={["remote", "hybrid", "onsite"]} labels={{ remote: "远程可", hybrid: "混合办公", onsite: "到岗为主" }} onChange={(value) => setFilter("workStyle", value)} />
-            </div>
-          )}
-          <Select label="排序" value={filters.sort} options={["recommendation", "foreigner", "salary", "overtime", "growth", "stability", "newGrad", "career"]} labels={{ recommendation: "综合评分", foreigner: "外国人友好", salary: "工资", overtime: "加班少", growth: "成长性", stability: "稳定性", newGrad: "新卒推荐", career: "转职推荐" }} onChange={(value) => setFilter("sort", value || "recommendation")} />
-          <button className="h-10 rounded-md border border-slate-200 text-sm font-semibold text-slate-700" onClick={() => setFilters(initialFilters)}>
-            清空筛选
-          </button>
-        </div>
-      </aside>
-
-      <section className="min-w-0">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+    <div className="grid gap-6">
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-950">原始企业研究库</h1>
-            <p className="mt-1 text-sm text-slate-500">当前显示 {filtered.length} 家。这里不是“都适合我”，而是用来搜索、排除、对照和筛出10-20家个人主线目标。</p>
+            <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">个人主线候选</div>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950">不再浏览130家，只看和我路线有关的公司</h1>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
+              这页已经砍掉复杂筛选、对比浮窗和地图入口。现在只做一件事：把公司按我的当前背景分成主线目标、观察样本、挑战目标和暂不主投。
+            </p>
           </div>
-          <Link href="/profile-test" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
-            做适合度测试
+          <Link href="/student-fit" className="rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white">
+            看分层逻辑
           </Link>
         </div>
-        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-4 shadow-sm">
-          <div className="text-sm font-semibold text-amber-900">个人使用原则：不要把130家公司当任务清单</div>
-          <p className="mt-1 text-sm leading-6 text-amber-800">
-            这页的作用是扩大视野和做判断。真正进入投递准备的公司应少而精：先筛出10-20家现实目标，再从里面选3-5家重点准备。
-          </p>
-        </div>
 
-        <div className="mb-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="mr-1 text-sm font-semibold text-slate-700">快速标签</span>
-            <QuickButton active={filters.acceptsForeigners === "true"} onClick={() => setPreset({ acceptsForeigners: filters.acceptsForeigners === "true" ? "" : "true", sort: "foreigner" })}>#外国人友好</QuickButton>
-            <QuickButton active={filters.visaSupport === "true"} onClick={() => setPreset({ visaSupport: filters.visaSupport === "true" ? "" : "true" })}>#支持工签</QuickButton>
-            <QuickButton active={filters.remoteAvailable === "true"} onClick={() => setPreset({ remoteAvailable: filters.remoteAvailable === "true" ? "" : "true", workStyle: filters.remoteAvailable === "true" ? "" : "hybrid" })}>#远程办公</QuickButton>
-            <QuickButton active={filters.overtime === "low"} onClick={() => setPreset({ overtime: filters.overtime === "low" ? "" : "low", sort: "overtime" })}>#加班少</QuickButton>
-            <QuickButton active={filters.sort === "growth"} onClick={() => setPreset({ sort: filters.sort === "growth" ? "recommendation" : "growth" })}>#成长快</QuickButton>
-            <QuickButton active={filters.suitableForNewGrad === "true"} onClick={() => setPreset({ suitableForNewGrad: filters.suitableForNewGrad === "true" ? "" : "true", sort: "newGrad" })}>#新卒可</QuickButton>
-            <QuickButton active={filters.tag === "小企业" || filters.tag === "超小团队"} onClick={() => setPreset({ employeeBand: "小型 51-100人", tag: filters.tag ? "" : "小企业" })}>#小企业</QuickButton>
-          </div>
-          {activeFilters.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
-              {activeFilters.map((item) => (
-                <button key={item.key} className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700" onClick={() => clearFilter(item.key)}>
-                  {item.label} ×
-                </button>
-              ))}
-            </div>
-          )}
+        <div className="mt-5 grid gap-3 md:grid-cols-4">
+          <DecisionRule label="当前背景" value="24岁 / 专科 / C语言学习中" />
+          <DecisionRule label="优先路线" value="制造IT / 测试 / 社内SE助理" />
+          <DecisionRule label="先排除" value="高算法门槛 / N1强依赖 / 无签证线索" />
+          <DecisionRule label="近期目标" value="3-5家重点准备，不广撒网" />
         </div>
-        {filtered.length === 0 ? (
-          <EmptyState title="没有匹配企业" body="尝试降低日语、地区、工资或签证筛选条件。求职决策里，完全匹配通常很少，候选池可以先放宽。" />
-        ) : (
-          <div className="grid gap-4 xl:grid-cols-2">
-            {filtered.map((company) => (
-              <CompanyCard
-                key={company.slug}
-                company={company}
-                compareSelected={compare.includes(company.slug)}
-                compareDisabled={!compare.includes(company.slug) && compare.length >= 3}
-                onCompare={() => toggleCompare(company.slug)}
-              />
-            ))}
-          </div>
-        )}
       </section>
 
-      <aside className="h-fit rounded-lg border border-slate-200 bg-white p-4 shadow-sm lg:sticky lg:top-4">
-        <h2 className="font-semibold text-slate-950">当前决策视角</h2>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {filters.visaSupport === "true" && <Tag tone="blue">需要签证</Tag>}
-          {filters.acceptsForeigners === "true" && <Tag tone="green">外国人友好</Tag>}
-          {filters.suitableForLowJapanese === "true" && <Tag tone="green">N3可挑战</Tag>}
-          {filters.overtime === "low" && <Tag tone="green">低加班</Tag>}
-          {filters.tag && <Tag tone="blue">{filters.tag}</Tag>}
-          {!filters.visaSupport && !filters.acceptsForeigners && !filters.tag && <span className="text-sm text-slate-500">选择筛选后，这里会显示你的判断条件。</span>}
+      <section className="grid gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-[1fr_auto]">
+        <label className="relative block">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
+          <input
+            className="h-11 w-full rounded-md border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white"
+            placeholder="只在个人候选里搜索：C语言、测试、制造、工签、N3、AI"
+            value={query}
+            onInput={(event) => setQuery(event.currentTarget.value)}
+          />
+        </label>
+        <div className="flex flex-wrap gap-2">
+          <PresetButton active={preset === ""} onClick={() => setPreset("")}>我的主线</PresetButton>
+          <PresetButton active={preset === "visa"} onClick={() => setPreset(preset === "visa" ? "" : "visa")}>工签优先</PresetButton>
+          <PresetButton active={preset === "growth"} onClick={() => setPreset(preset === "growth" ? "" : "growth")}>挑战目标</PresetButton>
         </div>
+      </section>
 
-        <div className="mt-5 rounded-md bg-blue-50 p-3">
-          <div className="text-sm font-semibold text-blue-900">个人主线建议</div>
-          <p className="mt-1 text-sm leading-6 text-blue-800">
-            130家是地图，不是路线。优先把“支持工签 + 日语压力可控 + 岗位能从基础做起”的公司放入收藏。
-          </p>
+      <section className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+        <div className="flex items-start gap-3">
+          <Target className="mt-0.5 text-amber-700" size={18} />
+          <div>
+            <div className="text-sm font-semibold text-amber-900">使用原则</div>
+            <p className="mt-1 text-sm leading-6 text-amber-800">
+              如果一家公司不能解释“为什么适合我现在这条路线”，就先不要放进重点准备。宁可少看，也不要被130家公司拖着走。
+            </p>
+          </div>
         </div>
+      </section>
 
-        <div className="mt-5 border-t border-slate-200 pt-4">
-          <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-slate-950">企业对比</h2>
-            <span className="text-xs text-slate-500">{compare.length}/3</span>
-          </div>
-          <div className="mt-3 grid gap-2">
-            {compareCompanies.length === 0 && <p className="text-sm leading-6 text-slate-500">在卡片上点“对比”，选择 2-3 家公司后查看差异。</p>}
-            {compareCompanies.map((company) => (
-              <div key={company.slug} className="rounded-md bg-slate-50 p-3 text-sm">
-                <div className="font-semibold text-slate-950">{company.name}</div>
-                <div className="mt-1 text-xs text-slate-500">综合 {company.recommendationScore} · 加班 {company.overtimeHours}h</div>
+      {total === 0 ? (
+        <EmptyState title="没有匹配企业" body="把搜索词放宽一点。现在这页只显示个人路线相关企业，不追求覆盖全部数据库。" />
+      ) : (
+        <div className="grid gap-6">
+          {filteredLanes.map((lane) => (
+            <section key={lane.key} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-xl font-semibold text-slate-950">{lane.title}</h2>
+                    <Tag tone={lane.tone}>{lane.companies.length}家</Tag>
+                  </div>
+                  <p className="mt-1 text-sm font-semibold text-slate-700">{lane.subtitle}</p>
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">{lane.intent}</p>
+                </div>
               </div>
-            ))}
-            {compareCompanies.length > 0 && (
-              <Link href="/compare" className="mt-1 rounded-md bg-slate-950 px-3 py-2 text-center text-sm font-semibold text-white">
-                打开对比页
-              </Link>
-            )}
-          </div>
-        </div>
-      </aside>
-      {compareCompanies.length > 0 && (
-        <div className="fixed bottom-4 right-4 z-50 w-[calc(100%-2rem)] max-w-sm rounded-lg border border-slate-200 bg-white p-4 shadow-xl">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2 font-semibold text-slate-950">
-                <GitCompare size={17} />
-                企业对比
+              <div className="mt-4 grid gap-4 xl:grid-cols-2">
+                {lane.companies.map((company) => (
+                  <CompanyCard key={company.slug} company={company} />
+                ))}
               </div>
-              <p className="mt-1 text-sm text-slate-500">已选择 {compareCompanies.length} 家公司</p>
-            </div>
-            <button className="rounded-md p-1 text-slate-400 hover:bg-slate-100" onClick={() => { setCompare([]); localStorage.removeItem("compareCompanies"); }} title="清空对比">
-              <X size={17} />
-            </button>
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {compareCompanies.map((company) => (
-              <span key={company.slug} className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">{company.name}</span>
-            ))}
-          </div>
-          {compareCompanies.length < 2 ? (
-            <div className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-700">再选择 1 家即可对比</div>
-          ) : (
-            <Link href="/compare" className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-blue-600 text-sm font-semibold text-white">
-              立即对比
-              <ArrowRight size={16} />
-            </Link>
-          )}
+            </section>
+          ))}
         </div>
       )}
     </div>
   );
 }
 
-function QuickButton({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick: () => void }) {
-  return (
-    <button className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${active ? "border-blue-600 bg-blue-600 text-white" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"}`} onClick={onClick}>
-      {children}
-    </button>
-  );
+function buildPersonalLanes(companies: Company[], preset: string): Lane[] {
+  const mainTargets = companies
+    .filter((company) => {
+      const routeFit = company.industry.includes("制造") || company.industry.includes("IT") || company.hiringPositions.join("").includes("测试") || company.hiringPositions.join("").includes("社内");
+      const supportFit = company.visaSupport || company.acceptsForeigners || company.suitableForLowJapanese || company.suitableForNewGrad;
+      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews"].includes(company.slug) || company.interviewInfo.difficulty === "高";
+      return routeFit && supportFit && !tooHard;
+    })
+    .sort((a, b) => Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .slice(0, 14);
+
+  const observation = companies
+    .filter((company) => {
+      const usefulIndustry = ["物流", "零售", "教育", "介护", "医疗", "贸易"].some((keyword) => company.industry.includes(keyword));
+      return usefulIndustry && (company.visaSupport || company.acceptsForeigners);
+    })
+    .sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .slice(0, 8);
+
+  const challenge = companies
+    .filter((company) => ["abeja", "pksha", "smartnews", "preferred-networks", "exawizards", "brainpad"].includes(company.slug))
+    .sort((a, b) => a.slug === "preferred-networks" ? 1 : b.recommendationScore - a.recommendationScore);
+
+  const notNow = companies
+    .filter((company) => company.interviewInfo.difficulty === "高" || company.japaneseLevel.includes("N1") || company.riskTags.includes("技术面试难"))
+    .filter((company) => !challenge.some((item) => item.slug === company.slug))
+    .slice(0, 6);
+
+  const lanes: Lane[] = [
+    {
+      key: "main",
+      title: "主线目标",
+      subtitle: "现在最该认真研究",
+      intent: "这些公司更贴近你当前的C语言学习路线和留学生就业现实，可以收藏、查官网、准备志望动机。",
+      companies: mainTargets,
+      tone: "blue",
+    },
+    {
+      key: "observe",
+      title: "观察样本",
+      subtitle: "用来理解日本公司，不急着投",
+      intent: "这些公司未必是你的主线，但能帮你了解行业、日语要求、工签沟通和工作方式。",
+      companies: observation,
+      tone: "green",
+    },
+    {
+      key: "challenge",
+      title: "挑战目标",
+      subtitle: "未来可以冲，现在不主投",
+      intent: "这些公司适合反推学习计划：日语、项目、算法/技术面试和业务理解都要补。",
+      companies: challenge,
+      tone: "amber",
+    },
+    {
+      key: "not-now",
+      title: "暂不主投",
+      subtitle: "先别把精力耗在这里",
+      intent: "不是永远不能去，而是当前阶段成功率低。先把主线目标跑通，再回来重评。",
+      companies: notNow,
+      tone: "red",
+    },
+  ];
+
+  if (preset === "visa") {
+    return lanes
+      .map((lane) => ({ ...lane, companies: lane.companies.filter((company) => company.visaSupport || company.acceptsForeigners) }))
+      .filter((lane) => lane.companies.length > 0);
+  }
+
+  if (preset === "growth") return lanes.filter((lane) => lane.key === "challenge" || lane.key === "main");
+
+  return lanes;
+}
+
+function matchCompany(company: Company, keywords: string[]) {
+  const text = [
+    company.name,
+    company.industry,
+    company.location,
+    company.region,
+    company.mainBusiness,
+    company.hiringPositions.join(" "),
+    company.requiredSkills.join(" "),
+    company.reviewSummary.keywords.join(" "),
+    company.matchTags.join(" "),
+    company.riskTags.join(" "),
+  ].join(" ").toLowerCase();
+  return keywords.some((keyword) => text.includes(keyword));
 }
 
 function expandQuery(raw: string) {
@@ -305,65 +222,31 @@ function expandQuery(raw: string) {
   if (!value) return [];
   const dictionary: Record<string, string[]> = {
     ai: ["ai", "人工智能", "机器学习", "数据", "算法"],
-    外国人: ["外国人", "外国人友好", "签证", "在留", "n3", "n2"],
+    c: ["c语言", "嵌入式", "制造", "测试", "制御"],
+    c语言: ["c语言", "嵌入式", "制造", "测试", "制御"],
     工签: ["签证", "visa", "在留资格", "工签"],
     签证: ["签证", "visa", "在留资格", "工签"],
+    制造: ["制造", "生产技术", "品质", "cad", "制御"],
+    测试: ["测试", "qa", "品质", "検証"],
     低日语: ["n3", "n3可挑战", "低日语"],
-    轻松: ["低加班", "工作生活平衡", "远程"],
-    远程: ["远程", "混合", "remote"],
-    制造: ["制造", "生产技术", "品质", "cad"],
-    it: ["it", "软件", "saas", "后端", "typescript", "python"],
+    n3: ["n3", "n3可挑战", "低日语"],
   };
   return [value, ...(dictionary[value] ?? [])].map((item) => item.toLowerCase());
 }
 
-function getActiveFilters(filters: Filters) {
-  const labels: Partial<Record<keyof Filters, string>> = {
-    query: `搜索：${filters.query}`,
-    industry: `行业：${filters.industry}`,
-    region: `地区：${filters.region}`,
-    employeeBand: `规模：${filters.employeeBand}`,
-    salaryBand: `工资：${filters.salaryBand}`,
-    japaneseLevel: `日语：${filters.japaneseLevel}`,
-    visaSupport: filters.visaSupport === "true" ? "支持签证" : "不支持签证",
-    acceptsForeigners: filters.acceptsForeigners === "true" ? "接受外国人" : "外国人案例少",
-    remoteAvailable: filters.remoteAvailable === "true" ? "远程可" : "远程少",
-    shiftWork: filters.shiftWork === "true" ? "有轮班" : "无轮班",
-    overtime: filters.overtime === "low" ? "低加班" : filters.overtime === "mid" ? "中等加班" : filters.overtime === "high" ? "高加班" : "",
-    suitableForNewGrad: filters.suitableForNewGrad === "true" ? "适合新卒" : "不适合新卒",
-    suitableForCareerChange: filters.suitableForCareerChange === "true" ? "适合转职" : "不适合转职",
-    suitableForLowJapanese: filters.suitableForLowJapanese === "true" ? "N3可挑战" : "日语压力高",
-    workStyle: filters.workStyle === "remote" ? "远程" : filters.workStyle === "hybrid" ? "混合" : filters.workStyle === "onsite" ? "到岗" : "",
-    tag: `标签：${filters.tag}`,
-  };
-  return (Object.keys(labels) as (keyof Filters)[])
-    .filter((key) => key !== "sort" && Boolean(filters[key]) && Boolean(labels[key]))
-    .map((key) => ({ key, label: labels[key] ?? "" }));
-}
-
-function Select({ label, value, options, labels = {}, onChange }: { label: string; value: string; options: string[]; labels?: Record<string, string>; onChange: (value: string) => void }) {
+function DecisionRule({ label, value }: { label: string; value: string }) {
   return (
-    <label className="grid gap-1 text-xs font-medium text-slate-500">
-      {label}
-      <select className="focus-ring h-10 rounded-md border border-slate-200 bg-slate-50 px-3" value={value} onInput={(event) => onChange(event.currentTarget.value)}>
-        <option value="">全部</option>
-        {options.map((option) => (
-          <option key={option} value={option}>{labels[option] ?? option}</option>
-        ))}
-      </select>
-    </label>
+    <div className="rounded-md bg-slate-50 p-4">
+      <div className="text-xs font-semibold text-slate-500">{label}</div>
+      <div className="mt-2 text-sm font-semibold leading-6 text-slate-900">{value}</div>
+    </div>
   );
 }
 
-function BoolSelect({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+function PresetButton({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick: () => void }) {
   return (
-    <label className="grid gap-1 text-xs font-medium text-slate-500">
-      {label}
-      <select className="focus-ring h-10 rounded-md border border-slate-200 bg-slate-50 px-3" value={value} onInput={(event) => onChange(event.currentTarget.value)}>
-        <option value="">全部</option>
-        <option value="true">是</option>
-        <option value="false">否</option>
-      </select>
-    </label>
+    <button className={`h-11 rounded-md border px-3 text-sm font-semibold transition ${active ? "border-blue-600 bg-blue-600 text-white" : "border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50"}`} onClick={onClick}>
+      {children}
+    </button>
   );
 }

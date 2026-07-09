@@ -2,7 +2,7 @@ import { StudentFitGuide } from "@/components/StudentFitGuide";
 import { getCompanies } from "@/lib/companies";
 
 export const metadata = {
-  title: "我的公司适配地图 | 我的日本求职成长台",
+  title: "我的公司分层 | 我的日本求职成长台",
 };
 
 export default function StudentFitPage() {

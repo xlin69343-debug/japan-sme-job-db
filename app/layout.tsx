@@ -20,12 +20,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               {[
                 ["个人工作台", "/dashboard"],
                 ["公司分层", "/student-fit"],
-                ["候选企业", "/companies"],
-                ["适合度", "/profile-test"],
+                ["主线候选", "/companies"],
                 ["成长路线", "/career-path"],
-                ["企业对比", "/compare"],
                 ["投递管理", "/favorites"],
-                ["地区地图", "/map"],
               ].map(([label, href]) => (
                 <Link key={href} href={href} className="rounded-md px-3 py-2 hover:bg-slate-100 hover:text-slate-950">
                   {label}
