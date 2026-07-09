@@ -19,6 +19,7 @@ type Lane = {
   intent: string;
   companies: Company[];
   tone: "green" | "blue" | "amber" | "red";
+  compact?: boolean;
 };
 
 export function CompanyExplorer({ companies }: Props) {
@@ -51,9 +52,9 @@ export function CompanyExplorer({ companies }: Props) {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">个人主线候选</div>
-            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950">不再浏览130家，只看和我路线有关的公司</h1>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950">只保留我需要行动的公司</h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
-              这页已经砍掉复杂筛选、对比浮窗和地图入口。现在只做一件事：把公司按我的当前背景分成主线目标、观察样本、挑战目标和暂不主投。
+              这页不再展示完整数据库。默认只看3-5家重点准备和少量主线观察；挑战目标只用于反推学习计划，暂不主投只用于提醒自己别分心。
             </p>
           </div>
           <Link href="/student-fit" className="rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white">
@@ -65,7 +66,7 @@ export function CompanyExplorer({ companies }: Props) {
           <DecisionRule label="当前背景" value="24岁 / 专科 / C语言学习中" />
           <DecisionRule label="优先路线" value="制造IT / 测试 / 社内SE助理" />
           <DecisionRule label="先排除" value="高算法门槛 / N1强依赖 / 无签证线索" />
-          <DecisionRule label="近期目标" value="3-5家重点准备，不广撒网" />
+          <DecisionRule label="硬规则" value="重点公司最多5家，不广撒网" />
         </div>
       </section>
 
@@ -80,7 +81,7 @@ export function CompanyExplorer({ companies }: Props) {
           />
         </label>
         <div className="flex flex-wrap gap-2">
-          <PresetButton active={preset === ""} onClick={() => setPreset("")}>我的主线</PresetButton>
+          <PresetButton active={preset === ""} onClick={() => setPreset("")}>重点优先</PresetButton>
           <PresetButton active={preset === "visa"} onClick={() => setPreset(preset === "visa" ? "" : "visa")}>工签优先</PresetButton>
           <PresetButton active={preset === "growth"} onClick={() => setPreset(preset === "growth" ? "" : "growth")}>挑战目标</PresetButton>
         </div>
@@ -92,7 +93,7 @@ export function CompanyExplorer({ companies }: Props) {
           <div>
             <div className="text-sm font-semibold text-amber-900">使用原则</div>
             <p className="mt-1 text-sm leading-6 text-amber-800">
-              如果一家公司不能解释“为什么适合我现在这条路线”，就先不要放进重点准备。宁可少看，也不要被130家公司拖着走。
+              一家公司如果不能解释“为什么适合我现在这条路线”，就先不要收藏。宁可少看，也不要被130家公司拖着走。
             </p>
           </div>
         </div>
@@ -114,11 +115,22 @@ export function CompanyExplorer({ companies }: Props) {
                   <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">{lane.intent}</p>
                 </div>
               </div>
-              <div className="mt-4 grid gap-4 xl:grid-cols-2">
-                {lane.companies.map((company) => (
-                  <CompanyCard key={company.slug} company={company} />
-                ))}
-              </div>
+              {lane.compact ? (
+                <div className="mt-4 grid gap-2 md:grid-cols-2">
+                  {lane.companies.map((company) => (
+                    <Link key={company.slug} href={`/companies/${company.slug}`} className="rounded-md bg-slate-50 p-3 text-sm hover:bg-blue-50">
+                      <div className="font-semibold text-slate-950">{company.name}</div>
+                      <div className="mt-1 text-xs text-slate-500">{company.industry} · {company.japaneseLevel} · {company.interviewInfo.difficulty}</div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-4 grid gap-4 xl:grid-cols-2">
+                  {lane.companies.map((company) => (
+                    <CompanyCard key={company.slug} company={company} />
+                  ))}
+                </div>
+              )}
             </section>
           ))}
         </div>
@@ -128,7 +140,7 @@ export function CompanyExplorer({ companies }: Props) {
 }
 
 function buildPersonalLanes(companies: Company[], preset: string): Lane[] {
-  const mainTargets = companies
+  const focusTargets = companies
     .filter((company) => {
       const routeFit = company.industry.includes("制造") || company.industry.includes("IT") || company.hiringPositions.join("").includes("测试") || company.hiringPositions.join("").includes("社内");
       const supportFit = company.visaSupport || company.acceptsForeigners || company.suitableForLowJapanese || company.suitableForNewGrad;
@@ -136,7 +148,19 @@ function buildPersonalLanes(companies: Company[], preset: string): Lane[] {
       return routeFit && supportFit && !tooHard;
     })
     .sort((a, b) => Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
-    .slice(0, 14);
+    .slice(0, 5);
+
+  const focusSlugs = new Set(focusTargets.map((company) => company.slug));
+
+  const mainTargets = companies
+    .filter((company) => {
+      const routeFit = company.industry.includes("制造") || company.industry.includes("IT") || company.hiringPositions.join("").includes("测试") || company.hiringPositions.join("").includes("社内");
+      const supportFit = company.visaSupport || company.acceptsForeigners || company.suitableForLowJapanese || company.suitableForNewGrad;
+      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews"].includes(company.slug) || company.interviewInfo.difficulty === "高";
+      return routeFit && supportFit && !tooHard && !focusSlugs.has(company.slug);
+    })
+    .sort((a, b) => Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .slice(0, 8);
 
   const observation = companies
     .filter((company) => {
@@ -144,33 +168,44 @@ function buildPersonalLanes(companies: Company[], preset: string): Lane[] {
       return usefulIndustry && (company.visaSupport || company.acceptsForeigners);
     })
     .sort((a, b) => b.foreignerFriendlyScore - a.foreignerFriendlyScore)
-    .slice(0, 8);
+    .filter((company) => !focusSlugs.has(company.slug))
+    .slice(0, 4);
 
   const challenge = companies
     .filter((company) => ["abeja", "pksha", "smartnews", "preferred-networks", "exawizards", "brainpad"].includes(company.slug))
-    .sort((a, b) => a.slug === "preferred-networks" ? 1 : b.recommendationScore - a.recommendationScore);
+    .sort((a, b) => a.slug === "preferred-networks" ? 1 : b.recommendationScore - a.recommendationScore)
+    .slice(0, 4);
 
   const notNow = companies
     .filter((company) => company.interviewInfo.difficulty === "高" || company.japaneseLevel.includes("N1") || company.riskTags.includes("技术面试难"))
     .filter((company) => !challenge.some((item) => item.slug === company.slug))
-    .slice(0, 6);
+    .slice(0, 4);
 
   const lanes: Lane[] = [
     {
       key: "main",
-      title: "主线目标",
-      subtitle: "现在最该认真研究",
-      intent: "这些公司更贴近你当前的C语言学习路线和留学生就业现实，可以收藏、查官网、准备志望动机。",
-      companies: mainTargets,
+      title: "重点准备",
+      subtitle: "最多5家，真正进入行动",
+      intent: "这些公司最接近你当前阶段。不是看看就算，要查官网、写笔记、准备志望动机和面试回答。",
+      companies: focusTargets,
       tone: "blue",
     },
     {
       key: "observe",
-      title: "观察样本",
-      subtitle: "用来理解日本公司，不急着投",
-      intent: "这些公司未必是你的主线，但能帮你了解行业、日语要求、工签沟通和工作方式。",
+      title: "主线观察",
+      subtitle: "看行业规律，不急着投",
+      intent: "这些公司用于横向理解岗位、日语、签证和工作方式。看完要么收藏，要么放弃。",
+      companies: mainTargets,
+      tone: "green",
+    },
+    {
+      key: "sample",
+      title: "行业样本",
+      subtitle: "只用于补认知",
+      intent: "不作为近期主投，只用来理解非IT行业的门槛和工作方式。",
       companies: observation,
       tone: "green",
+      compact: true,
     },
     {
       key: "challenge",
@@ -179,6 +214,7 @@ function buildPersonalLanes(companies: Company[], preset: string): Lane[] {
       intent: "这些公司适合反推学习计划：日语、项目、算法/技术面试和业务理解都要补。",
       companies: challenge,
       tone: "amber",
+      compact: true,
     },
     {
       key: "not-now",
@@ -187,6 +223,7 @@ function buildPersonalLanes(companies: Company[], preset: string): Lane[] {
       intent: "不是永远不能去，而是当前阶段成功率低。先把主线目标跑通，再回来重评。",
       companies: notNow,
       tone: "red",
+      compact: true,
     },
   ];
 

@@ -18,11 +18,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </Link>
             <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-600">
               {[
-                ["个人工作台", "/dashboard"],
+                ["今日任务", "/"],
                 ["公司分层", "/student-fit"],
                 ["主线候选", "/companies"],
-                ["成长路线", "/career-path"],
-                ["投递管理", "/favorites"],
+                ["投递记录", "/favorites"],
               ].map(([label, href]) => (
                 <Link key={href} href={href} className="rounded-md px-3 py-2 hover:bg-slate-100 hover:text-slate-950">
                   {label}
