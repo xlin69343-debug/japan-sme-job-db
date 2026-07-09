@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Bookmark, Pin, SearchCheck, Sparkles, TriangleAlert, UserCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Company } from "@/lib/types";
+import { getCurrentStage, getEvidenceBadge } from "@/lib/evidence";
 import { ScoreBar, Tag } from "./DecisionUi";
 import { CompanyStatusSelect } from "./PersonalCareerTools";
 
@@ -17,6 +18,8 @@ export function CompanyCard({ company }: Props) {
   const reasons = buildReasons(company);
   const suitable = buildSuitable(company);
   const cautions = buildCautions(company);
+  const stage = getCurrentStage(company);
+  const scoreEvidence = getEvidenceBadge(company, "score");
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favoriteCompanies") || "[]") as string[];
@@ -50,24 +53,28 @@ export function CompanyCard({ company }: Props) {
           </Link>
           <p className="mt-1 text-sm text-slate-500">{company.industry} · {company.region} · {company.employees}</p>
         </div>
-        <div className="rounded-md bg-blue-600 px-2.5 py-2 text-center text-white">
-          <div className="text-[10px]">综合</div>
+        <div className="rounded-md bg-slate-900 px-2.5 py-2 text-center text-white">
+          <div className="text-[10px]">个人排序</div>
           <div className="text-lg font-semibold">{company.recommendationScore}</div>
         </div>
       </div>
 
       <div className="rounded-md bg-blue-50 p-3">
-        <div className="text-xs font-semibold text-blue-700">一句话总结</div>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="text-xs font-semibold text-blue-700">一句话判断</div>
+          <Tag tone={stage === "挑战目标" ? "amber" : stage === "暂不主投" ? "red" : "blue"}>{stage}</Tag>
+          <Tag tone={scoreEvidence.tone}>{scoreEvidence.label}</Tag>
+        </div>
         <p className="mt-1 text-sm leading-6 text-slate-800">{oneLineSummary(company)}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-2 text-xs">
         <Metric label="工作方式" value={company.remoteAvailable ? "远程/混合" : "到岗为主"} />
-        <Metric label="平均加班" value={`${company.overtimeHours}小时/月`} />
+        <Metric label="加班" value={`${company.overtimeHours}小时/月`} evidence={getEvidenceBadge(company, "overtime").label} />
         <Metric label="日语要求" value={company.japaneseLevel} />
-        <Metric label="签证支持" value={company.visaSupport ? "可期待" : "需确认"} />
-        <Metric label="工资区间" value={company.salaryRange} />
-        <Metric label="外国人友好" value={`${company.foreignerFriendlyScore}/10`} />
+        <Metric label="签证" value={company.visaSupport ? "有支持可能" : "先确认"} evidence={getEvidenceBadge(company, "visa").label} />
+        <Metric label="薪资" value={company.salaryRange} evidence={getEvidenceBadge(company, "salary").label} />
+        <Metric label="外国人" value={`${company.foreignerFriendlyScore}/10`} evidence={getEvidenceBadge(company, "foreigners").label} />
       </div>
 
       <div className="grid gap-3">
@@ -135,7 +142,7 @@ function buildReasons(company: Company) {
   if (company.slug === "pksha") return ["AI产品化方向明确", "NLP/算法经验可发挥", "成长空间大"];
   return [
     company.acceptsForeigners ? "外国人录用可能性较高" : "可作为挑战候选",
-    company.visaSupport ? "工签支持可期待" : "适合先确认签证后投递",
+    company.visaSupport ? "工签有线索，仍需确认" : "适合先确认签证后投递",
     company.overtimeHours <= 20 ? "加班控制较好" : company.scoreBreakdown.growth >= 8 ? "成长空间较大" : "业务经验积累快",
   ].slice(0, 3);
 }
@@ -179,11 +186,12 @@ function MiniList({ icon, title, items, tone }: { icon: React.ReactNode; title: 
   );
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+function Metric({ label, value, evidence }: { label: string; value: string; evidence?: string }) {
   return (
     <div className="rounded-md bg-slate-50 p-2">
       <div className="text-[11px] text-slate-500">{label}</div>
       <div className="mt-1 line-clamp-2 font-semibold text-slate-900">{value}</div>
+      {evidence && <div className="mt-1 text-[10px] font-medium text-amber-700">{evidence}</div>}
     </div>
   );
 }

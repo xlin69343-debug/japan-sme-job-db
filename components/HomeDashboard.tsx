@@ -98,7 +98,7 @@ export function HomeDashboard({ companies }: { companies: Company[]; industryCou
                     <div className="text-sm font-semibold text-slate-950">{index + 1}. {company.name}</div>
                     <p className="mt-1 text-xs leading-5 text-slate-500">{company.industry} · {company.region} · {company.japaneseLevel}</p>
                   </div>
-                  <Tag tone={company.visaSupport ? "green" : "amber"}>{company.visaSupport ? "签证可期待" : "签证需确认"}</Tag>
+                  <Tag tone={company.visaSupport ? "blue" : "amber"}>{company.visaSupport ? "签证有线索" : "签证先确认"}</Tag>
                 </div>
               </Link>
             ))}
@@ -177,12 +177,13 @@ function DecisionBlock({ title, tone, items, href, action }: { title: string; to
 function buildFocusCompanies(companies: Company[]) {
   return companies
     .filter((company) => {
-      const routeFit = company.industry.includes("制造") || company.industry.includes("IT") || company.hiringPositions.join("").includes("测试") || company.hiringPositions.join("").includes("社内");
+      const routeText = `${company.industry} ${company.hiringPositions.join(" ")} ${company.requiredSkills.join(" ")} ${company.interviewInfo.codingTest}`;
+      const routeFit = /制造|测试|検証|社内|品質|制御|通常无编码测试/.test(routeText) && !company.industry.includes("AI");
       const supportFit = company.visaSupport || company.acceptsForeigners || company.suitableForLowJapanese || company.suitableForNewGrad;
-      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews"].includes(company.slug) || company.interviewInfo.difficulty === "高";
+      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews", "exawizards", "brainpad", "freee", "layerx"].includes(company.slug) || company.interviewInfo.difficulty === "高";
       return routeFit && supportFit && !tooHard;
     })
-    .sort((a, b) => Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .sort((a, b) => Number(b.industry.includes("制造")) - Number(a.industry.includes("制造")) || Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
     .slice(0, 5);
 }
 

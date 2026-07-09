@@ -147,24 +147,26 @@ function buildPersonalLanes(companies: Company[], preset: string, manualFocus: s
     ...pinnedTargets,
     ...companies
     .filter((company) => {
-      const routeFit = company.industry.includes("制造") || company.industry.includes("IT") || company.hiringPositions.join("").includes("测试") || company.hiringPositions.join("").includes("社内");
+      const routeText = `${company.industry} ${company.hiringPositions.join(" ")} ${company.requiredSkills.join(" ")} ${company.interviewInfo.codingTest}`;
+      const routeFit = /制造|测试|検証|社内|品質|制御|通常无编码测试/.test(routeText) && !company.industry.includes("AI");
       const supportFit = company.visaSupport || company.acceptsForeigners || company.suitableForLowJapanese || company.suitableForNewGrad;
-      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews"].includes(company.slug) || company.interviewInfo.difficulty === "高";
+      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews", "exawizards", "brainpad", "freee", "layerx"].includes(company.slug) || company.interviewInfo.difficulty === "高";
       return routeFit && supportFit && !tooHard && !manualFocus.includes(company.slug);
     })
-    .sort((a, b) => Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .sort((a, b) => Number(b.industry.includes("制造")) - Number(a.industry.includes("制造")) || Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
   ].slice(0, 5);
 
   const focusSlugs = new Set(focusTargets.map((company) => company.slug));
 
   const mainTargets = companies
     .filter((company) => {
-      const routeFit = company.industry.includes("制造") || company.industry.includes("IT") || company.hiringPositions.join("").includes("测试") || company.hiringPositions.join("").includes("社内");
+      const routeText = `${company.industry} ${company.hiringPositions.join(" ")} ${company.requiredSkills.join(" ")} ${company.interviewInfo.codingTest}`;
+      const routeFit = /制造|测试|検証|社内|品質|制御|通常无编码测试/.test(routeText) && !company.industry.includes("AI");
       const supportFit = company.visaSupport || company.acceptsForeigners || company.suitableForLowJapanese || company.suitableForNewGrad;
-      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews"].includes(company.slug) || company.interviewInfo.difficulty === "高";
+      const tooHard = ["preferred-networks", "pksha", "abeja", "smartnews", "exawizards", "brainpad", "freee", "layerx"].includes(company.slug) || company.interviewInfo.difficulty === "高";
       return routeFit && supportFit && !tooHard && !focusSlugs.has(company.slug);
     })
-    .sort((a, b) => Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
+    .sort((a, b) => Number(b.industry.includes("制造")) - Number(a.industry.includes("制造")) || Number(b.visaSupport) - Number(a.visaSupport) || a.overtimeHours - b.overtimeHours || b.foreignerFriendlyScore - a.foreignerFriendlyScore)
     .slice(0, 8);
 
   const observation = companies

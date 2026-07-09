@@ -22,7 +22,7 @@ export default function MapPage() {
     <main className="mx-auto max-w-[1500px] px-4 py-6 md:px-8">
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <h1 className="text-2xl font-semibold text-slate-950">我的求职地区地图</h1>
-        <p className="mt-2 text-sm leading-6 text-slate-500">先按地区聚合，不接真实地图 API。用企业数量、平均加班、外国人友好企业数量和推荐行业判断我适合把求职重心放在哪里。</p>
+        <p className="mt-2 text-sm leading-6 text-slate-500">先按地区聚合，不接真实地图 API。用企业数量、加班估算、外国人录用线索和推荐行业判断我适合把求职重心放在哪里。</p>
       </section>
 
       <section className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -33,11 +33,11 @@ export default function MapPage() {
                 <h2 className="text-xl font-semibold text-slate-950">{group.region}</h2>
                 <p className="mt-1 text-sm text-slate-500">{group.items.length} 家企业</p>
               </div>
-              <span className="rounded-md bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700">均分 {group.avgScore}</span>
+              <span className="rounded-md bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700">个人排序 {group.avgScore}</span>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-              <Metric label="平均加班" value={`${group.avgOvertime}小时/月`} />
-              <Metric label="外国人友好" value={`${group.foreignerCount}家`} />
+              <Metric label="加班估算均值" value={`${group.avgOvertime}小时/月`} />
+              <Metric label="外国人线索" value={`${group.foreignerCount}家`} />
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {group.topIndustries.map((industry) => <Tag key={industry} tone="blue">{industry}</Tag>)}

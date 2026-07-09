@@ -157,7 +157,7 @@ function PersonalList({ title, empty, companies, showStarter = false }: { title:
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/companies?q=AI" className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-blue-700">AI企业</Link>
                 <Link href="/companies?s=foreigner" className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-blue-700">外国人友好</Link>
-                <Link href="/companies?s=visa" className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-blue-700">支持工签</Link>
+                <Link href="/companies?s=visa" className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-blue-700">签证有线索</Link>
               </div>
             )}
           </div>
@@ -177,7 +177,7 @@ function todayReasons(company: Company) {
     company.region === "关东" ? "东京/关东机会较多" : `${company.region}地区候选`,
     company.industry.includes("AI") || company.industry.includes("IT") ? "技术/AI方向" : company.industry,
     company.acceptsForeigners ? "有外国人录用可能性" : "需确认外国人案例",
-    company.visaSupport ? "工签支持可期待" : "签证需提前确认",
+    company.visaSupport ? "工签有线索，仍需确认" : "签证需提前确认",
   ];
 }
 

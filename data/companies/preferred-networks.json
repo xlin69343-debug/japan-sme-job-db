@@ -98,13 +98,13 @@
   "dataSourceNote": "员工数约350人为招聘/公开资料口径；业务描述参考PFN官网2026年6月页面，字段为求职研究用摘要。",
   "dataCredibility": "中高：业务方向来自官网，员工数为公开招聘/公司资料近似口径，薪资与评分仍为估算",
   "sourceUrls": [
-    "https://www.preferred.jp/ja/",
+    "https://www.preferred.jp/en/company/",
+    "https://www.preferred.jp/en/careers/",
     "https://www.preferred.jp/ja/business",
-    "https://www.preferred.jp/ja/company",
     "https://www.preferred.jp/ja/careers"
   ],
   "decisionSummary": "Preferred Networks属于挑战型AI头部企业。优势是AI半导体、计算基盘、生成AI基盤模型和AI产品/解决方案的垂直整合，技术含金量很高；但对算法、研究实现、工程能力和面试表现要求明显高于一般IT企业，建议按6-12个月准备。",
-  "aiSummary": "PFN不是普通受托开发或SaaS公司。官方业务强调AI半导体、计算基盘、生成AI基盤模型、AI产品/解决方案四层技术的自研与垂直整合。外国人可以研究，但不宜被标成低日语轻松可投；更适合作为技术挑战目标。",
+  "aiSummary": "PFN不是普通受托开发或SaaS公司。官方业务强调AI半导体、计算基盘、生成AI基盤模型、AI产品/解决方案四层技术的自研与垂直整合。外国人可以研究，但不宜被理解成日语压力低、轻松可投；更适合作为技术挑战目标。",
   "recommendationReason": "适合有强算法/机器学习/工程实现能力、能准备英文或日文技术面试、希望进入日本AI核心技术企业的人。",
   "reviewSummary": {
     "pros": [

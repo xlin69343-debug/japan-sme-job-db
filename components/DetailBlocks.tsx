@@ -1,4 +1,5 @@
 import type { Company } from "@/lib/types";
+import { buildVerificationChecklist, getCurrentStage, getEvidenceBadge } from "@/lib/evidence";
 import { DecisionSummary, Tag } from "./DecisionUi";
 import { CareerReadinessPanel, PersonalResearchPanel } from "./PersonalCareerTools";
 
@@ -7,6 +8,7 @@ export function DetailBlocks({ company }: { company: Company }) {
     <div className="grid gap-6">
       <OverviewPanel company={company} />
       <DecisionSummary company={company} />
+      <EvidencePanel company={company} />
       <DecisionConclusion company={company} />
       <CareerReadinessPanel company={company} />
       <PersonalResearchPanel company={company} />
@@ -15,14 +17,14 @@ export function DetailBlocks({ company }: { company: Company }) {
         <Panel title="为什么推荐">
           <ul className="grid gap-3 text-sm leading-6 text-slate-700">
             {recommendReasons(company).map((item) => (
-              <li key={item} className="rounded-md bg-emerald-50 p-3 text-emerald-800">⭐ {item}</li>
+              <li key={item} className="rounded-md bg-emerald-50 p-3 text-emerald-800">{item}</li>
             ))}
           </ul>
         </Panel>
         <Panel title="需要注意">
           <ul className="grid gap-3 text-sm leading-6 text-slate-700">
             {cautionPoints(company).map((item) => (
-              <li key={item} className="rounded-md bg-amber-50 p-3 text-amber-800">⚠ {item}</li>
+              <li key={item} className="rounded-md bg-amber-50 p-3 text-amber-800">{item}</li>
             ))}
           </ul>
         </Panel>
@@ -85,7 +87,7 @@ export function DetailBlocks({ company }: { company: Company }) {
         <InfoPanel title="工作方式" items={[
           ["工作时间", company.workHours],
           ["工作方式", company.remoteWork],
-          ["平均加班", company.overtime],
+          ["加班口径", company.overtime],
           ["休假制度", company.restSystem],
           ["轮班/夜班", `${company.shiftWork ? "有轮班" : "通常无轮班"}；${company.nightShift ? "可能夜班" : "通常无夜班"}`],
           ["弹性/副业", `${company.flexibleWork ? "弹性较多" : "弹性较少"}；${company.sideJob}`],
@@ -99,7 +101,7 @@ export function DetailBlocks({ company }: { company: Company }) {
             <Item label="日语要求" value={company.japaneseLevel} />
             <Item label="日语证明风险" value={company.languageProofRisk} />
             <Item label="是否接受外国人" value={company.acceptsForeigners ? "接受可能性较高" : "公开案例较少，需提前确认"} />
-            <Item label="签证支持" value={company.visaSupport ? "支持或有机会支持" : "公开信息有限，需确认"} />
+            <Item label="签证支持" value={company.visaSupport ? "有支持可能，必须向HR确认" : "公开信息有限，先确认再投"} />
             <Item label="外国员工案例" value={company.foreignEmployeeCases} />
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -159,7 +161,7 @@ export function DetailBlocks({ company }: { company: Company }) {
         <Panel title="AI 总结">
           <p className="text-sm leading-7 text-slate-700">{company.aiSummary}</p>
           <div className="mt-4 rounded-md bg-slate-50 p-4 text-sm leading-6 text-slate-600">
-            资料口径：OpenWork、転職会議、Glassdoor、Wantedly、Google Maps 等公开评价摘要仅用于求职判断，不替代正式尽调。
+            资料口径：官网和招聘页优先用于确认业务、岗位和员工数；OpenWork、転職会議、Glassdoor、Wantedly、Google Maps 等公开评价摘要只能辅助判断，不替代正式尽调。
           </div>
           {company.sourceUrls.length > 0 && (
             <div className="mt-4">
@@ -174,6 +176,57 @@ export function DetailBlocks({ company }: { company: Company }) {
         </Panel>
       </section>
     </div>
+  );
+}
+
+function EvidencePanel({ company }: { company: Company }) {
+  const badges = [
+    getEvidenceBadge(company, "business"),
+    getEvidenceBadge(company, "employees"),
+    getEvidenceBadge(company, "visa"),
+    getEvidenceBadge(company, "salary"),
+    getEvidenceBadge(company, "overtime"),
+    getEvidenceBadge(company, "score"),
+  ];
+  const checklist = buildVerificationChecklist(company);
+  const stage = getCurrentStage(company);
+
+  return (
+    <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+      <Panel title="数据核验状态">
+        <div className="rounded-md bg-slate-50 p-4">
+          <div className="text-xs font-semibold text-slate-500">当前定位</div>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <Tag tone={stage === "挑战目标" ? "amber" : stage === "暂不主投" ? "red" : "blue"}>{stage}</Tag>
+            <span className="text-sm leading-6 text-slate-700">
+              这不是企业官方推荐分，而是按你的当前阶段做的个人求职研究判断。
+            </span>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          {badges.map((badge) => (
+            <div key={badge.label} className="rounded-md border border-slate-100 bg-white p-3">
+              <Tag tone={badge.tone}>{badge.label}</Tag>
+              <p className="mt-2 text-xs leading-5 text-slate-500">{badge.detail}</p>
+            </div>
+          ))}
+        </div>
+      </Panel>
+
+      <Panel title="投递前核验清单">
+        <div className="grid gap-3">
+          {checklist.map((item) => (
+            <div key={item.title} className="rounded-md bg-slate-50 p-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <Tag tone={item.done ? "green" : "amber"}>{item.done ? "已有线索" : "必须确认"}</Tag>
+                <div className="text-sm font-semibold text-slate-900">{item.title}</div>
+              </div>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </Panel>
+    </section>
   );
 }
 
@@ -234,7 +287,7 @@ function ScoringFormula({ company }: { company: Company }) {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="text-sm font-semibold text-slate-950">综合评分公式</div>
-          <p className="mt-1 text-xs leading-5 text-slate-500">综合评分 = 工资20% + 成长25% + 外国人友好20% + 工签20% + 工作强度15%。分数为求职研究用估算，不代表企业官方评价。</p>
+          <p className="mt-1 text-xs leading-5 text-slate-500">综合评分 = 工资20% + 成长25% + 外国人友好20% + 工签20% + 工作强度15%。分数只服务于你的个人筛选和复盘，不代表企业官方评价；薪资、加班、签证字段投递前必须刷新。</p>
         </div>
         <div className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white">{company.recommendationScore}/10</div>
       </div>
@@ -268,9 +321,9 @@ function OverviewPanel({ company }: { company: Company }) {
           <h2 className="mt-1 text-2xl font-semibold text-slate-950">{company.name}</h2>
           <p className="mt-2 text-sm text-slate-500">{company.industry} · {company.location} · {company.employees}</p>
         </div>
-        <OverviewMetric label="推荐指数" value={`${company.recommendationScore}/10`} strong />
-        <OverviewMetric label="外国人友好度" value={`${company.foreignerFriendlyScore}/10`} />
-        <OverviewMetric label="工签友好度" value={company.visaSupport ? "高" : "需确认"} />
+        <OverviewMetric label="个人排序" value={`${company.recommendationScore}/10`} strong />
+        <OverviewMetric label="外国人线索" value={`${company.foreignerFriendlyScore}/10`} />
+        <OverviewMetric label="签证状态" value={company.visaSupport ? "需HR确认" : "先确认"} />
         <OverviewMetric label="成长空间" value={`${company.scoreBreakdown.growth}/10`} />
         <OverviewMetric label="面试难度" value={company.interviewInfo.difficulty} />
         <OverviewMetric label="工作强度" value={company.overtimeHours > 30 ? "高" : company.overtimeHours > 18 ? "中" : "低"} />
@@ -331,8 +384,8 @@ function RiskLevel({ level }: { level: string }) {
 function recommendReasons(company: Company) {
   return [
     company.acceptsForeigners ? "外国人录用可能性较高，适合作为优先候选。" : "可作为挑战候选，但需要先确认外国人录用经验。",
-    company.visaSupport ? "工签支持可期待，适合需要在留资格支持的人。" : "适合签证问题已经稳定或能提前确认的人。",
-    company.overtimeHours <= 20 ? "加班时间相对可控，工作生活平衡较好。" : "能较早接触业务和现场问题，成长速度可能更快。",
+    company.visaSupport ? "工签有公开线索，但必须在HR或面试中确认。" : "适合签证问题已经稳定或能提前确认的人。",
+    company.overtimeHours <= 20 ? "加班估算不高，但需要用募集要项和面试确认。" : "能较早接触业务和现场问题，成长速度可能更快。",
     company.scoreBreakdown.growth >= 8 ? "成长空间较高，适合想积累可迁移经验的人。" : "业务边界较清楚，适合稳扎稳打积累经验。",
     company.matchTags.includes("小企业") || company.matchTags.includes("超小团队") ? "团队规模较小，职责范围更宽，能更快看到业务全貌。" : "组织规模较大，制度和岗位分工相对清楚。",
   ].slice(0, 5);

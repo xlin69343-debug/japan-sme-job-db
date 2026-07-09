@@ -121,8 +121,8 @@ export function CareerDecisionWorkbench({ companies, industries, regions }: Prop
           </div>
           <div className="mt-4 grid gap-3">
             <ScoreBar label="工签可行性" value={Math.round(visaReady / 10)} />
-            <DecisionLine label="目标企业支持情况" value={`${matches.filter(({ company }) => company.visaSupport).length}/${matches.length} 家推荐企业支持或可期待`} />
-            <DecisionLine label="当前优先动作" value={profile.needsVisa ? "优先筛选支持工签企业，并在面试前确认雇佣形态、试用期和更新责任。" : "可扩大候选池，但仍建议确认雇佣形态和试用期。"} />
+            <DecisionLine label="目标企业签证线索" value={`${matches.filter(({ company }) => company.visaSupport).length}/${matches.length} 家候选企业有公开线索`} />
+            <DecisionLine label="当前优先动作" value={profile.needsVisa ? "优先筛选有工签线索的企业，并在面试前确认雇佣形态、试用期和更新责任。" : "可扩大候选池，但仍建议确认雇佣形态和试用期。"} />
             <DecisionLine label="风险提示" value={profile.japaneseLevel === "N3" || profile.japaneseLevel === "N4以下" ? "日语较低时，签证之外还要证明长期沟通和岗位适配。" : "日语基础较好，可以把重点转向岗位能力和公司稳定性。"} />
           </div>
         </div>

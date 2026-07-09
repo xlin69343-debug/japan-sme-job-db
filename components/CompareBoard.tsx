@@ -56,7 +56,7 @@ export function CompareBoard({ companies }: { companies: Company[] }) {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-semibold text-slate-950">企业对比</h1>
-            <p className="mt-2 text-sm text-slate-500">选择 2-3 家公司，横向比较工资、加班、远程、日语、签证、外国人友好度和风险。不同项会自动高亮。</p>
+            <p className="mt-2 text-sm text-slate-500">选择 2-3 家公司，横向比较个人排序、薪资估算、加班口径、远程、日语、签证线索和风险。不同项会自动高亮。</p>
           </div>
           <button className="h-10 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-700" onClick={clear}>
             清空对比
@@ -140,13 +140,13 @@ type Row = {
 
 const rows: Row[] = [
   { label: "公司", value: (company) => company.name, render: (company, remove) => <div><Link href={`/companies/${company.slug}`} className="font-semibold text-blue-700">{company.name}</Link><button className="ml-3 text-xs text-slate-400 hover:text-red-600" onClick={() => remove(company.slug)}>移除</button></div> },
-  { label: "综合评分", value: (company) => company.recommendationScore, render: (company) => `${company.recommendationScore}/10`, highlight: maxHighlight((company) => company.recommendationScore) },
-  { label: "工资", value: (company) => company.scoreBreakdown.salary, render: (company) => `${company.salaryRange}；工资分 ${company.scoreBreakdown.salary}/10`, highlight: maxHighlight((company) => company.scoreBreakdown.salary) },
-  { label: "加班", value: (company) => company.overtimeHours, render: (company) => company.overtime, highlight: minHighlight((company) => company.overtimeHours) },
+  { label: "个人排序", value: (company) => company.recommendationScore, render: (company) => `${company.recommendationScore}/10`, highlight: maxHighlight((company) => company.recommendationScore) },
+  { label: "薪资估算", value: (company) => company.scoreBreakdown.salary, render: (company) => `${company.salaryRange}；工资分 ${company.scoreBreakdown.salary}/10`, highlight: maxHighlight((company) => company.scoreBreakdown.salary) },
+  { label: "加班口径", value: (company) => company.overtimeHours, render: (company) => company.overtime, highlight: minHighlight((company) => company.overtimeHours) },
   { label: "工作方式", value: (company) => company.remoteWork, render: (company) => company.remoteWork, highlight: (company) => company.remoteAvailable },
   { label: "日语要求", value: (company) => company.japaneseLevel, render: (company) => <div>{company.japaneseLevel}<div className="mt-2 text-xs text-slate-500">{company.languageProofRisk}</div></div>, highlight: (company) => company.japaneseLevel.includes("N3") },
-  { label: "签证支持", value: (company) => String(company.visaSupport), render: (company) => company.visaSupport ? "支持或可期待" : "需确认", highlight: (company) => company.visaSupport },
-  { label: "外国人友好度", value: (company) => company.foreignerFriendlyScore, render: (company) => `${company.foreignerFriendlyScore}/10`, highlight: maxHighlight((company) => company.foreignerFriendlyScore) },
+  { label: "签证线索", value: (company) => String(company.visaSupport), render: (company) => company.visaSupport ? "有线索，需HR确认" : "先确认再投", highlight: (company) => company.visaSupport },
+  { label: "外国人线索", value: (company) => company.foreignerFriendlyScore, render: (company) => `${company.foreignerFriendlyScore}/10`, highlight: maxHighlight((company) => company.foreignerFriendlyScore) },
   { label: "成长空间", value: (company) => company.scoreBreakdown.growth, render: (company) => `${company.scoreBreakdown.growth}/10`, highlight: maxHighlight((company) => company.scoreBreakdown.growth) },
   { label: "面试/风险", value: (company) => `${company.interviewInfo.difficulty}-${company.riskTags.join("/")}`, render: (company) => <div className="flex flex-wrap gap-2"><Tag tone={company.interviewInfo.difficulty === "高" ? "red" : "amber"}>面试{company.interviewInfo.difficulty}</Tag>{company.riskTags.slice(0, 3).map((tag) => <Tag key={tag} tone="amber">{tag}</Tag>)}</div> },
   { label: "适合人群", value: (company) => company.suitedFor.join("、"), render: (company) => company.suitedFor.join("、") },
